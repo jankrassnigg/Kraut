@@ -4,7 +4,7 @@ QToolTip
    background-color: #1E821E;
    padding: 1px;
    border-radius: 3px;
-   opacity: 100;
+   opacity: 255;
 }
 
 QWidget
