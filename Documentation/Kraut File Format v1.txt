@@ -1,0 +1,170 @@
+Kraut File Format Version 1
+---------------------------
+
+General Info:
+-------------
+
+Kraut files are binary files that hold all the information about one tree (including LOD levels).
+
+If a tree uses impostor LODs, Kraut Creator will write two additional files (diffuse and normal map) and store them at the same location as the .kraut file.
+The diffuse texture will have '_D' postfix but otherwise the same file name.
+The normal map will have '_N' postfix but otherwise the same file name.
+By default Kraut Creator writes TGA files, but it may optionally convert them to DDS format.
+You should load these textures after you have read the tree and know whether the tree uses an impostor LOD.
+
+Kraut Creator will group all meshes that use the same material into one mesh. That means you do not need to optimize the meshes. You should however maybe put all meshes into one vertex buffer and try to render you trees using instancing (one submesh of n trees at a time) to reduce the number of drawcalls and texture changes.
+
+Below is a formal definition of the file format with some explanations. For a working implementation please look at the code of the accompanying "Kraut Viewer" application. It reads one kraut file and renders that tree. Please also look at the shaders to see how exactly to implement the Variation Color, lighting with normal maps, and how to properly use the Q texture coordinate.
+
+File Format:
+------------
+
+Signature:
+  8 Byte (char)
+  Must read "{KRAUT}" (plus '\0' terminator)
+
+Version:
+  1 Byte (unsigned char)
+  Must be 1.
+
+BoundingBox Min:
+  12 bytes (3 floats)
+  x,y,z component of the minimum point of the tree's bounding box.
+
+BoundingBox Max:
+  12 bytes (3 floats)
+  x,y,z component of the maximum point of the tree's bounding box.
+
+Number of available LOD levels:
+  1 byte (unsigned char)
+  Describes how many different LOD levels of this tree are stored in this file. Must be at least 1 (otherwise the file were empty).
+  
+Number of Material Types:
+  1 byte (unsigned char)
+  How many different material types the entire tree uses (including all LODs).
+  There are currently 3 different material types:
+    0 == Branches
+    1 == Fronds
+    2 == Billboard Leaves
+  You will need to use a different shader to render each type. So it makes sense to sort your tree by Material Type, to reduce the number of shader switches.
+
+For each Material Type repeat:
+{
+  Number of Materials of this Type:
+    1 byte (unsigned char)
+    How many materials of this type will follow.
+
+  For each Material repeat:
+  {
+    Diffuse Texture String Length:
+      4 bytes (unsigned int)
+      Length of the diffuse texture string.
+    
+    Diffuse Texture String:
+      1 byte * DiffuseTextureStringLength (char)
+      Which diffuse texture to use. This string is always relative to Kraut Creators 'Content' folder.
+      Note: Don't forget to append a '\0' terminator to the string after reading it.
+    
+    Normal Map String Length:
+      4 bytes (unsigned int)
+      Length of the normal map string.
+    
+    Normal Map String:
+      1 byte * NormalMapStringLength (char)
+      Which diffuse texture to use. This string is always relative to Kraut Creators 'Content' folder.
+      Note: Don't forget to append a '\0' terminator to the string after reading it.
+    
+    Variation Color:
+      4 bytes (unsigned char)
+      RGB and Intensity of the Variation Color of this material.
+      Every frond / leaf has a vertex attribute that specifies how strong the variation color affects it.
+      In the pixel shader, linear interpolate from the diffuse texture color to the materials variation color with the vertices influence value multiplied by the variation color's influence value.
+      This will result in varying colors per leaf.
+  }
+}
+
+For each LOD level repeat:
+{
+  LOD Usage Distance:
+    4 bytes (1 float)
+    The distance up to which this LOD level shall be used (in meters). E.g. 10 would mean to render this tree's LOD when the camera is less than 10 meters away from that tree (unless there is a more detailed LOD of course). Whether you use this value for the last LOD level (and cull the tree entirely), or ignore it, is up to you.
+  
+  LOD Type:
+    1 byte (unsigned char)
+    The type of this LOD level mesh:
+      0 == Full Mesh
+      1 == 4 Quad Impostor
+      2 == 2 Quad Impostor
+      3 == Billboard
+    This has influence on which texture you need to use to render the tree. For the impostors use the impostor texture that lies directly next to the Kraut file.
+  
+  Materials Types:
+    1 byte (unsigned char)
+    How many different material types are used by this LOD. Typically this value is 3, but could be less.
+  
+  For each Material Type repeat:
+  {
+    This Material Type:
+      1 byte (unsigned char)
+      Which exact material type this is.
+        0 == Branch
+        1 == Frond
+        2 == Leaf
+      This allows to sort the different meshes by their required shader easily.
+    
+    Number of Meshes:
+      1 byte (unsigned char)
+      How many meshes (of this material type) are used by this LOD.
+
+    For each Mesh repeat:
+    {
+      MaterialID:
+        1 byte (unsigned char)
+        Which material (of the current type) to use for this mesh.
+
+      Number of Vertices:
+        4 bytes (unsigned int)
+        How many vertices this mesh has.
+      
+      Number of Triangles:
+        4 bytes (unsigned int)
+        How many triangles this mesh has.
+      
+      For each Vertex repeat:
+      {
+        Position:
+          12 bytes (3 floats)
+          x,y,z position of this vertex.
+        
+        TexCoord:
+          12 bytes (3 floats)
+          u,v and Q texture coordinate.
+          ATTENTION! Kraut uses the Q texture coordinate, as this is the only way to get proper textures on rounded shapes. If you ignore it, your tree will look broken!
+          You need to pass all three to the shader and divide U and V by the interpolated Q coordinate PER PIXEL.
+          See this for more information: http://home.xyzw.us/~cass/qcoord/
+        
+        Normal:
+          12 bytes (3 floats)
+          x,y,z of the vertex normal.
+        
+        Tangent:
+          12 bytes (3 floats)
+          x,y,z of the vertex tangent.
+          You should compute the BiTangent in the pixel shader through the cross product between the Normal and the Tangent.
+        
+        Color:
+          4 bytes (unsigned char)
+          RGB Color of the vertex.
+          Intensity of the Variation Color for this frond / leaf.
+      }
+
+      For each Triangle repeat:
+      {
+        Vertex Indices:
+          12 byte (3 unsigned int)
+          Which vertices to use for this triangle.
+      }
+    }
+  }
+}
+
