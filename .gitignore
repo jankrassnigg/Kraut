@@ -31,3 +31,6 @@
 *.out
 *.app
 Output
+Data/aeEditor/LRU.dat
+Data/aeEditor/Log.htm
+Data/aeEditor/Console.cfg
