@@ -23,3 +23,18 @@ Kraut is a program to procedurally generate plants, especially trees. Through a 
 
 Tree-meshes generated with Kraut Tree Creator can be used free of charge for both commercial and non-commercial projects. However, it would be nice if you let us now about it and also to mention Kraut in your application's credits.
 
+## Screenshots
+
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/FrondColorVariation.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/KrautTreeCreator2.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/KrautTreeCreator3.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/KrautTreeCreator4.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/LeafCardCreation.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/PalmTree1.jpg?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/PalmTree2.jpg?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/Cactus1.jpg?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/Grass.png?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/Tree1.jpg?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/Tree2.jpg?raw=true)
+![img](https://github.com/jankrassnigg/Kraut/blob/main/Screenshots/Tree3.jpg?raw=true)
+
