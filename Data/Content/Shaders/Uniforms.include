@@ -1,0 +1,23 @@
+UNIFORM (FLOAT4X4, "ra_ObjectToWorldMatrix");
+UNIFORM (FLOAT4X4, "ra_WorldToCameraMatrix");
+UNIFORM (FLOAT4X4, "ra_CameraToScreenMatrix");
+UNIFORM (FLOAT4X4, "ra_ObjectToWorldMatrix_Inverse");
+UNIFORM (FLOAT4X4, "ra_WorldToCameraMatrix_Inverse");
+UNIFORM (FLOAT4X4, "ra_CameraToScreenMatrix_Inverse");
+
+UNIFORM (FLOAT4X4, "ra_WorldToScreenMatrix");
+UNIFORM (FLOAT4X4, "ra_ObjectToScreenMatrix");
+UNIFORM (FLOAT4X4, "ra_ObjectToCameraMatrix");
+UNIFORM (FLOAT4X4, "ra_WorldToScreenMatrix_Inverse");
+UNIFORM (FLOAT4X4, "ra_ObjectToScreenMatrix_Inverse");
+UNIFORM (FLOAT4X4, "ra_ObjectToCameraMatrix_Inverse");
+
+UNIFORM (FLOAT4, "ra_Viewport");
+UNIFORM (FLOAT2, "ra_DepthRange");
+
+UNIFORM (FLOAT3, "ra_CameraPosition");
+UNIFORM (FLOAT3, "ra_CameraForwards");
+UNIFORM (FLOAT3, "ra_CameraRight");
+UNIFORM (FLOAT3, "ra_CameraUp");
+
+UNIFORM (FLOAT, "unif_fTime");

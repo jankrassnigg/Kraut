@@ -1,0 +1,99 @@
+$if (LANGUAGE_GLSL)
+
+	uniform vec2 unif_vGamma;
+
+	float GetGammaCorrected (float v)
+	{
+		return (pow (v, unif_vGamma.x));
+	}
+
+	vec2 GetGammaCorrected (vec2 v)
+	{
+		return (pow (v, vec2 (unif_vGamma.x)));
+	}
+
+	vec3 GetGammaCorrected (vec3 v)
+	{
+		return (pow (v, vec3 (unif_vGamma.x)));
+	}
+
+	vec4 GetGammaCorrected (vec4 v)
+	{
+		return (pow (v, vec4 (unif_vGamma.x)));
+	}
+
+	float ApplyGamma (float v)
+	{
+			return (pow (v, unif_vGamma.y));
+	}
+
+	vec2 ApplyGamma (vec2 v)
+	{
+			return (pow (v, vec2 (unif_vGamma.y)));
+	}
+
+	vec3 ApplyGamma (vec3 v)
+	{
+			return (pow (v, vec3 (unif_vGamma.y)));
+	}
+
+	vec4 ApplyGamma (vec4 v)
+	{
+			return (pow (v, vec4 (unif_vGamma.y)));
+	}
+	
+$endif
+
+$if (LANGUAGE_HLSL)
+
+
+	float2 unif_vGamma;
+
+	float GetGammaCorrected (float v)
+	{
+		return (pow (v, unif_vGamma.x));
+	}
+
+	float2 GetGammaCorrected (float2 v)
+	{
+		return (pow (v, float2 (unif_vGamma.x, unif_vGamma.x)));
+	}
+
+	float3 GetGammaCorrected (float3 v)
+	{
+		return (pow (v, float3 (unif_vGamma.x, unif_vGamma.x, unif_vGamma.x)));
+	}
+
+	float4 GetGammaCorrected (float4 v)
+	{
+		return (pow (v, float4 (unif_vGamma.x, unif_vGamma.x, unif_vGamma.x, unif_vGamma.x)));
+	}
+
+	float ApplyGamma (float v)
+	{
+		return (pow (v, unif_vGamma.y));
+	}
+
+	float2 ApplyGamma (float2 v)
+	{
+		return (pow (v, float2 (unif_vGamma.y, unif_vGamma.y)));
+	}
+
+	float3 ApplyGamma (float3 v)
+	{
+		return (pow (v, float3 (unif_vGamma.y, unif_vGamma.y, unif_vGamma.y)));
+	}
+
+	float4 ApplyGamma (float4 v)
+	{
+		return (pow (v, float4 (unif_vGamma.y, unif_vGamma.y, unif_vGamma.y, unif_vGamma.y)));
+	}
+
+$endif
+
+
+
+
+
+
+

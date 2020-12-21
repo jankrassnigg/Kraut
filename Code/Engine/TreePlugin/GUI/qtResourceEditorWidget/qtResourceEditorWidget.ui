@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResourceEditorWidget</class>
+ <widget class="QDockWidget" name="ResourceEditorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>664</width>
+    <height>1104</height>
+   </rect>
+  </property>
+  <property name="floating">
+   <bool>true</bool>
+  </property>
+  <property name="features">
+   <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+  </property>
+  <property name="windowTitle">
+   <string>Resource Editor</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QWidget" name="widget_Toolbar" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget_2">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_6">
+       <attribute name="title">
+        <string>Materials</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_71">
+        <item>
+         <widget class="QScrollArea" name="ScrollMaterials">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>612</width>
+             <height>986</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_39">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_36">
+              <item>
+               <widget class="QLabel" name="label_97">
+                <property name="text">
+                 <string>Materials</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="ComboMaterials">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="insertPolicy">
+                 <enum>QComboBox::InsertAtBottom</enum>
+                </property>
+                <property name="frame">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonMaterialAdd">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="ButtonMaterialDelete">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="GroupTextures">
+              <property name="title">
+               <string>Textures</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_36">
+               <item>
+                <layout class="QGridLayout" name="gridLayout_23">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_10">
+                   <property name="text">
+                    <string>Diffuse Texture</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="LineMaterialDiffuse">
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_96">
+                   <property name="text">
+                    <string>Normal Map</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="LineMaterialNormal">
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QToolButton" name="ButtonSelectTextureNormal">
+                   <property name="text">
+                    <string>...</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="GroupUsage">
+              <property name="title">
+               <string>Usage</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_35">
+               <item>
+                <widget class="QRadioButton" name="RadioMaterialUndef">
+                 <property name="text">
+                  <string>Undefined (new)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="RadioMaterialBark">
+                 <property name="text">
+                  <string>Bark</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="RadioMaterialFrond">
+                 <property name="text">
+                  <string>Static Leaf / Frond</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="RadioMaterialLeaf">
+                 <property name="text">
+                  <string>Billboard Leaf</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="GroupTiling">
+              <property name="title">
+               <string>Tiling</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_98">
+                 <property name="text">
+                  <string>Columns</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="SpinMaterialTilingX">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>16</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_27">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>454</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_99">
+                 <property name="text">
+                  <string>Rows</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="SpinMaterialTilingY">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>16</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="LabelPreview">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../resource.qrc">:/Icons/Icons/Application.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="margin">
+               <number>5</number>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::NoTextInteraction</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <action name="action_New">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/New.png</normaloff>:/Icons/Icons/New.png</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="toolTip">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="action_Open">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/open.png</normaloff>:/Icons/Icons/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open...</string>
+   </property>
+  </action>
+  <action name="action_Save">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Save.png</normaloff>:/Icons/Icons/Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="action_SaveAs">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/SaveAs.png</normaloff>:/Icons/Icons/SaveAs.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save As...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save As...</string>
+   </property>
+  </action>
+  <action name="action_Export">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/ExportMesh.png</normaloff>:/Icons/Icons/ExportMesh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+   <property name="toolTip">
+    <string>Export Mesh to OBJ or FBX format.</string>
+   </property>
+  </action>
+  <action name="actionRenderDefault">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderDefault.png</normaloff>:/Icons/Icons/RenderDefault.png</iconset>
+   </property>
+   <property name="text">
+    <string>All Lighting Effects</string>
+   </property>
+   <property name="toolTip">
+    <string>Render Textured</string>
+   </property>
+  </action>
+  <action name="actionRenderWireframe">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Wireframe.png</normaloff>:/Icons/Icons/Wireframe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Wireframe</string>
+   </property>
+   <property name="toolTip">
+    <string>Render Wireframe</string>
+   </property>
+  </action>
+  <action name="actionRenderSkeleton">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Skeleton.png</normaloff>:/Icons/Icons/Skeleton.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tree Skeleton</string>
+   </property>
+   <property name="toolTip">
+    <string>Render Tree Skeleton</string>
+   </property>
+  </action>
+  <action name="actionRenderNormals">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Normals.png</normaloff>:/Icons/Icons/Normals.png</iconset>
+   </property>
+   <property name="text">
+    <string>Normals</string>
+   </property>
+   <property name="toolTip">
+    <string>Render Normals</string>
+   </property>
+  </action>
+  <action name="actionShowHideLeaves">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Leaf.png</normaloff>:/Icons/Icons/Leaf.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show / Hide Leaves</string>
+   </property>
+   <property name="toolTip">
+    <string>Whether to render Leaves</string>
+   </property>
+  </action>
+  <action name="actionShowHideCollisionMeshes">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/construction_mode.png</normaloff>:/Icons/Icons/construction_mode.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show / Hide Collision Meshes</string>
+   </property>
+   <property name="toolTip">
+    <string>Show or hide the collision meshes</string>
+   </property>
+  </action>
+  <action name="actionPhysicalSimulation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/run.png</normaloff>:/Icons/Icons/run.png</iconset>
+   </property>
+   <property name="text">
+    <string>Physical Simulation</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggles Collision Avoidance</string>
+   </property>
+  </action>
+  <action name="actionOrbitCamera">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/orbit_camera.png</normaloff>:/Icons/Icons/orbit_camera.png</iconset>
+   </property>
+   <property name="text">
+    <string>Orbit Camera</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggles between Orbit Camera and Free Camera mode.</string>
+   </property>
+  </action>
+  <action name="actionTranslate">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/TranslateGizmo.png</normaloff>:/Icons/Icons/TranslateGizmo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Translate</string>
+   </property>
+   <property name="toolTip">
+    <string>Sets the Translate Mode.</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RotateGizmo.png</normaloff>:/Icons/Icons/RotateGizmo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rotate</string>
+   </property>
+   <property name="toolTip">
+    <string>Sets the Rotate mode.</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/undo.png</normaloff>:/Icons/Icons/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo the last operation.</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/redo.png</normaloff>:/Icons/Icons/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="toolTip">
+    <string>Redo the previously undone operation.</string>
+   </property>
+  </action>
+  <action name="actionHideGizmos">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/InvisibleGizmo.png</normaloff>:/Icons/Icons/InvisibleGizmo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Hide Gizmos</string>
+   </property>
+   <property name="toolTip">
+    <string>Hides all Gizmos</string>
+   </property>
+  </action>
+  <action name="actionToggleGizmo">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/ToggleGizmo.png</normaloff>:/Icons/Icons/ToggleGizmo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Gizmo Mode</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches through the different gizmo modes.</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Application.png</normaloff>:/Icons/Icons/Application.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>Shows the About dialog.</string>
+   </property>
+  </action>
+  <action name="actionRenderDiffuse">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderDiffuse.png</normaloff>:/Icons/Icons/RenderDiffuse.png</iconset>
+   </property>
+   <property name="text">
+    <string>Diffuse Color</string>
+   </property>
+   <property name="toolTip">
+    <string>Renders only the diffuse color.</string>
+   </property>
+  </action>
+  <action name="actionRenderLight">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderLight.png</normaloff>:/Icons/Icons/RenderLight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Direct Light</string>
+   </property>
+   <property name="toolTip">
+    <string>Renders only the light.</string>
+   </property>
+  </action>
+  <action name="actionRenderAmbient">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderAmbient.png</normaloff>:/Icons/Icons/RenderAmbient.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ambient Occlusion</string>
+   </property>
+   <property name="toolTip">
+    <string>Renders only the ambient light term.</string>
+   </property>
+  </action>
+  <action name="actionRenderSkylight">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderSkylight.png</normaloff>:/Icons/Icons/RenderSkylight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Skylight</string>
+   </property>
+   <property name="toolTip">
+    <string>Renders only the ambient light from the sky.</string>
+   </property>
+  </action>
+  <action name="actionToggleRenderMode">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/RenderDefault.png</normaloff>:/Icons/Icons/RenderDefault.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Render Mode</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

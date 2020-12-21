@@ -1,0 +1,48 @@
+$if (LANGUAGE_GLSL)
+
+	uniform vec3 unif_vFogColor;
+	uniform vec2 unif_vFogDensityAndExponent;
+
+	vec3 ComputeFogFromParams (vec3 vSrcColor, vec3 vFogColor, vec3 vPosObj, vec3 vPosWall, float fFogDensity, float fFogExponent)
+	{
+		float fDistance = distance (vPosObj, vPosWall);
+		float fInterpolation = pow (min (fDistance * fFogDensity, 1.0), fFogExponent);
+
+		return (mix (vSrcColor, vFogColor, fInterpolation));
+	}
+
+	vec3 ComputeWorldFog (vec3 vSrcColor, vec3 vObjectPos)
+	{
+		float fDistance = distance (ra_CameraPosition, vObjectPos);
+		float fInterpolation = pow (min (fDistance * unif_vFogDensityAndExponent.x, 1.0), unif_vFogDensityAndExponent.y);
+
+		return (mix (vSrcColor, unif_vFogColor, fInterpolation));
+		
+	}
+
+$endif
+
+$if (LANGUAGE_HLSL)
+
+
+	float3 unif_vFogColor;
+	float2 unif_vFogDensityAndExponent;
+
+	float3 ComputeFogFromParams (float3 vSrcColor, float3 vFogColor, float3 vPosObj, float3 vPosWall, float fFogDensity, float fFogExponent)
+	{
+		float fDistance = distance (vPosObj, vPosWall);
+		float fInterpolation = pow (min (fDistance * fFogDensity, 1.0), fFogExponent);
+
+		return (lerp (vSrcColor, vFogColor, fInterpolation));
+	}
+
+	float3 ComputeWorldFog (float3 vSrcColor, float3 vObjectPos)
+	{
+		float fDistance = distance (ra_CameraPosition, vObjectPos);
+		float fInterpolation = pow (min (fDistance * unif_vFogDensityAndExponent.x, 1.0), unif_vFogDensityAndExponent.y);
+
+		return (lerp (vSrcColor, unif_vFogColor, fInterpolation));
+		
+	}
+
+$endif

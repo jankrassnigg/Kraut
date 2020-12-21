@@ -1,0 +1,119 @@
+$if (LANGUAGE_GLSL)
+
+
+	vec4 matrix_mult (mat4 m, vec4 v)
+	{
+		return (m * v);
+	}
+	
+	vec4 matrix_mult (vec4 v, mat4 m)
+	{
+		return (v * m);
+	}
+	
+	vec3 matrix_mult (mat3 m, vec3 v)
+	{
+		return (m * v);
+	}
+	
+	vec3 matrix_mult (vec3 v, mat3 m)
+	{
+		return (v * m);
+	}
+	
+	mat4 matrix_mult (mat4 m, mat4 m2)
+	{
+		return (m * m2);
+	}
+	
+	mat3 matrix_mult (mat3 m, mat3 m2)
+	{
+		return (m * m2);
+	}	
+	
+	float lerp (float a, float b, float c)
+	{
+		return (mix (a, b, c));
+	}
+	
+	vec2 lerp (vec2 a, vec2 b, float c)
+	{
+		return (mix (a, b, c));
+	}
+
+	vec3 lerp (vec3 a, vec3 b, float c)
+	{
+		return (mix (a, b, c));
+	}
+
+	vec4 lerp (vec4 a, vec4 b, float c)
+	{
+		return (mix (a, b, c));
+	}
+	
+	FLOAT4 transform_passthrough (FLOAT3 pos)
+	{
+		return (FLOAT4 (pos, 1.0));
+	}
+	
+$endif
+
+$if (LANGUAGE_HLSL)
+
+	float4 matrix_mult (float4x4 m, float4 v)
+	{
+		return (mul (v, m));
+	}
+	
+	float4 matrix_mult (float4 v, float4x4 m)
+	{
+		return (mul (m, v));
+	}
+	
+	float3 matrix_mult (float3x3 m, float3 v)
+	{
+		return (mul (v, m));
+	}
+	
+	float3 matrix_mult (float3 v, float3x3 m)
+	{
+		return (mul (m, v));
+	}
+	
+	float4x4 matrix_mult (float4x4 m, float4x4 m2)
+	{
+		return (mul (m2, m));
+	}
+	
+	float3x3 matrix_mult (float3x3 m, float3x3 m2)
+	{
+		return (mul (m2, m));
+	}
+	
+	FLOAT fract (FLOAT f)
+	{
+		return (frac (f));
+	}
+	
+	FLOAT2 fract (FLOAT2 f)
+	{
+		return (frac (f));
+	}
+
+	FLOAT3 fract (FLOAT3 f)
+	{
+		return (frac (f));
+	}
+
+	FLOAT4 fract (FLOAT4 f)
+	{
+		return (frac (f));
+	}
+	
+	FLOAT4 transform_passthrough (FLOAT3 pos)
+	{
+		return (FLOAT4 (pos.x, -pos.y, pos.z, 1.0));
+	}
+	
+	
+$endif

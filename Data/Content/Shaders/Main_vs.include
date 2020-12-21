@@ -1,0 +1,15 @@
+
+$if (LANGUAGE_GLSL)
+	// Main_vs.include GLSL
+	#version 120
+	#extension GL_EXT_gpu_shader4 : enable
+
+$endif
+
+$include <Shaders/Uniforms.include>
+$include <Shaders/Basics.include>
+
+FLOAT4 transform (FLOAT3 Position)
+{
+	return (matrix_mult (ra_ObjectToScreenMatrix, FLOAT4 (Position, 1.0)));
+}

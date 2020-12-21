@@ -1,0 +1,20 @@
+$if (LANGUAGE_GLSL)
+	#version 120 
+	#extension GL_EXT_geometry_shader4 : enable
+$endif
+
+
+$include <Shaders/Uniforms.include>
+
+$if (LANGUAGE_GLSL)
+
+
+$endif
+
+$if (LANGUAGE_HLSL)
+
+	
+$endif
+
+$include <Shaders/Basics.include>
+

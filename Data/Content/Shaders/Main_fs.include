@@ -1,0 +1,59 @@
+$if (LANGUAGE_GLSL)
+
+	#version 120
+
+	#extension GL_ARB_draw_buffers : enable
+	//#extension GL_ARB_texture_rectangle : enable
+	//#extension GL_EXT_texture_array : enable
+	#extension GL_EXT_gpu_shader4 : enable
+
+$endif
+
+$include <Shaders/Uniforms.include>
+$include <Shaders/Basics.include>
+
+$if (LANGUAGE_GLSL)
+
+	// computes a fragments position IN CAMERA-SPACE !! Multiply result with objects modelview-matrix for world-space coordinates.
+	vec3 ComputeFragmentPosition (vec2 vNDCCoords, float fDepth)
+	{
+		vNDCCoords.y *= -1.0;
+
+		//Recalculate fragment position
+		vec4 H = vec4 (vNDCCoords.x, vNDCCoords.y, 2.0 * fDepth - 1.0, 1.0);
+		vec4 vFragmentPos = ra_WorldToScreenMatrix_Inverse * H;
+
+		return (vFragmentPos.xyz / vFragmentPos.w);
+	}
+
+	vec3 RayIntoCubemap (vec3 v)
+	{
+		vec3 t = v;
+		t.y = -t.y;
+		return (t);
+	}
+
+
+$endif
+
+$if (LANGUAGE_HLSL)
+
+	// The OpenGL Version must take fDepth * 2.0 - 1.0, D3D not (don't know why)
+	// NDC is in [-1;1] range, Depth in [0;1]
+	// Returns Result in World-Space !
+	float3 ComputeFragmentPosition (float2 vNDCCoords, float fDepth)
+	{
+		//Recalculate fragment position
+		float4 H = float4 (vNDCCoords.x, vNDCCoords.y, fDepth, 1.0);
+		float4 vFragmentPos = mul (H, ra_WorldToScreenMatrix_Inverse);
+
+		return (vFragmentPos.xyz / vFragmentPos.w);
+	}
+
+	FLOAT3 RayIntoCubemap (FLOAT3 v)
+	{
+		return (v);
+	}
+
+$endif
+

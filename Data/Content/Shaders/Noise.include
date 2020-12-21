@@ -1,0 +1,86 @@
+$if (LANGUAGE_GLSL)
+
+	vec2 WaterNoise (sampler2D Sampler, vec2 vCoord, float fScale, float fSpeed)
+	{
+		float Sec = unif_fTime * fSpeed;
+		
+		vec3 vAnim0 = vec3 (-Sec * 0.03, -Sec * 0.02, 0.1 * fScale);
+		vec3 vAnim1 = vec3 (Sec * 0.04, Sec * 0.03, 0.2 * fScale);
+		vec3 vAnim2 = vec3 (Sec * 0.02, -Sec * 0.04, 0.3 * fScale);
+		vec3 vAnim3 = vec3 (-Sec * 0.015, Sec * 0.01, 1.0 * fScale);
+		vec3 vAnim4 = vec3 (Sec * 0.08, -Sec * 0.1, 1.5 * fScale);
+		vec3 vAnim5 = vec3 (-Sec * 0.1, Sec * 0.2, 2.0 * fScale);
+		
+		
+		vec4 v = vec4 (0.0);
+		vec2 vC;
+		
+		vC = vCoord.xy * vAnim0.z + vAnim0.xy;
+		v = texture2D (Sampler, vC);
+		
+		vC = vCoord.xy * vAnim1.z + vAnim1.xy + v.xy;
+		v = texture2D (Sampler, vC);
+		
+		vC = vCoord.xy * vAnim2.z + vAnim2.xy + v.xy;
+		v = texture2D (Sampler, vC);
+
+		vC = vCoord.xy * vAnim3.z + vAnim3.xy + v.xy;
+		v = texture2D (Sampler, vC);
+
+		vC = vCoord.xy * vAnim4.z + vAnim4.xy + v.xy;
+		v = texture2D (Sampler, vC);
+
+		vC = vCoord.xy * vAnim5.z + vAnim5.xy + v.xy;
+
+		return (vC);
+	}
+$endif
+
+$if (LANGUAGE_HLSL)
+
+
+	float2 WaterNoise (Texture2D Tex, SamplerState Sam, float2 vCoord, float fScale, float fSpeed)
+	{
+		float Sec = unif_fTime * fSpeed;
+		
+		float3 vAnim0 = float3 (-Sec * 0.03, -Sec * 0.02, 0.1 * fScale);
+		float3 vAnim1 = float3 (Sec * 0.04, Sec * 0.03, 0.2 * fScale);
+		float3 vAnim2 = float3 (Sec * 0.02, -Sec * 0.04, 0.3 * fScale);
+		float3 vAnim3 = float3 (-Sec * 0.015, Sec * 0.01, 1.0 * fScale);
+		float3 vAnim4 = float3 (Sec * 0.08, -Sec * 0.1, 1.5 * fScale);
+		float3 vAnim5 = float3 (-Sec * 0.1, Sec * 0.2, 2.0 * fScale);
+		
+		
+		float4 v = float4 (0, 0, 0, 0);
+		float2 vC;
+		
+		vC = vCoord.xy * vAnim0.z + vAnim0.xy;
+		v = Tex.Sample (Sam, vC);
+		
+		vC = vCoord.xy * vAnim1.z + vAnim1.xy + v.xy;
+		v = Tex.Sample (Sam, vC);
+		
+		vC = vCoord.xy * vAnim2.z + vAnim2.xy + v.xy;
+		v = Tex.Sample (Sam, vC);
+
+		vC = vCoord.xy * vAnim3.z + vAnim3.xy + v.xy;
+		v = Tex.Sample (Sam, vC);
+
+		vC = vCoord.xy * vAnim4.z + vAnim4.xy + v.xy;
+		v = Tex.Sample (Sam, vC);
+
+		vC = vCoord.xy * vAnim5.z + vAnim5.xy + v.xy;
+
+		return (vC);
+	}
+
+$endif
+
+
+
+
+
+
+
+
+

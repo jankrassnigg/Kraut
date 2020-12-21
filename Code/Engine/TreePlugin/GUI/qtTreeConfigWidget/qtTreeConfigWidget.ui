@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TreeConfigWidget</class>
+ <widget class="QDockWidget" name="TreeConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>628</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>524287</width>
+    <height>524287</height>
+   </size>
+  </property>
+  <property name="floating">
+   <bool>true</bool>
+  </property>
+  <property name="features">
+   <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+  </property>
+  <property name="allowedAreas">
+   <set>Qt::AllDockWidgetAreas</set>
+  </property>
+  <property name="windowTitle">
+   <string>Tree Component Editor</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QWidget" name="widget_Toolbar" native="true"/>
+    </item>
+    <item>
+     <widget class="qtTreeConfigView" name="TreeConfigView">
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="dragMode">
+       <enum>QGraphicsView::NoDrag</enum>
+      </property>
+      <property name="transformationAnchor">
+       <enum>QGraphicsView::AnchorViewCenter</enum>
+      </property>
+      <property name="resizeAnchor">
+       <enum>QGraphicsView::AnchorViewCenter</enum>
+      </property>
+      <property name="viewportUpdateMode">
+       <enum>QGraphicsView::FullViewportUpdate</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <action name="actionPresetMin">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Min.png</normaloff>:/Icons/Icons/Preset_Min.png</iconset>
+   </property>
+   <property name="text">
+    <string>Min</string>
+   </property>
+   <property name="toolTip">
+    <string>Sets the curve to the minimum value.</string>
+   </property>
+  </action>
+  <action name="actionPresetMax">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Max.png</normaloff>:/Icons/Icons/Preset_Max.png</iconset>
+   </property>
+   <property name="text">
+    <string>Max</string>
+   </property>
+   <property name="toolTip">
+    <string>Sets the curve to the maximum value.</string>
+   </property>
+  </action>
+  <action name="actionPresetLinearGrowth">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_LinearGrowth.png</normaloff>:/Icons/Icons/Preset_LinearGrowth.png</iconset>
+   </property>
+   <property name="text">
+    <string>Linear Growth</string>
+   </property>
+   <property name="toolTip">
+    <string>The curve will represent linear growth.</string>
+   </property>
+  </action>
+  <action name="actionPresetLinearDecay">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_LinearDecay.png</normaloff>:/Icons/Icons/Preset_LinearDecay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Linear Decay</string>
+   </property>
+   <property name="toolTip">
+    <string>The curve will represent linear decay.</string>
+   </property>
+  </action>
+  <action name="actionPresetRound">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Round.png</normaloff>:/Icons/Icons/Preset_Round.png</iconset>
+   </property>
+   <property name="text">
+    <string>Round</string>
+   </property>
+   <property name="toolTip">
+    <string>A half circle.</string>
+   </property>
+  </action>
+  <action name="actionSelectCurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_SelectCurve.png</normaloff>:/Icons/Icons/Preset_SelectCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select Curve</string>
+   </property>
+   <property name="toolTip">
+    <string>Select a Curve Preset.</string>
+   </property>
+  </action>
+  <action name="actionInvertValues">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/SwapUpDown.png</normaloff>:/Icons/Icons/SwapUpDown.png</iconset>
+   </property>
+   <property name="text">
+    <string>Invert Values</string>
+   </property>
+   <property name="toolTip">
+    <string>Invert all Values (e.g. mirror horizontally).</string>
+   </property>
+  </action>
+  <action name="actionMirrorValues">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/SwapLeftRight.png</normaloff>:/Icons/Icons/SwapLeftRight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mirror Values</string>
+   </property>
+   <property name="toolTip">
+    <string>Mirror all values vertically.</string>
+   </property>
+  </action>
+  <action name="actionCopyCurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/CopyCurve.png</normaloff>:/Icons/Icons/CopyCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy Curve</string>
+   </property>
+   <property name="toolTip">
+    <string>Copies this curve.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPasteCurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/PasteCurve.png</normaloff>:/Icons/Icons/PasteCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste Curve</string>
+   </property>
+   <property name="toolTip">
+    <string>Pastes a previously copied curve.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionSmoothCurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/SmoothCurve.png</normaloff>:/Icons/Icons/SmoothCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>Smooth Curve</string>
+   </property>
+   <property name="toolTip">
+    <string>Smooths the curve to reduce spikes.</string>
+   </property>
+  </action>
+  <action name="actionPresetRise">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Rise.png</normaloff>:/Icons/Icons/Preset_Rise.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rise</string>
+   </property>
+   <property name="toolTip">
+    <string>A slightly rising curve.</string>
+   </property>
+  </action>
+  <action name="actionPresetDroop">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Droop.png</normaloff>:/Icons/Icons/Preset_Droop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Droop</string>
+   </property>
+   <property name="toolTip">
+    <string>A drooping curve.</string>
+   </property>
+  </action>
+  <action name="actionPresetBellCurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_BellCurve.png</normaloff>:/Icons/Icons/Preset_BellCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bell Curve</string>
+   </property>
+   <property name="toolTip">
+    <string>A Bell curve.</string>
+   </property>
+  </action>
+  <action name="actionPresetConical">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Conical.png</normaloff>:/Icons/Icons/Preset_Conical.png</iconset>
+   </property>
+   <property name="text">
+    <string>Conical</string>
+   </property>
+   <property name="toolTip">
+    <string>A conical curve.</string>
+   </property>
+  </action>
+  <action name="actionPresetExponentialFalloff">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_ExpFalloff.png</normaloff>:/Icons/Icons/Preset_ExpFalloff.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exponential Decay</string>
+   </property>
+   <property name="toolTip">
+    <string>A curve that falls of exponentially.</string>
+   </property>
+  </action>
+  <action name="actionPresetExponentialGrowth">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_ExpGrowth.png</normaloff>:/Icons/Icons/Preset_ExpGrowth.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exponential Growth</string>
+   </property>
+   <property name="toolTip">
+    <string>A curve that rises exponentially.</string>
+   </property>
+  </action>
+  <action name="actionPresetFadeInOut">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_FadeInOut.png</normaloff>:/Icons/Icons/Preset_FadeInOut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Fade In / Out</string>
+   </property>
+   <property name="toolTip">
+    <string>A curve that first fades in then out again.</string>
+   </property>
+  </action>
+  <action name="actionPresetScurve">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_SCurve.png</normaloff>:/Icons/Icons/Preset_SCurve.png</iconset>
+   </property>
+   <property name="text">
+    <string>S curve</string>
+   </property>
+   <property name="toolTip">
+    <string>An S shaped curve.</string>
+   </property>
+  </action>
+  <action name="actionSavePreset">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Save.png</normaloff>:/Icons/Icons/Preset_Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Preset</string>
+   </property>
+   <property name="toolTip">
+    <string>Saves the current curve as a preset.</string>
+   </property>
+  </action>
+  <action name="actionLoadPreset">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Preset_Load.png</normaloff>:/Icons/Icons/Preset_Load.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Preset</string>
+   </property>
+   <property name="toolTip">
+    <string>Loads a curve from file.</string>
+   </property>
+  </action>
+  <action name="actionAddTreeComponent">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/BranchPreset_Add.png</normaloff>:/Icons/Icons/BranchPreset_Add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Tree Component</string>
+   </property>
+  </action>
+  <action name="actionRemoveTreeComponent">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/BranchPreset_Delete.png</normaloff>:/Icons/Icons/BranchPreset_Delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Tree Component</string>
+   </property>
+  </action>
+  <action name="actionToggleVisibility">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/Eye.png</normaloff>:/Icons/Icons/Eye.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Visibility</string>
+   </property>
+  </action>
+  <action name="actionSaveTreeComponent">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/BranchPreset_Save.png</normaloff>:/Icons/Icons/BranchPreset_Save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Tree Component</string>
+   </property>
+  </action>
+  <action name="actionLoadTreeComponent">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/BranchPreset_Load.png</normaloff>:/Icons/Icons/BranchPreset_Load.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load Tree Component</string>
+   </property>
+  </action>
+  <action name="actionAddTrunkComponent">
+   <property name="icon">
+    <iconset resource="../resource.qrc">
+     <normaloff>:/Icons/Icons/BranchPreset_Add.png</normaloff>:/Icons/Icons/BranchPreset_Add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Trunk Component</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds a trunk type to the tree.</string>
+   </property>
+  </action>
+  <action name="actionToggleUpConnection1">
+   <property name="text">
+    <string>Toggle Up Connection 1</string>
+   </property>
+  </action>
+  <action name="actionToggleUpConnection2">
+   <property name="text">
+    <string>Toggle Connection 2</string>
+   </property>
+  </action>
+  <action name="actionToggleUpConnection3">
+   <property name="text">
+    <string>Toggle Connection 3</string>
+   </property>
+  </action>
+  <action name="actionToggleDownConnection1">
+   <property name="text">
+    <string>asdf</string>
+   </property>
+  </action>
+  <action name="actionToggleDownConnection2">
+   <property name="text">
+    <string>asdf</string>
+   </property>
+  </action>
+  <action name="actionToggleDownConnection3">
+   <property name="text">
+    <string>asdf</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qtTreeConfigView</class>
+   <extends>QGraphicsView</extends>
+   <header>qtTreeConfigView.moc.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

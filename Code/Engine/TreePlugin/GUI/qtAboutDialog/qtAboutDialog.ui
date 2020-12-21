@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>713</width>
+    <height>701</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>About Kraut</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resource.qrc">
+    <normaloff>:/Icons/Icons/Application.png</normaloff>:/Icons/Icons/Application.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>668</width>
+        <height>1638</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Kraut Tree Creator (BETA 2)&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;(Released: October 2012)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Created by:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Jan Krassnigg&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Contact: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;mailto:krauttree@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#00aa00;&quot;&gt;KrautTree@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; color:#00aa00;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Website:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;http://www.ArtifactGames.de/Kraut&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#00aa00;&quot;&gt;www.ArtifactGames.de/Kraut&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Twitter:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://twitter.com/KrautTree&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#00aa00;&quot;&gt;@KrautTree&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kraut License:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;You are allowed to use tree meshes generated with &lt;span style=&quot; font-style:italic;&quot;&gt;Kraut Tree Creator BETA 2&lt;/span&gt; free of charge for commercial or non-commercial use as you see fit.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Other Licenses:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;The acompanying material (such as the bark and leaf textures) provided with &lt;span style=&quot; font-style:italic;&quot;&gt;Kraut&lt;/span&gt; belong to their respective owners (as detailed in the Readme.txt files next to the files). If you want to use it in a project, it is your responsibility to get the necessary rights directly from their respective owners. Although most of the material seems to be under liberal licenses, it is still your responsibility to ensure the correctness of these licenses yourself and if necessary refrain from using the material.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Software used by Kraut:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Kraut uses Lua, Qt, Bullet Physics and OpenGL.&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/Icons/Icons/Lua-Logo_128x128.png&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/Icons/Icons/bullet_logo_2010_9.png&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/Icons/Icons/qt-logo.png&quot;/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/Icons/Icons/opengl-logo.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
