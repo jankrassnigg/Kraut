@@ -31,9 +31,9 @@ void qtTreeEditWidget::on_SpinCrossFade_valueChanged (double d)
 
 void qtTreeEditWidget::on_combo_LodMode_currentIndexChanged (int index)
 {
-  g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode = (aeLodMode::Enum) index;
+  g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode = (Kraut::LodMode::Enum) index;
 
-  const bool bDisableLodSettings = (g_Globals.s_CurLoD == aeLod::None) || (aeLodMode::IsImpostorMode (g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode) || g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode == aeLodMode::Disabled);
+  const bool bDisableLodSettings = (g_Globals.s_CurLoD == aeLod::None) || (Kraut::LodMode::IsImpostorMode (g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode) || g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_Mode == Kraut::LodMode::Disabled);
   group_LODSettings->setDisabled (bDisableLodSettings);
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
@@ -94,16 +94,16 @@ void qtTreeEditWidget::on_spin_FrondDetailReduction_valueChanged (int i)
 
 void qtTreeEditWidget::GetAllowedLodMeshes (void)
 {
-  QCheckBox* cbLod[aeMeshType::ENUM_COUNT][aeBranchType::ENUM_COUNT] =
+  QCheckBox* cbLod[Kraut::BranchGeometryType::ENUM_COUNT][Kraut::BranchType::ENUM_COUNT] =
   {
     { check_LodTrunk1  , check_LodTrunk2  , check_LodTrunk3  , check_LodMainBranches1  , check_LodMainBranches2  , check_LodMainBranches3  , check_LodSubBranches1  , check_LodSubBranches2  , check_LodSubBranches3  , check_LodTwigs1  , check_LodTwigs2  , check_LodTwigs3   },
     { check_LodTrunk1_2, check_LodTrunk2_2, check_LodTrunk3_2, check_LodMainBranches1_2, check_LodMainBranches2_2, check_LodMainBranches3_2, check_LodSubBranches1_2, check_LodSubBranches2_2, check_LodSubBranches3_2, check_LodTwigs1_2, check_LodTwigs2_2, check_LodTwigs3_2 },
     { check_LodTrunk1_3, check_LodTrunk2_3, check_LodTrunk3_3, check_LodMainBranches1_3, check_LodMainBranches2_3, check_LodMainBranches3_3, check_LodSubBranches1_3, check_LodSubBranches2_3, check_LodSubBranches3_3, check_LodTwigs1_3, check_LodTwigs2_3, check_LodTwigs3_3 },
   };
 
-  for (aeUInt32 mt = 0; mt < aeMeshType::ENUM_COUNT; ++mt)
+  for (aeUInt32 mt = 0; mt < Kraut::BranchGeometryType::ENUM_COUNT; ++mt)
   {
-    for (aeUInt32 bt = 0; bt < aeBranchType::ENUM_COUNT; ++bt)
+    for (aeUInt32 bt = 0; bt < Kraut::BranchType::ENUM_COUNT; ++bt)
     {
       g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_AllowTypes[mt].RaiseOrClearFlags (1 << bt, cbLod[mt][bt]->isChecked ()); 
     }

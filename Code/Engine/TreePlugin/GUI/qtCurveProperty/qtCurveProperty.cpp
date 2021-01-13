@@ -17,7 +17,7 @@ qtCurveProperty::qtCurveProperty (QWidget* parent) : QGraphicsView (parent)
 
   setScene (&m_Scene);
 
-  m_pCurve = NULL;
+  m_pCurve = nullptr;
   m_szPropertyName = "";
 
   QTransform t = transform ();
@@ -30,7 +30,7 @@ qtCurveProperty::qtCurveProperty (QWidget* parent) : QGraphicsView (parent)
   setMaximumHeight (50);
 }
 
-void qtCurveProperty::SetSamples (aeCurve* pCurve, const char* szPropertyName)
+void qtCurveProperty::SetSamples (Kraut::Curve* pCurve, const char* szPropertyName)
 {
   m_szPropertyName = szPropertyName;
   m_pCurve = pCurve;
@@ -70,7 +70,7 @@ void qtCurveProperty::changeEvent (QEvent* event)
       return;
     
     if (qtCurveEditorWidget::s_pWidget->m_pCurveView->m_pActiveCurve == this)
-      qtCurveEditorWidget::s_pWidget->SetActiveCurveProperty (NULL);
+      qtCurveEditorWidget::s_pWidget->SetActiveCurveProperty (nullptr);
 
     if (isEnabled ())
       m_pPath->setPen (QPen (QColor (71, 137, 17), 0));

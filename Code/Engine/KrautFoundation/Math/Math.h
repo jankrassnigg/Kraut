@@ -180,24 +180,6 @@ namespace AE_NS_FOUNDATION
     //!  Returns the next power-of-two that is >= value
     static aeInt32 PowerOfTwo_Ceil (aeUInt32 value);
 
-    static void SetRandSeed (aeUInt32 seed);
-
-    //!  Returns a pseudo-random integer in range [0; max-possible].
-    static aeUInt32 Rand (void);
-    //!  Returns a pseudo-random integer in range [0; max-1].
-    static aeUInt32 Rand (aeUInt32 max);
-    //!  Returns a pseudo-random integer in range [min; max-1].
-    static aeInt32 Rand (aeInt32 min, aeInt32 max);
-    //!  Returns a pseudo-random integer in range [min; min + range-1].
-    static aeInt32 Rand_Range (aeInt32 min, aeUInt32 range);
-
-    //!  Returns a pseudo-random float in range [0; max). All values for "max" are allowed, even 0 and negative numbers.
-    static float Randf (float max);
-    //!  Returns a pseudo-random float in range [min; max).
-    static float Randf (float min, float max);
-    //!  Returns a pseudo-random float in range [min; min + range).
-    static float Rand_Rangef (float min, float range);
-
     //!  Checks, whether fValue is in the range [fDesired - fMaxImprecision; fDesired + fMaxImprecision].
     static bool IsFloatEqual (float lhs, float rhs, float fEpsilon = aeMath_LargeEpsilon);
 
@@ -210,9 +192,6 @@ namespace AE_NS_FOUNDATION
     static bool GetRayPolygonIntersection (const aeVec3* pVertices, aeUInt32 uiVertices, const aeVec3& vRayStart, const aeVec3& vRayDirNorm, float& out_fIntersectionTime, aeVec3& out_vIntersection);
     //! Checks if a given point lies inside a convex polygon.
     static bool IsPointInPolygon (const aeVec3* pVertices, aeUInt32 uiVertices, const aeVec3& vPoint);
-
-  private:
-    static aeRandomNumberGenerator m_Rand;
   };
 
 

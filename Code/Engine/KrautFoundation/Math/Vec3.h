@@ -135,12 +135,6 @@ namespace AE_NS_FOUNDATION
     //! Returns this vector, refracted at vNormal, using the refraction index of the current medium and the medium it enters.
     const aeVec3 GetRefractedVector (const aeVec3& vNormal, float fRefIndex1, float fRefIndex2) const;
 
-    //! Returns a vector with a random deviation from vNormal
-    void CreateRandomVector (const aeVec3& vNormal, aeUInt8 iMaxAlpha);
-    //! Returns a vector with a random deviation from vNormal
-    void CreateRandomVector (const aeVec3& vNormal, aeUInt8 iMinAlpha, aeUInt8 iMaxAlpha);
-
-
   public:
 
   // *** Common vector operations ***

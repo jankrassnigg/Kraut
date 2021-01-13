@@ -9,7 +9,7 @@ public:
   aeProgressBar (const char* szText, aeUInt32 uiItems, aeUInt32 uiTimeInvisibleInMS = 0);
   ~aeProgressBar ();
 
-  static void Update (const char* szText = NULL, aeUInt32 uiFinishedItems = 1);
+  static void Update (const char* szText = nullptr, aeUInt32 uiFinishedItems = 1);
 
   static bool WasProgressBarCanceled (void);
 

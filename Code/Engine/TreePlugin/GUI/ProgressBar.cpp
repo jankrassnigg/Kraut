@@ -1,8 +1,8 @@
 #include "PCH.h"
 #include "ProgressBar.h"
 
-aeProgressBar* aeProgressBar::s_pActiveRange = NULL;
-QProgressDialog* aeProgressBar::s_pQtProgressBar = NULL;
+aeProgressBar* aeProgressBar::s_pActiveRange = nullptr;
+QProgressDialog* aeProgressBar::s_pQtProgressBar = nullptr;
 
 struct aeWin7ProgressBarState
 {
@@ -34,7 +34,7 @@ aeProgressBar::aeProgressBar (const char* szText, aeUInt32 uiItems, aeUInt32 uiT
 
   if (!s_pQtProgressBar)
   {
-    QMainWindow* pMainWindow = NULL;
+    QMainWindow* pMainWindow = nullptr;
     aeVariableRegistry::RetrieveRaw ("system/qt/mainwidget", &pMainWindow, sizeof (QMainWindow*));
 
     QApplication::setOverrideCursor (Qt::WaitCursor);
@@ -62,9 +62,9 @@ aeProgressBar::~aeProgressBar ()
   if (!s_pActiveRange)
   {
     delete s_pQtProgressBar;
-    s_pQtProgressBar = NULL;
+    s_pQtProgressBar = nullptr;
 
-    QMainWindow* pMainWindow = NULL;
+    QMainWindow* pMainWindow = nullptr;
     aeVariableRegistry::RetrieveRaw ("system/qt/mainwidget", &pMainWindow, sizeof (QMainWindow*));
 
     QApplication::restoreOverrideCursor();

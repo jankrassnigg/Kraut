@@ -133,7 +133,7 @@ namespace NS_GLIM
 		unsigned int m_uiElementBufferID_Wireframe;
 #endif
 
-		// AABB 
+		// BoundingBox 
 		float m_fMinX;
 		float m_fMaxX;
 		float m_fMinY;

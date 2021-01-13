@@ -25,6 +25,7 @@ SET (LINK_LIBRARIES
   KrautFoundation
   KrautGraphics
   KrautEditorBasics
+  KrautGenerator
 )
 
 QT_MODULES(Core Gui Widgets OpenGL)

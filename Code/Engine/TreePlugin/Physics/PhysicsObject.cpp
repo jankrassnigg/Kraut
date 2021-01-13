@@ -21,14 +21,8 @@ using namespace AE_NS_EDITORBASICS;
 
 extern bool g_bCollisionDataChanged;
 
-#ifdef USE_BULLET
-extern btDiscreteDynamicsWorld* m_dynamicsWorld;
-
-btRigidBody* AddCollisionMesh (const MESH& obj, const aeVec3& vScale);
-#endif
-
 aeDeque<aePhysicsObject*> g_PhysicsObjects;
-aePhysicsObject* aePhysicsObject::s_pSelected = NULL;
+aePhysicsObject* aePhysicsObject::s_pSelected = nullptr;
 
 static void OnPhysicsObjectEvent (void* pPassThrough, const void* pEventData)
 {
@@ -51,7 +45,7 @@ AE_ON_GLOBAL_EVENT (aeTreePlugin_TreeLoaded)
   if (g_PhysicsObjects.empty ())
     return;
 
-  QMainWindow* pMainWindow = NULL;
+  QMainWindow* pMainWindow = nullptr;
   aeVariableRegistry::RetrieveRaw ("system/qt/mainwidget", &pMainWindow, sizeof (QMainWindow*));
 
   if (QMessageBox::question (pMainWindow, "Kraut",  "Do you want to delete all Collision Objects?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
@@ -61,19 +55,19 @@ AE_ON_GLOBAL_EVENT (aeTreePlugin_TreeLoaded)
 aePhysicsObject::aePhysicsObject ()
 {
 #ifdef USE_BULLET
-  m_pRigidBody = NULL;
+  m_pRigidBody = nullptr;
 #endif
 
   m_Gizmo.m_Events.RegisterEventReceiver (OnPhysicsObjectEvent, this);
   m_Gizmo.SetActive (false);
   m_vScaling.SetVector (1.0f);
-  m_pListItem = NULL;
+  m_pListItem = nullptr;
 }
 
 aePhysicsObject::~aePhysicsObject ()
 {
   if (s_pSelected == this)
-    SetSelected (NULL);
+    SetSelected (nullptr);
 
 #ifdef USE_BULLET
   if (m_pRigidBody)
@@ -91,7 +85,7 @@ aePhysicsObject::~aePhysicsObject ()
 
 void aePhysicsObject::ClearAll (void)
 {
-  SetSelected (NULL);
+  SetSelected (nullptr);
 
   if (!g_PhysicsObjects.empty ())
   {
@@ -104,10 +98,10 @@ void aePhysicsObject::ClearAll (void)
 
 void aePhysicsObject::DeleteSelected (void)
 {
-  if (aePhysicsObject::GetSelected () == NULL)
+  if (aePhysicsObject::GetSelected () == nullptr)
     return;
 
-  QMainWindow* pMainWindow = NULL;
+  QMainWindow* pMainWindow = nullptr;
   aeVariableRegistry::RetrieveRaw ("system/qt/mainwidget", &pMainWindow, sizeof (QMainWindow*));
 
   if (QMessageBox::question (pMainWindow, "Kraut",  "Do you want to delete the selected Collision Object?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) != QMessageBox::Yes)
@@ -120,11 +114,11 @@ void aePhysicsObject::DeleteSelected (void)
       g_PhysicsObjects[i] = g_PhysicsObjects.back ();
       g_PhysicsObjects.pop_back ();
       delete s_pSelected;
-      //s_pSelected = NULL; // this is already done in the destructor of aePhysicsObjects and if there are additional objects
-      // in the list, another one is selected via qt, so setting it to NULL here would make the pointer incorrect
+      //s_pSelected = nullptr; // this is already done in the destructor of aePhysicsObjects and if there are additional objects
+      // in the list, another one is selected via qt, so setting it to nullptr here would make the pointer incorrect
 
       if (g_PhysicsObjects.empty ())
-        s_pSelected = NULL;
+        s_pSelected = nullptr;
 
       break;
     }
@@ -136,7 +130,7 @@ void aePhysicsObject::SetSelected (aePhysicsObject* pSelected)
   if (s_pSelected == pSelected)
     return;
 
-  if (s_pSelected != NULL)
+  if (s_pSelected != nullptr)
   {
     s_pSelected->m_Gizmo.SetActive (false);
     s_pSelected->m_pListItem->setSelected (false);
@@ -144,7 +138,7 @@ void aePhysicsObject::SetSelected (aePhysicsObject* pSelected)
 
   s_pSelected = pSelected;
 
-  if (s_pSelected != NULL)
+  if (s_pSelected != nullptr)
   {
     s_pSelected->m_Gizmo.SetActive (g_Globals.s_bShowCollisionObjects);
 
@@ -158,10 +152,10 @@ void aePhysicsObject::SetSelected (aePhysicsObject* pSelected)
   }
 
   {
-    qtTreeEditWidget::s_pWidget->button_DeleteCollisionObject->setEnabled (s_pSelected != NULL);
-    qtTreeEditWidget::s_pWidget->spin_ColObjScalingX->setEnabled (s_pSelected != NULL);
-    qtTreeEditWidget::s_pWidget->spin_ColObjScalingY->setEnabled (s_pSelected != NULL);
-    qtTreeEditWidget::s_pWidget->spin_ColObjScalingZ->setEnabled (s_pSelected != NULL);
+    qtTreeEditWidget::s_pWidget->button_DeleteCollisionObject->setEnabled (s_pSelected != nullptr);
+    qtTreeEditWidget::s_pWidget->spin_ColObjScalingX->setEnabled (s_pSelected != nullptr);
+    qtTreeEditWidget::s_pWidget->spin_ColObjScalingY->setEnabled (s_pSelected != nullptr);
+    qtTreeEditWidget::s_pWidget->spin_ColObjScalingZ->setEnabled (s_pSelected != nullptr);
   }
 
   AE_BROADCAST_EVENT (aeEditor_QueueRedraw);

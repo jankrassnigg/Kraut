@@ -2,8 +2,6 @@
 
 namespace AE_NS_FOUNDATION
 {
-  aeRandomNumberGenerator aeMath::m_Rand;
-
   float aeMath::Round (float f)
   {
     return aeMath::Floor (f + 0.5f);

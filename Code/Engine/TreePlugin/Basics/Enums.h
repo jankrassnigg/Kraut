@@ -2,6 +2,7 @@
 #define AE_TREEPLUGIN_ENUMS_H
 
 #include "Base.h"
+#include <KrautGenerator/Description/DescriptionEnums.h>
 
 struct aePaintingPlaneMode
 {
@@ -31,89 +32,6 @@ struct aeTreeRenderMode
   };
 };
 
-struct aeTargetDir
-{
-  enum Enum
-  {
-    Straight,   // along the start direction
-    Upwards,    // to the sky!
-    Degree22,
-    Degree45,
-    Degree67,
-    Degree90,
-    Degree112,
-    Degree135,
-    Degree157,
-    Downwards,  // to the ground
-    ENUM_COUNT
-  };
-
-  static const char* EnumNames[ENUM_COUNT];
-};
-
-struct aeTargetDir2Usage
-{
-  enum Enum
-  {
-    Off,
-    Relative,
-    Absolute,
-  };
-};
-
-struct aeBranchType
-{
-  enum Enum
-  {
-    None          =-1,
-    Trunk1        = 0,
-    Trunk2        = 1,
-    Trunk3        = 2,
-    MainBranches1 = 3,
-    MainBranches2 = 4,
-    MainBranches3 = 5,
-    SubBranches1  = 6,
-    SubBranches2  = 7,
-    SubBranches3  = 8,
-    Twigs1        = 9,
-    Twigs2        =10,
-    Twigs3        =11,
-
-    ENUM_COUNT
-  };
-
-  static const char* EnumNames[ENUM_COUNT];
-  static const char* EnumNamesExport[ENUM_COUNT];
-};
-
-struct aeLeafOrientation
-{
-  enum Enum
-  {
-    Upwards,
-    AlongBranch,
-    OrthogonalToBranch,
-    ENUM_COUNT
-  };
-
-  static const char* EnumNames[ENUM_COUNT];
-};
-
-struct aeMeshType
-{
-  enum Enum
-  {
-    Branch,
-    Frond,
-    Leaf,
-    ENUM_COUNT
-  };
-
-  static const char* EnumNames[ENUM_COUNT];
-  static aeInt32 TextureSampler[ENUM_COUNT];
-  static aeInt32 ImpostorTextureSampler;
-};
-
 struct aeLod
 {
   enum Enum
@@ -129,6 +47,12 @@ struct aeLod
   };
 
   static const char* EnumNames[ENUM_COUNT];
+};
+
+struct aeBranchGeometryType
+{
+  static aeInt32 TextureSampler[Kraut::BranchGeometryType::ENUM_COUNT];
+  static aeInt32 ImpostorTextureSampler;
 };
 
 struct aeLeafCardResolution
@@ -177,29 +101,6 @@ struct aeColor
   aeUInt8 a;
 };
 
-struct aeLodMode
-{
-  enum Enum
-  {
-    Full,
-    FourQuads,
-    TwoQuads,
-    Billboard,
-    Disabled,
-    ENUM_COUNT
-  };
-
-  static bool IsImpostorMode (aeLodMode::Enum mode)
-  {
-    return (mode != aeLodMode::Full && mode != aeLodMode::Disabled);
-  }
-
-  static bool IsMeshMode (aeLodMode::Enum mode)
-  {
-    return (mode == aeLodMode::Full);
-  }
-};
-
 struct aeForceType
 {
   enum Enum
@@ -227,18 +128,6 @@ struct aeForceFalloff
   static const char* EnumNames[ENUM_COUNT];
 };
 
-struct aeBranchTypeMode
-{
-  enum Enum
-  {
-    Default,
-    Umbrella,
-    ENUM_COUNT
-  };
-
-  static const char* EnumNames[ENUM_COUNT];
-};
-
 struct aeMaterialType
 {
   enum Enum
@@ -254,4 +143,3 @@ struct aeMaterialType
 };
 
 #endif
-

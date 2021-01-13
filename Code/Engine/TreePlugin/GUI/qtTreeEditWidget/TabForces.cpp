@@ -55,7 +55,7 @@ void qtTreeEditWidget::UpdateForcesUI (void)
   }
 
   const aeForce* pSelectedForce = aeForce::GetSelectedForce ();
-  const bool bForceSelected = pSelectedForce != NULL;
+  const bool bForceSelected = pSelectedForce != nullptr;
 
   if (bForceSelected)
   {
@@ -75,7 +75,7 @@ void qtTreeEditWidget::UpdateForcesUI (void)
     SpinForceMinRadius->setValue (pSelectedForce->GetMinRadius ());
     SpinForceMaxRadius->setValue (pSelectedForce->GetMaxRadius ());
 
-    QCheckBox* CheckInfluence[aeBranchType::ENUM_COUNT] =
+    QCheckBox* CheckInfluence[Kraut::BranchType::ENUM_COUNT] =
     { 
       CheckForceTrunk1,        CheckForceTrunk2,        CheckForceTrunk3,
       CheckForceBranches1,     CheckForceBranches2,     CheckForceBranches3,
@@ -83,10 +83,10 @@ void qtTreeEditWidget::UpdateForcesUI (void)
       CheckForceTwigs1,        CheckForceTwigs2,        CheckForceTwigs3
     };
 
-    for (aeUInt32 bt = 0; bt < aeBranchType::ENUM_COUNT; ++bt)
+    for (aeUInt32 bt = 0; bt < Kraut::BranchType::ENUM_COUNT; ++bt)
     {
       CheckInfluence[bt]->setChecked (pSelectedForce->m_InfluencesBranchTypes.IsAnyFlagSet (1 << bt));
-      CheckInfluence[bt]->setVisible (g_Tree.m_Descriptor.m_BranchTypes[bt].m_bUsed);
+      CheckInfluence[bt]->setVisible(g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[bt].m_bUsed);
     }
   }
   else
@@ -120,7 +120,7 @@ void qtTreeEditWidget::on_ListForces_itemSelectionChanged ()
   QList<QListWidgetItem*> Selection = ListForces->selectedItems();
 
   if (Selection.empty ())
-    aeForce::SetSelectedForce (NULL);
+    aeForce::SetSelectedForce (nullptr);
   else
     aeForce::SetSelectedForce ((aeForce*) Selection[0]->data(Qt::UserRole).value<void*> ());
 }
@@ -187,7 +187,7 @@ void qtTreeEditWidget::GetForceInfluences (void)
 
   if (aeForce::GetSelectedForce ())
   {
-    QCheckBox* CheckInfluence[aeBranchType::ENUM_COUNT] =
+    QCheckBox* CheckInfluence[Kraut::BranchType::ENUM_COUNT] =
     { 
       CheckForceTrunk1,        CheckForceTrunk2,        CheckForceTrunk3,
       CheckForceBranches1,     CheckForceBranches2,     CheckForceBranches3,
@@ -197,7 +197,7 @@ void qtTreeEditWidget::GetForceInfluences (void)
 
     aeFlags32 Influences (0);
 
-    for (aeUInt32 bt = 0; bt < aeBranchType::ENUM_COUNT; ++bt)
+    for (aeUInt32 bt = 0; bt < Kraut::BranchType::ENUM_COUNT; ++bt)
     {
       Influences.RaiseOrClearFlags (1 << bt, CheckInfluence[bt]->isChecked ()); 
     }

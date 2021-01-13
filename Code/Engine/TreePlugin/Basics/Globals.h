@@ -11,9 +11,9 @@ using namespace AE_NS_GRAPHICS;
 struct aeGlobals
 {
   aeGlobals();
-  void Reset (void);
+  void Reset(void);
 
-  bool s_bManualEditingActive;
+  //bool s_bManualEditingActive;
   bool s_bShowCollisionObjects;
   bool s_bUpdatePickingBuffer;
   bool s_bOrbitCamera;
@@ -23,21 +23,21 @@ struct aeGlobals
 
   aeVec3 s_vSunLightDir;
   aeVec3 s_vPointLightPos;
-  bool s_bPaintingBranch;
-  aeDeque<aeVec3> s_PaintedBranch;
-  aeInt32 s_iParentBranchID;
-  aeUInt32 s_uiParentBranchNodeID;
-  bool s_bVisualizePaintingPlane;
-  aePaintingPlaneMode::Enum s_PaintingPlaneMode;
+  //bool s_bPaintingBranch;
+  //aeDeque<aeVec3> s_PaintedBranch;
+  //aeInt32 s_iParentBranchID;
+  //aeUInt32 s_uiParentBranchNodeID;
+  //bool s_bVisualizePaintingPlane;
+  //aePaintingPlaneMode::Enum s_PaintingPlaneMode;
 
-  aePlane s_PaintingPlane;
-  aeVec3 s_vPaintingPlaneCenter;
-  aeInt32 s_iBranchToBe;
-  aeInt32 s_iSelectedBranch;
-  aeUInt32 s_uiSelectedBranchNode;
+  //aePlane s_PaintingPlane;
+  //aeVec3 s_vPaintingPlaneCenter;
+  //aeInt32 s_iBranchToBe;
+  //aeInt32 s_iSelectedBranch;
+  //aeUInt32 s_uiSelectedBranchNode;
   aeGLCamera m_Camera;
   aeGLCamera m_OrthoCamera;
-  aeTransformGizmo s_BranchTransform;
+  //aeTransformGizmo s_BranchTransform;
 
   aeTreeRenderMode::Enum s_RenderMode;
   aeLod::Enum s_CurLoD;
@@ -45,8 +45,8 @@ struct aeGlobals
   bool s_bDoPhysicsSimulation;
   bool s_bRenderLeaves;
   bool s_bPreviewLeafCard;
-  bool s_bModifyLocally;
-  aeUInt8 s_uiModifyStrength;
+  //bool s_bModifyLocally;
+  //aeUInt8 s_uiModifyStrength;
   bool s_bSelectLodAutomatically;
 
   aeShaderResourceHandle s_hBranchShader;
@@ -68,4 +68,3 @@ struct aeGlobals
 extern aeGlobals g_Globals;
 
 #endif
-

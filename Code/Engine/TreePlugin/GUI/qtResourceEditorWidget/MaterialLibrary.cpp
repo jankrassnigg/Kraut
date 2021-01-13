@@ -78,7 +78,7 @@ aeTreeMaterial* aeTreeMaterialLibrary::GetMaterial (const char* szDiffuse)
   aeMap<aeHybridString<128>, aeTreeMaterial>::iterator it = s_Materials.find (szDiffuse);
 
   if (it == s_Materials.end ())
-    return NULL;
+    return nullptr;
 
   return &it.value ();
 }

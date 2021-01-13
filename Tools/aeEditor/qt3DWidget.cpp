@@ -79,7 +79,7 @@ void qt3DWidget::paintEvent (QPaintEvent *event)
 
   aeEditorRenderAPI::GetInstance ()->Swap ();
 
-  aeResourceManager::FreeUnusedResources ();
+  //aeResourceManager::FreeUnusedResources ();
 }
 
 void qt3DWidget::resizeEvent ( QResizeEvent * event )

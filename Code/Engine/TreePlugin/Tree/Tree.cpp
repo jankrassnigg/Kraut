@@ -1,278 +1,282 @@
 #include "PCH.h"
 
-#include "Tree.h"
 #include "../Basics/Plugin.h"
-#include <KrautGraphics/RenderAPI/Main.h>
-#include <KrautGraphics/TextureManager/Main.h>
-#include <KrautGraphics/ShaderManager/Main.h>
-#include <KrautGraphics/Framebuffer/Main.h>
 #include "../Undo/TreeUndo.h"
-
-
+#include "Tree.h"
+#include <KrautGenerator/Lod/TreeStructureLodGenerator.h>
+#include <KrautGenerator/Mesh/TreeMeshGenerator.h>
+#include <KrautGraphics/Framebuffer/Main.h>
+#include <KrautGraphics/RenderAPI/Main.h>
+#include <KrautGraphics/ShaderManager/Main.h>
+#include <KrautGraphics/TextureManager/Main.h>
 
 using namespace AE_NS_GRAPHICS;
 
 aeTree g_Tree;
 
-void ClearCapsules (void);
+aeTree::aeTree() = default;
 
-aeTree::aeTree ()
+AE_ON_GLOBAL_EVENT_ONCE(aeStartup_ShutdownEngine_Begin)
 {
-  m_bModifiedViaUndo = false;
-  m_bLodImpostorsAreUpToDate = false;
+  g_Tree.ClearTreeRenderData();
+
+  g_Globals.s_hBranchShader.Invalidate();
+  g_Globals.s_hFrondShader.Invalidate();
+  g_Globals.s_hImpostorShader.Invalidate();
+  g_Globals.s_hLeafShader.Invalidate();
+  g_Globals.s_hSkeletonShader.Invalidate();
+  g_Globals.s_hGroundPlaneShader.Invalidate();
+  g_Globals.s_hPhysicsObjectShader.Invalidate();
+  g_Globals.s_hBillboardShader.Invalidate();
+  g_Globals.s_hForceShader.Invalidate();
+  g_Globals.s_hSimpleGizmoShader.Invalidate();
+
+  g_Tree.Shutdown();
 }
 
-aeUInt32 aeTree::GetFreeBranch ()
+void aeTree::Shutdown(void)
 {
-  for (aeUInt32 b = 0; b < m_Branches.size (); ++b)
-  {
-    if (m_Branches[b].IsDeleted ())
-    {
-      m_Branches[b].SetDeleted (false);
-      return b;
-    }
-  }
-
-  m_Branches.push_back (aeBranch ());
-  m_Branches.back ().SetDeleted (false);
-  return m_Branches.size () - 1;
+  m_hLodTextures.Invalidate();
+  m_hLodTexturesN.Invalidate();
 }
 
-AE_ON_GLOBAL_EVENT_ONCE (aeStartup_ShutdownEngine_Begin)
+aeUInt32 aeTree::GetNumBones(aeLod::Enum lod) const
 {
-  g_Tree.ClearTreeRenderData ();
-
-  g_Globals.s_hBranchShader.Invalidate ();
-  g_Globals.s_hFrondShader.Invalidate ();
-  g_Globals.s_hImpostorShader.Invalidate ();
-  g_Globals.s_hLeafShader.Invalidate ();
-  g_Globals.s_hSkeletonShader.Invalidate ();
-  g_Globals.s_hGroundPlaneShader.Invalidate ();
-  g_Globals.s_hPhysicsObjectShader.Invalidate ();
-  g_Globals.s_hBillboardShader.Invalidate ();
-  g_Globals.s_hForceShader.Invalidate ();
-  g_Globals.s_hSimpleGizmoShader.Invalidate ();
-
-  g_Tree.Shutdown ();
-
-  for (aeUInt32 b = 0; b < aeBranchType::ENUM_COUNT; ++b)
-  {
-    for (aeUInt32 mt = 0; mt < aeMeshType::ENUM_COUNT; ++mt)
-    {
-      g_Tree.m_Descriptor.m_BranchTypes[b].m_hTexture[mt].Invalidate ();
-      g_Tree.m_Descriptor.m_BranchTypes[b].m_hTextureN[mt].Invalidate ();
-    }
-  }
-}
-
-void aeTree::Shutdown (void)
-{
-  m_hLodTextures.Invalidate ();
-  m_hLodTexturesN.Invalidate ();
-}
-
-aeUInt32 aeTree::GetNumBones (aeLod::Enum lod) const
-{
-  if (m_Descriptor.m_LodData[lod].m_Mode != aeLodMode::Full)
+  if (m_Descriptor.m_LodData[lod].m_Mode != Kraut::LodMode::Full)
     return 0;
 
-  aeUInt32 uiBones = 0;
-
-  for (aeUInt32 b = 0; b < m_Branches.size (); ++b)
-  {
-    if (m_Branches[b].IsDeleted ())
-      continue;
-
-    uiBones += m_Branches[b].m_LODs[lod].m_NodeIDs.size ();
-  }
-
-  return uiBones;
+  return m_TreeStructureLod[lod].GetNumBones();
 }
 
-aeUInt32 aeTree::GetNumTriangles (aeLod::Enum lod, aeMeshType::Enum mt) const
+aeUInt32 aeTree::GetNumTriangles(aeLod::Enum lod, Kraut::BranchGeometryType::Enum mt) const
 {
-  if (m_Descriptor.m_LodData[lod].m_Mode != aeLodMode::Full)
+  if (m_Descriptor.m_LodData[lod].m_Mode != Kraut::LodMode::Full)
     return 0;
 
-  aeUInt32 uiTris = 0;
-  
-  for (aeUInt32 b = 0; b < m_Branches.size (); ++b)
-  {
-    if (m_Branches[b].IsDeleted ())
-      continue;
-
-    uiTris += m_Branches[b].m_LODs[lod].m_SubMesh[mt].GetNumTriangles ();
-  }
-
-  return uiTris;
+  return m_TreeMesh[lod].GetNumTriangles(mt);
 }
 
-aeUInt32 aeTree::GetNumAllTriangles (aeLod::Enum lod) const
+aeUInt32 aeTree::GetNumAllTriangles(aeLod::Enum lod) const
 {
   switch (m_Descriptor.m_LodData[lod].m_Mode)
   {
-  case aeLodMode::Full:
-    break;
-  case aeLodMode::FourQuads:
-    return 8;
-  case aeLodMode::TwoQuads:
-    return 4;
-  case aeLodMode::Billboard:
-    return 2;
-  case aeLodMode::Disabled:
-    return 0;
+    case Kraut::LodMode::Full:
+      break;
+    case Kraut::LodMode::FourQuads:
+      return 8;
+    case Kraut::LodMode::TwoQuads:
+      return 4;
+    case Kraut::LodMode::Billboard:
+      return 2;
+    case Kraut::LodMode::Disabled:
+      return 0;
   }
 
+  aeUInt32 result = 0;
+  for (aeUInt32 gt = 0; gt < Kraut::BranchGeometryType::ENUM_COUNT; ++gt)
+  {
+    result += GetNumTriangles(lod, (Kraut::BranchGeometryType::Enum)gt);
+  }
 
-  aeUInt32 num = 0;
-  for (aeUInt32 mt = 0; mt < aeMeshType::ENUM_COUNT; ++mt)
-    num += GetNumTriangles (lod, (aeMeshType::Enum) mt);
-
-  return num;
+  return result;
 }
 
-void aeTree::SkeletonHasChanged (aeUInt32 b, bool bInsertUndoStep)
+//void aeTree::SkeletonHasChanged(aeUInt32 b, bool bInsertUndoStep)
+//{
+//  if (IsBranchDeleted(b))
+//    return;
+//
+//  if (bInsertUndoStep)
+//  {
+//    if (!m_bModifiedViaUndo)
+//      aeUndo::ModifyTree(this);
+//  }
+//
+//  ClearSkeletonRenderData();
+//  ClearCapsules();
+//
+//  for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT; ++i)
+//  {
+//    m_TreeStructureLod[i].m_BranchLODs.clear();
+//
+//    m_TreeStructure.m_Branches[b]->m_fThickness = m_Descriptor.m_StructureDesc.m_BranchTypes[m_TreeStructure.m_Branches[b]->m_Type].m_uiMinBranchThicknessInCM / 100.0f;
+//  }
+//
+//  m_TreeStructure.m_Branches[b]->UpdateThickness(m_Descriptor.m_StructureDesc, m_TreeStructure);
+//
+//  AE_BROADCAST_EVENT(aeEditor_QueueRedraw);
+//}
+//
+//void aeTree::SkeletonHasChanged(void)
+//{
+//  bool bUndo = true;
+//  for (aeUInt32 b = 0; b < m_TreeStructure.m_Branches.size(); ++b)
+//  {
+//    if (IsBranchDeleted(b))
+//      continue;
+//
+//    SkeletonHasChanged(b, bUndo);
+//    bUndo = false;
+//  }
+//}
+
+void aeTree::Reset(void)
 {
-  if (m_Branches[b].IsDeleted ())
-    return;
-
-  if (bInsertUndoStep)
-  {
-    if (!m_bModifiedViaUndo)
-      aeUndo::ModifyTree (this);
-  }
-
-  ClearSkeletonRenderData ();
-  ClearCapsules ();
-
-  ClearBranchRenderData (b);
-
-  for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT; ++i)
-  {
-    m_Branches[b].m_LODs[i].m_bSkeletonGenerated = false;
-    m_Branches[b].m_LODs[i].m_NodeIDs.clear ();
-    m_Branches[b].m_LODs[i].m_TipNodes.clear ();
-    m_Branches[b].m_fThickness = m_Descriptor.m_BranchTypes[m_Branches[b].m_Type].m_uiMinBranchThicknessInCM / 100.0f;
-
-    for (aeUInt32 mt = 0; mt < aeMeshType::ENUM_COUNT; ++mt)
-    {
-      m_Branches[b].m_LODs[i].m_bMeshGenerated[mt] = false;
-      m_Branches[b].m_LODs[i].m_SubMesh[mt].clear ();
-    }
-  }
-
-  ComputeBranchThickness (b);
-
-  AE_BROADCAST_EVENT (aeEditor_QueueRedraw);
-}
-
-void aeTree::SkeletonHasChanged (void)
-{
-  bool bUndo = true;
-  for (aeUInt32 b = 0; b < m_Branches.size (); ++b)
-  {
-    if (m_Branches[b].IsDeleted ())
-      continue;
-
-    SkeletonHasChanged (b, bUndo);
-    bUndo = false;
-  }
-}
-
-void aeTree::Reset (void)
-{
-  AE_BROADCAST_EVENT (aeEditor_BlockRedraw);
+  AE_BROADCAST_EVENT(aeEditor_BlockRedraw);
 
   m_sTreeFile = "";
-  m_Descriptor.Reset ();
-  m_Branches.clear ();
+  m_Descriptor.Reset();
+  m_BranchRenderInfo.clear();
+  m_TreeStructure.Clear();
 
-  AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
-
-  AE_BROADCAST_EVENT (aeEditor_UnblockRedraw);
-}
-
-void aeTree::GenerateTree (bool bUndoableAction)
-{
-  if ((!m_bModifiedViaUndo) && (bUndoableAction))
-    aeUndo::ModifyTree (this);
-
-  AE_LOG_BLOCK ("aeTree::GenerateTree");
-
-  for (aeUInt32 i = 0; i < m_Descriptor.m_Forces.size (); ++i)
-    m_Descriptor.m_Forces[i]->ReactivateAllMeshSamples ();
-
-  //m_BBox.SetInvalid ();
-
-  ClearSkeletonRenderData ();
-  ClearTreeRenderData ();
-  ClearCapsules ();
-
-  for (aeUInt32 b = 0; b < m_Branches.size (); ++b)
+  for (aeUInt32 l = 0; l < aeLod::ENUM_COUNT; ++l)
   {
-    if (!m_Branches[b].m_bManuallyCreated)
-      m_Branches[b].SetDeleted (true);
-    else
-      SkeletonHasChanged (b, false);
+    m_TreeStructureLod[l].m_BranchLODs.clear();
+    m_TreeMesh[l].Clear();
+    m_TreeRenderData[l].Clear();
   }
 
-  GrowSkeleton ();
+  AE_BROADCAST_EVENT(aeTreeEdit_TreeModified);
 
-  EnsureSkeletonIsGenerated (aeLod::None);
+  AE_BROADCAST_EVENT(aeEditor_UnblockRedraw);
+}
 
-  ComputeBoundingBox ();
+void aeTree::GenerateTree(bool bUndoableAction)
+{
+  if ((!m_bModifiedViaUndo) && (bUndoableAction))
+    aeUndo::ModifyTree(this);
+
+  AE_LOG_BLOCK("aeTree::GenerateTree");
+
+  m_TreeGenerator.m_pTreeStructure = &m_TreeStructure;
+  m_TreeGenerator.m_pTreeStructureDesc = &m_Descriptor.m_StructureDesc;
+
+  if (g_Globals.s_bDoPhysicsSimulation)
+  {
+    m_TreeGenerator.m_pPhysics = &m_BulletPhysicsImpl;
+  }
+  else
+  {
+    m_TreeGenerator.m_pPhysics = &m_NoPhysicsImpl;
+  }
+
+  for (aeUInt32 i = 0; i < m_Descriptor.m_Forces.size(); ++i)
+    m_Descriptor.m_Forces[i]->ReactivateAllMeshSamples();
+
+  ClearSkeletonRenderData();
+  m_TreeGenerator.m_pPhysics->Reset();
+
+  m_TreeStructure.Clear();
+
+  for (aeUInt32 lod = 0; lod < aeLod::ENUM_COUNT; ++lod)
+  {
+    m_bLodStructureGenerated[lod] = false;
+    m_bLodMeshGenerated[lod] = false;
+    m_bLodRenderDataGenerated[lod] = false;
+  }
+
+  ConfigureInfluences();
+
+  m_TreeGenerator.GenerateTreeStructure();
+
+  EnsureSkeletonIsGenerated(aeLod::None);
+
+  ComputeBoundingBox();
 
   g_Globals.s_bUpdatePickingBuffer = true;
   m_bLodImpostorsAreUpToDate = false;
 
-  AE_BROADCAST_EVENT (aeTreePlugin_TreeGenerated);
+  AE_BROADCAST_EVENT(aeTreePlugin_TreeGenerated);
 }
 
-void aeTree::EnsureSkeletonIsGenerated (aeLod::Enum lod)
+void aeTree::EnsureSkeletonIsGenerated(aeLod::Enum lod)
 {
+  if (m_bLodStructureGenerated[lod])
+    return;
+
   if (lod != aeLod::None)
-    EnsureSkeletonIsGenerated (aeLod::None);
+    EnsureSkeletonIsGenerated(aeLod::None);
 
-  if (lod == aeLod::None)
-    GenerateFullDetailSkeleton ();
+  Kraut::TreeStructureLodGenerator lodGen;
+  lodGen.m_pTreeStructureLod = &m_TreeStructureLod[lod];
+  lodGen.m_pTreeStructure = &m_TreeStructure;
+  lodGen.m_pTreeStructureDesc = &m_Descriptor.m_StructureDesc;
+
+  if (lod != aeLod::None)
+  {
+    lodGen.m_pLodDesc = &m_Descriptor.m_LodData[lod];
+  }
+
+  lodGen.GenerateTreeStructureLod();
+
+  m_bLodStructureGenerated[lod] = true;
+}
+
+void aeTree::EnsureMeshIsGenerated(aeLod::Enum lod /*, bool bTrunkCap, bool bBranchCap*/)
+{
+  if (m_bLodMeshGenerated[lod])
+    return;
+
+  m_bLodMeshGenerated[lod] = true;
+
+  EnsureSkeletonIsGenerated(lod);
+
+  if (Kraut::LodMode::IsImpostorMode(m_Descriptor.m_LodData[lod].m_Mode))
+  {
+    CreateTreeImpostorMesh(lod);
+  }
   else
-    GenerateReducedSkeleton (lod);
+  {
+    for (aeUInt32 bt = 0; bt < Kraut::BranchType::ENUM_COUNT; ++bt)
+    {
+      auto& spawnDesc = m_Descriptor.m_StructureDesc.m_BranchTypes[bt];
+
+      for (aeUInt32 gt = 0; gt < Kraut::BranchGeometryType::ENUM_COUNT; ++gt)
+      {
+        if (auto pMaterial = aeTreeMaterialLibrary::GetMaterial(spawnDesc.m_sTexture[gt].c_str()))
+        {
+          spawnDesc.m_uiTextureTilingX[gt] = pMaterial->m_uiTilingX;
+          spawnDesc.m_uiTextureTilingY[gt] = pMaterial->m_uiTilingY;
+        }
+      }
+    }
+
+    Kraut::TreeMeshGenerator meshGenerator;
+    meshGenerator.m_pLodDesc = &m_Descriptor.m_LodData[lod];
+    meshGenerator.m_pTreeMesh = &m_TreeMesh[lod];
+    meshGenerator.m_pTreeStructure = &m_TreeStructure;
+    meshGenerator.m_pTreeStructureDesc = &m_Descriptor.m_StructureDesc;
+    meshGenerator.m_pTreeStructureLod = &m_TreeStructureLod[lod];
+
+    meshGenerator.GenerateTreeMesh();
+  }
 }
 
-void aeTree::EnsureMeshIsGenerated (aeLod::Enum lod, bool bTrunkCap, bool bBranchCap)
+void aeTree::Save(aeStreamOut& stream)
 {
-  AE_PREVENT_RECURSION;
-
-  EnsureSkeletonIsGenerated (lod);
-
-  GenerateAllTreeMeshes (lod, bTrunkCap, bBranchCap);
-}
-
-void aeTree::Save (aeStreamOut& stream)
-{
-  m_Descriptor.Save (stream);
+  m_Descriptor.Save(stream);
 
   aeUInt8 uiVersion = 1;
   stream << uiVersion;
 
-  aeUInt16 uiBranches = m_Branches.size ();
+  aeUInt16 uiBranches = m_TreeStructure.m_BranchStructures.size();
   stream << uiBranches;
 
   for (aeUInt32 b = 0; b < uiBranches; ++b)
   {
-    m_Branches[b].Save (stream);
+    m_TreeStructure.m_BranchStructures[b].Save(stream);
   }
 }
 
-void aeTree::Load (aeStreamIn& stream)
+void aeTree::Load(aeStreamIn& stream)
 {
-  AE_BROADCAST_EVENT (aeEditor_BlockRedraw);
+  AE_BROADCAST_EVENT(aeEditor_BlockRedraw);
 
-  m_Descriptor.Load (stream);
+  m_Descriptor.Load(stream);
 
-  if (stream.IsEndOfStream ())
+  if (stream.IsEndOfStream())
   {
-    AE_BROADCAST_EVENT (aeEditor_UnblockRedraw);
+    AE_BROADCAST_EVENT(aeEditor_UnblockRedraw);
     return;
   }
 
@@ -281,96 +285,80 @@ void aeTree::Load (aeStreamIn& stream)
 
   aeUInt16 uiBranches;
   stream >> uiBranches;
-  m_Branches.resize (uiBranches);
+  m_TreeStructure.m_BranchStructures.clear();
+  m_TreeStructure.m_BranchStructures.resize(uiBranches);
 
   for (aeUInt32 b = 0; b < uiBranches; ++b)
   {
-    m_Branches[b].Load (stream);
-    m_Branches[b].m_pTree = this;
+    m_TreeStructure.m_BranchStructures[b].Load(stream);
   }
 
-  AE_BROADCAST_EVENT (aeEditor_UnblockRedraw);
+  AE_BROADCAST_EVENT(aeEditor_UnblockRedraw);
 }
 
-static float GetSizeIncrease (const aeTreeDescriptor& td)
+void aeTree::ComputeBoundingBox(void)
 {
-  float fResult = 0.0f;
-
-  for (aeUInt32 bt = 0; bt < aeBranchType::ENUM_COUNT; ++bt)
-  {
-    const aeSpawnNodeDesc& snd = td.m_BranchTypes[bt];
-
-    if (!snd.m_bUsed)
-      continue;
-
-    //if (snd.m_bEnable[aeMeshType::Branch])
-    //{
-    //  fResult = aeMath::Max (fResult, snd.m_uiMaxBranchThicknessInCM / 100.0f);
-
-    //  if (snd.m_uiFlares > 0)
-    //    fResult = aeMath::Max (fResult, (snd.m_uiMaxBranchThicknessInCM / 100.0f) * snd.m_fFlareWidth);
-    //}
-
-    if (snd.m_bEnable[aeMeshType::Frond])
-    {
-      // fronds are usually not oriented in a way that they take the maximum area (in the bounding box)
-      // so scale them down by 0.5 to get a better approximation (otherwise the bbox gets too big)
-      fResult = aeMath::Max (fResult, snd.m_fFrondHeight * 0.5f);
-      fResult = aeMath::Max (fResult, snd.m_fFrondWidth  * 0.5f);
-    }
-
-    if (snd.m_bEnable[aeMeshType::Leaf])
-    {
-      fResult = aeMath::Max (fResult, snd.m_fLeafSize);
-    }
-  }
-
-  return fResult;
-}
-
-static aeBBox GetTreeSkeletonBBox (const aeDeque<aeBranch>& Branches)
-{
-  aeBBox Result;
-  Result.SetInvalid ();
-
-  float fMaxThickness = 0.0f;
-
-  // inrease the bbox size by all node that are in the high-detail skeleton
-  const aeUInt32 uiBranches = Branches.size ();
-  for (aeUInt32 b = 0; b < uiBranches; ++b)
-  {
-    const aeDeque<aeBranchNode>& nodes = Branches[b].m_Nodes;
-
-    // all regular nodes
-    const aeUInt32 uiNodes = nodes.size ();
-    for (aeUInt32 n = 0; n < uiNodes; ++n)
-    {
-      Result.ExpandToInclude (nodes[n].m_vPosition);
-
-      fMaxThickness = aeMath::Max (fMaxThickness, nodes[n].m_fThickness);
-    }
-  }
-
-  Result.AddBoundary (aeVec3 (fMaxThickness));
-
-  return Result;
-}
-
-void aeTree::ComputeBoundingBox (void)
-{
-  m_BBox = GetTreeSkeletonBBox (m_Branches);
+  m_BBox = m_TreeStructure.ComputeBoundingBox();
 
   // increase the bbox by branch / frond / leaf size etc.
-  m_BBox.AddBoundary (aeVec3 (GetSizeIncrease (m_Descriptor)));
+  m_BBox.AddBoundary(aeVec3(m_Descriptor.m_StructureDesc.GetBoundingBoxSizeIncrease()));
 
   // apply user's bbox adjustment
-  m_BBox.AddBoundary (aeVec3 (m_Descriptor.m_fBBoxAdjustment));
+  m_BBox.AddBoundary(aeVec3(m_Descriptor.m_fBBoxAdjustment));
 
   // ensure the tree stands 'on the ground' (not above or below it)
   m_BBox.m_vMin.y = 0.0f;
 }
 
-void aeTree::ChangeBoundingAdjustment (float fNewAdjustment)
+void aeTree::ConfigureInfluences()
+{
+  m_Descriptor.m_StructureDesc.m_Influences.clear();
+
+  for (aeUInt32 i = 0; i < m_Descriptor.m_Forces.size(); ++i)
+  {
+    const auto& force = m_Descriptor.m_Forces[i];
+
+    if (!force->IsActive())
+      continue;
+
+    switch (force->GetType())
+    {
+      case aeForceType::Position:
+      {
+        m_Descriptor.m_StructureDesc.m_Influences.push_back();
+        m_Descriptor.m_StructureDesc.m_Influences.back() = std::make_unique<Kraut::Influence_Position>();
+        Kraut::Influence_Position* pInfluence = static_cast<Kraut::Influence_Position*>(m_Descriptor.m_StructureDesc.m_Influences.back().get());
+
+        pInfluence->m_vPosition = force->GetTransform().GetTranslationVector();
+        pInfluence->m_AffectedBranchTypes = force->GetBranchInfluences();
+        pInfluence->m_fMinRadius = force->GetMinRadius();
+        pInfluence->m_fMaxRadius = force->GetMaxRadius();
+        pInfluence->m_fStrength = force->GetStrength();
+        pInfluence->m_Falloff = static_cast<Kraut::Influence_Position::Falloff::Enum>(force->GetFalloff());
+
+        break;
+      }
+
+      case aeForceType::Direction:
+      {
+        m_Descriptor.m_StructureDesc.m_Influences.push_back();
+        m_Descriptor.m_StructureDesc.m_Influences.back() = std::make_unique<Kraut::Influence_Direction>();
+        Kraut::Influence_Direction* pInfluence = static_cast<Kraut::Influence_Direction*>(m_Descriptor.m_StructureDesc.m_Influences.back().get());
+
+        pInfluence->m_vPosition = force->GetTransform().GetTranslationVector();
+        pInfluence->m_vDirection = force->GetTransform().TransformDirection(aeVec3(0, 1, 0));
+        pInfluence->m_AffectedBranchTypes = force->GetBranchInfluences();
+        pInfluence->m_fMinRadius = force->GetMinRadius();
+        pInfluence->m_fMaxRadius = force->GetMaxRadius();
+        pInfluence->m_fStrength = force->GetStrength();
+        pInfluence->m_Falloff = static_cast<Kraut::Influence_Position::Falloff::Enum>(force->GetFalloff());
+        break;
+      }
+    }
+  }
+}
+
+void aeTree::ChangeBoundingAdjustment(float fNewAdjustment)
 {
   if (fNewAdjustment == m_Descriptor.m_fBBoxAdjustment)
     return;
@@ -378,19 +366,26 @@ void aeTree::ChangeBoundingAdjustment (float fNewAdjustment)
   m_bLodImpostorsAreUpToDate = false;
 
   for (aeUInt32 lod = 0; lod < aeLod::ENUM_COUNT; ++lod)
-    m_LodImpostors[lod].Clear ();
+    m_LodImpostors[lod].Clear();
 
   // remove the previous adjustment
-  m_BBox.AddBoundary (aeVec3 (-m_Descriptor.m_fBBoxAdjustment));
+  m_BBox.AddBoundary(aeVec3(-m_Descriptor.m_fBBoxAdjustment));
 
   m_Descriptor.m_fBBoxAdjustment = fNewAdjustment;
 
   // apply the new adjustment
-  m_BBox.AddBoundary (aeVec3 (m_Descriptor.m_fBBoxAdjustment));
+  m_BBox.AddBoundary(aeVec3(m_Descriptor.m_fBBoxAdjustment));
 
   // ensure the tree stands 'on the ground' (not above or below it)
   m_BBox.m_vMin.y = 0.0f;
 
-  AE_BROADCAST_EVENT (aeTreeEdit_TreeModifiedSimple);
+  AE_BROADCAST_EVENT(aeTreeEdit_TreeModifiedSimple);
 }
 
+aeBranchRenderInfo::~aeBranchRenderInfo()
+{
+  if (m_uiPickID != 0)
+  {
+    aeEditorPlugin::UnregisterPickableObject(m_uiPickID);
+  }
+}

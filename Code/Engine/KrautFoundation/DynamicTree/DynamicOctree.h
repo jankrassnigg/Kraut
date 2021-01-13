@@ -46,7 +46,7 @@ namespace AE_NS_FOUNDATION
 		//! Clears the tree from all objects.
 		AE_FOUNDATION_DLL void RemoveAllObjects (void) {m_NodeMap.clear ();}
 
-		//! Returns the trees AABB.
+		//! Returns the trees BoundingBox.
 		AE_FOUNDATION_DLL void getAABB (float& out_fMinX, float& out_fMaxX, float& out_fMinY, float& out_fMaxY, float& out_fMinZ, float& out_fMaxZ) const;
 
 	private:

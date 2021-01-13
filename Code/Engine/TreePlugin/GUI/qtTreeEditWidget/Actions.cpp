@@ -17,7 +17,7 @@ extern aeDeque<aeFilePath> g_LRU_Trees;
 
 void qtTreeEditWidget::on_spin_RandomSeed_valueChanged (int i)
 {
-  g_Tree.m_Descriptor.m_uiRandomSeed = i;
+  g_Tree.m_Descriptor.m_StructureDesc.m_uiRandomSeed = i;
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
 }
@@ -45,7 +45,7 @@ void qtTreeEditWidget::on_action_New_triggered ()
   sPrevFile.clear ();
   g_Tree.Reset ();
 
-  SetCurrentlyEditedBranchType (aeBranchType::Trunk1, true);
+  SetCurrentlyEditedBranchType (Kraut::BranchType::Trunk1, true);
   combo_LoD->setCurrentIndex (aeLod::Lod0);
 
   AE_BROADCAST_EVENT (aeEditor_SetWindowTitle, "new");
@@ -54,7 +54,7 @@ void qtTreeEditWidget::on_action_New_triggered ()
 
   AE_BROADCAST_EVENT (aeTreePlugin_TreeLoaded, "");
 
-  qtTreeEditWidget::s_pWidget->SetCurrentlyEditedBranchType (aeBranchType::Trunk1, true);
+  qtTreeEditWidget::s_pWidget->SetCurrentlyEditedBranchType (Kraut::BranchType::Trunk1, true);
 }
 
 void qtTreeEditWidget::on_action_Open_triggered ()
@@ -65,7 +65,7 @@ void qtTreeEditWidget::on_action_Open_triggered ()
   aeFilePath sCurFile = sPrevFile;
 
   if (sCurFile.empty ())
-    aeFileSystem::MakeValidPath ("Trees/", false, &sCurFile, NULL);
+    aeFileSystem::MakeValidPath ("Trees/", false, &sCurFile, nullptr);
 
   QString result = QFileDialog::getOpenFileName (this, 
     QFileDialog::tr ("Load Tree"), sCurFile.c_str (),
@@ -113,7 +113,7 @@ bool qtTreeEditWidget::SaveTreeAs (void)
   aeFilePath sCurFile = sPrevFile;
 
   if (sCurFile.empty ())
-    aeFileSystem::MakeValidPath ("Trees/", true, &sCurFile, NULL);
+    aeFileSystem::MakeValidPath ("Trees/", true, &sCurFile, nullptr);
 
   QString result = QFileDialog::getSaveFileName (this, 
     QFileDialog::tr ("Save Tree"), sCurFile.c_str (),
