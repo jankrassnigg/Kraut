@@ -52,14 +52,14 @@ void qtTreeEditWidget::on_check_TargetDirRelative_clicked ()
 
 void qtTreeEditWidget::on_combo_BranchTargetDir_currentIndexChanged (int index)
 {
-  m_pCurNT->m_TargetDirection = (aeTargetDir::Enum) index;
+  m_pCurNT->m_TargetDirection = (Kraut::BranchTargetDir::Enum) index;
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
 }
 
 void qtTreeEditWidget::on_combo_BranchTargetDir2_currentIndexChanged (int index)
 {
-  m_pCurNT->m_TargetDirection2 = (aeTargetDir::Enum) index;
+  m_pCurNT->m_TargetDirection2 = (Kraut::BranchTargetDir::Enum) index;
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
 }
@@ -75,10 +75,10 @@ void qtTreeEditWidget::on_slider_SecondDirUsage_valueChanged ()
 
 void qtTreeEditWidget::on_combo_BranchSecondDirMode_currentIndexChanged (int index)
 {
-  m_pCurNT->m_TargetDir2Uage = (aeTargetDir2Usage::Enum) index;
+  m_pCurNT->m_TargetDir2Uage = (Kraut::BranchTargetDir2Usage::Enum) index;
 
-  slider_SecondDirUsage->setEnabled (m_pCurNT->m_TargetDir2Uage != aeTargetDir2Usage::Off);
-  combo_BranchTargetDir2->setEnabled (m_pCurNT->m_TargetDir2Uage != aeTargetDir2Usage::Off);
+  slider_SecondDirUsage->setEnabled (m_pCurNT->m_TargetDir2Uage != Kraut::BranchTargetDir2Usage::Off);
+  combo_BranchTargetDir2->setEnabled (m_pCurNT->m_TargetDir2Uage != Kraut::BranchTargetDir2Usage::Off);
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
 }

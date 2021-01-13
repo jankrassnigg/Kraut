@@ -41,7 +41,7 @@ qtExportWidget::qtExportWidget (QWidget *parent) : QDialog(parent)
     }
 
     aeFilePath sAbsolutePath;
-    if (aeFileSystem::MakeValidPath (s_sExportPath.c_str (), true, &sAbsolutePath, NULL))
+    if (aeFileSystem::MakeValidPath (s_sExportPath.c_str (), true, &sAbsolutePath, nullptr))
       s_sExportPath = sAbsolutePath;
   }
 
@@ -61,11 +61,11 @@ qtExportWidget::qtExportWidget (QWidget *parent) : QDialog(parent)
   check_ExportDDS->setChecked (CVar_OnExportConvertToDDS);
   combo_ImpostorResolution->setCurrentIndex (aeMath::Clamp<aeInt32> (g_Tree.m_Descriptor.m_iImpostorResolution, 0, 4));
 
-  check_LOD0->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod0].m_Mode != aeLodMode::Disabled);
-  check_LOD1->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod1].m_Mode != aeLodMode::Disabled);
-  check_LOD2->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod2].m_Mode != aeLodMode::Disabled);
-  check_LOD3->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod3].m_Mode != aeLodMode::Disabled);
-  check_LOD4->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod4].m_Mode != aeLodMode::Disabled);
+  check_LOD0->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod0].m_Mode != Kraut::LodMode::Disabled);
+  check_LOD1->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod1].m_Mode != Kraut::LodMode::Disabled);
+  check_LOD2->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod2].m_Mode != Kraut::LodMode::Disabled);
+  check_LOD3->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod3].m_Mode != Kraut::LodMode::Disabled);
+  check_LOD4->setEnabled (g_Tree.m_Descriptor.m_LodData[aeLod::Lod4].m_Mode != Kraut::LodMode::Disabled);
 
   le_ViewerApp->setText (QString::fromUtf8 (CVar_ViewerApp));
   le_ViewerAppArgs->setText (QString::fromUtf8 (CVar_ViewerAppArgs));
@@ -185,11 +185,11 @@ void qtExportWidget::RunViewer (void)
     return;
 
   aeFilePath sContentPath;
-  aeFileSystem::MakeValidPath ("", false, &sContentPath, NULL);
+  aeFileSystem::MakeValidPath ("", false, &sContentPath, nullptr);
   sContentPath = "\"" + sContentPath + "\"";
 
   aeFilePath sExportPath;
-  aeFileSystem::MakeValidPath (s_sExportPath.c_str (), false, &sExportPath, NULL);
+  aeFileSystem::MakeValidPath (s_sExportPath.c_str (), false, &sExportPath, nullptr);
   sExportPath = "\"" + sExportPath + "\"";
 
   aeFilePath sArguments = CVar_ViewerAppArgs;
@@ -206,13 +206,13 @@ void qtExportWidget::RunViewer (void)
   sPath.ReplaceAll ("/", "\\");
 
   if (!QProcess::startDetached (QString::fromUtf8 (sPath.c_str()), GetCommandLine (sArguments.c_str()), QString::fromUtf8(sWorkingDir.c_str())))
-    QMessageBox::warning (NULL, "Kraut", QString ("Could not run the external application:\n") + QString(sPath.c_str()));
+    QMessageBox::warning (nullptr, "Kraut", QString ("Could not run the external application:\n") + QString(sPath.c_str()));
 }
 
 void qtExportWidget::on_bt_SelectFile_clicked ()
 {
   aeFilePath sAbsolutePath;
-  aeFileSystem::MakeValidPath (s_sExportPath.c_str (), true, &sAbsolutePath, NULL);
+  aeFileSystem::MakeValidPath (s_sExportPath.c_str (), true, &sAbsolutePath, nullptr);
 
   QString result = QFileDialog::getSaveFileName (this, 
     QFileDialog::tr ("Export Mesh"), sAbsolutePath.c_str (),
@@ -227,7 +227,7 @@ void qtExportWidget::on_bt_SelectFile_clicked ()
 void qtExportWidget::on_bt_SelectViewerApp_clicked ()
 {
   aeFilePath sAbsolutePath;
-  aeFileSystem::MakeValidPath (CVar_ViewerApp, true, &sAbsolutePath, NULL);
+  aeFileSystem::MakeValidPath (CVar_ViewerApp, true, &sAbsolutePath, nullptr);
 
   QString result = QFileDialog::getOpenFileName (this, 
     QFileDialog::tr ("Select Viewer Application"), sAbsolutePath.c_str (),

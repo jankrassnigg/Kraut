@@ -247,49 +247,6 @@ namespace AE_NS_FOUNDATION
     return ((value & (value - 1)) == 0);
   }
 
-  AE_INLINE void aeMath::SetRandSeed (aeUInt32 seed)
-  {
-    m_Rand.m_uiSeedValue = seed;
-  }
-
-  AE_INLINE aeUInt32 aeMath::Rand (void)
-  {
-    return (m_Rand.GetRandomNumber ());
-  }
-
-  AE_INLINE aeUInt32 aeMath::Rand (aeUInt32 max)
-  {
-     return (m_Rand.GetRandomNumber () % max);
-  }
-
-  AE_INLINE aeInt32 aeMath::Rand (aeInt32 min, aeInt32 max)
-  {
-    return (Rand_Range (min, max - min));
-  }
-
-  AE_INLINE aeInt32 aeMath::Rand_Range (aeInt32 min, aeUInt32 range)
-  {
-    if (range == 0)
-      return (min);
-  
-    return (min + Rand (range));
-  }
-
-  AE_INLINE float aeMath::Randf (float max)
-  {
-    return ((float (m_Rand.GetRandomNumber () % RAND_MAX-1) / float (RAND_MAX-2)) * max);
-  }
-
-  AE_INLINE float aeMath::Randf (float min, float max)
-  {
-    return (Rand_Rangef (min, max - min));
-  }
-
-  AE_INLINE float aeMath::Rand_Rangef (float min, float range)
-  {
-    return (min + Randf (range));
-  }
-
   AE_INLINE bool aeMath::IsFloatEqual (float rhs, float lhs, float fEpsilon)
   {
     return ((rhs >= lhs - fEpsilon) && (rhs <= lhs + fEpsilon));

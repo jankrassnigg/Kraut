@@ -52,7 +52,7 @@ void qtResourceEditorWidget::SetSelectedMaterial (const char* szMaterial)
   m_sSelectedTreeMaterial = szMaterial;
   aeTreeMaterial* pMaterial = aeTreeMaterialLibrary::GetMaterial (szMaterial);
 
-  if (pMaterial == NULL)
+  if (pMaterial == nullptr)
   {
     GroupTextures->setEnabled (false);
     GroupUsage->setEnabled (false);
@@ -110,7 +110,7 @@ void qtResourceEditorWidget::SetSelectedMaterial (const char* szMaterial)
     }
 
     aeFilePath sAbsolutePath;
-    if (aeFileSystem::MakeValidPath (sPreviewImage.c_str (), false, &sAbsolutePath, NULL))
+    if (aeFileSystem::MakeValidPath (sPreviewImage.c_str (), false, &sAbsolutePath, nullptr))
     {
       static bool bInit = false;
 

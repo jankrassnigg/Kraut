@@ -13,8 +13,6 @@ namespace AE_NS_FOUNDATION
   static void CoreStartup (void)
   {
     aeLog::Debug ("aeFoundation::CoreStartup");
-
-    aeMath::SetRandSeed ((aeUInt32) time (NULL));
   }
 
   static void CoreShutdown (void)

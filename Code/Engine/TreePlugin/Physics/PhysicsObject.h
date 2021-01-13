@@ -5,7 +5,6 @@
 #include <KrautEditorBasics/Gizmos/TransformGizmo.h>
 #include <KrautGraphics/glim/glim.h>
 #include "../Other/OBJ/OBJLoader.h"
-//#include <Bullet/btBulletDynamicsCommon.h>
 
 using namespace NS_GLIM;
 using namespace AE_NS_EDITORBASICS;

@@ -9,7 +9,7 @@ qtCurveView::qtCurveView (QWidget* parent) : QGraphicsView (parent)
   t.scale (1, -1);
   setTransform (t);
 
-  m_pActiveCurve = NULL;
+  m_pActiveCurve = nullptr;
 }
 
 void qtCurveView::mouseMoveEvent (QMouseEvent* event)
@@ -60,8 +60,8 @@ void qtCurveView::SetActiveCurve (qtCurveProperty* pCurve)
 {
   if ((!pCurve) || (!pCurve->m_pCurve))
   {
-    m_pActiveCurve = NULL;
-    setScene (NULL);
+    m_pActiveCurve = nullptr;
+    setScene (nullptr);
   }
   else
   {

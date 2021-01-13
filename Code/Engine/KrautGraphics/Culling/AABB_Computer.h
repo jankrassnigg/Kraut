@@ -10,7 +10,7 @@
 
 namespace AE_NS_GRAPHICS
 {
-	//! Small helper struct to quickly compute the AABB of a set of points.
+	//! Small helper struct to quickly compute the BoundingBox of a set of points.
 	struct aeAABBComputer
 	{
 		bool m_bAnyPointsAdded;
@@ -48,7 +48,7 @@ namespace AE_NS_GRAPHICS
 			m_fMaxZ = aeMath::Max (m_fMaxZ, v.z);
 		}
 
-		//! Returns false, if not a single point has been added to the AABB so far.
+		//! Returns false, if not a single point has been added to the BoundingBox so far.
 		bool isValid (void) const
 		{
 			return (m_bAnyPointsAdded);

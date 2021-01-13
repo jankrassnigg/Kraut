@@ -9,7 +9,7 @@ aeCVarBool CVar_LeafCardConvertToDDS ("Tree_LeafCardConvertToDDS", true, aeCVarF
 
 void qtTreeEditWidget::on_check_LeafCardMode_clicked ()
 {
-  g_Tree.m_Descriptor.m_bLeafCardMode = check_LeafCardMode->isChecked ();
+  g_Tree.m_Descriptor.m_StructureDesc.m_bLeafCardMode = check_LeafCardMode->isChecked();
 
   AE_BROADCAST_EVENT (aeTreeEdit_TreeModified);
 }

@@ -14,7 +14,7 @@ using namespace NS_OBJLOADER;
 using namespace AE_NS_FOUNDATION;
 
 
-aeForce* aeForce::s_pSelectedForce = NULL;
+aeForce* aeForce::s_pSelectedForce = nullptr;
 
 static void OnForceEvent (void* pPassThrough, const void* pEventData)
 {
@@ -91,7 +91,7 @@ void aeTree::RemoveSelectedForce (void)
     return;
 
   const aeForce* pSelected = aeForce::GetSelectedForce ();
-  aeForce::SetSelectedForce (NULL);
+  aeForce::SetSelectedForce (nullptr);
 
   for (aeUInt32 i = 0; i < m_Descriptor.m_Forces.size (); ++i)
   {
@@ -243,84 +243,9 @@ const aeVec3 aeForce::GetForceAtMesh (const aeVec3& vPosition0) const
   return m_Gizmo.GetTransform ().TransformDirection (vForce);
 }
 
-const aeVec3 aeForce::GetForceAt (const aeVec3& vPosition, aeUInt32 uiBranchType) const
-{
-  if (!m_bForceIsActive)
-    return aeVec3 (0.0f);
-
-  if (!m_InfluencesBranchTypes.IsAnyFlagSet (1 << uiBranchType))
-    return aeVec3 (0.0f);
-
-  if (m_Type == aeForceType::Mesh)
-    return GetForceAtMesh (vPosition);
-
-  const aeVec3 vDirection = m_Gizmo.GetTransform ().GetTranslationVector () - vPosition;
-  const float fDistance = vDirection.GetLength ();
-
-  aeVec3 vNormDir (0.0f);
-
-  switch (m_Type)
-  {
-  case aeForceType::Position:
-    vNormDir = vDirection.GetNormalized ();
-    break;
-  case aeForceType::Direction:
-    vNormDir = m_Gizmo.GetTransform ().TransformDirection (aeVec3 (0, 1, 0));
-    break;
-  }
-
-  const aeVec3 vMaxForce = vNormDir * m_fStrength;
-
-  if (m_Falloff == aeForceFalloff::None)
-  {
-    return vMaxForce;
-  }
-
-  if (fDistance >= m_fMaxRadius)
-    return aeVec3::ZeroVector ();
-
-  if (m_Falloff == aeForceFalloff::Hard)
-  {
-    if (fDistance <= m_fMaxRadius)
-      return vMaxForce;
-
-    return aeVec3 (0.0f);
-  }
-
-  const float fLinearFactor = 1.0f - ((fDistance - m_fMinRadius) / (m_fMaxRadius - m_fMinRadius));
-
-  if (m_Falloff == aeForceFalloff::Linear)
-  {
-    if (fDistance <= m_fMinRadius)
-      return vMaxForce;
-
-    return vNormDir * m_fStrength * fLinearFactor;
-  }
-
-  if (m_Falloff == aeForceFalloff::Quadratic)
-  {
-    if (fDistance <= m_fMinRadius)
-      return vMaxForce;
-
-    return vNormDir * m_fStrength * aeMath::Square (fLinearFactor);
-  }
-
-  return aeVec3 (0.0f);
-}
-
-const aeVec3 aeTree::GetAverageForceAt (const aeVec3& vPosition, aeUInt32 uiBranchType)
-{
-  aeVec3 vForce (0.0f);
-
-  for (aeUInt32 i = 0; i < m_Descriptor.m_Forces.size (); ++i)
-    vForce += m_Descriptor.m_Forces[i]->GetForceAt (vPosition, uiBranchType);
-
-  return vForce;
-}
-
 void aeTreeDescriptor::RemoveAllForces (void)
 {
-  aeForce::SetSelectedForce (NULL);
+  aeForce::SetSelectedForce (nullptr);
 
   for (aeUInt32 i = 0; i < m_Forces.size (); ++i)
     delete m_Forces[i];
@@ -560,7 +485,7 @@ void aeForce::SetMesh (const char* szMesh)
   m_MeshSampleRender.Clear ();
 
   aeFilePath sAbsolutePath;
-  if (!aeFileSystem::MakeValidPath (szMesh, false, &sAbsolutePath, NULL))
+  if (!aeFileSystem::MakeValidPath (szMesh, false, &sAbsolutePath, nullptr))
     return;
 
   aeProgressBar pb ("Importing Mesh", 3);

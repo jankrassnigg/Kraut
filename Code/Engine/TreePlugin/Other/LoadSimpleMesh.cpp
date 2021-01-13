@@ -10,7 +10,7 @@ bool LoadSimpleMesh (const char* szMeshFile, GLIM_BATCH& glim, float fScale)
   glim.Clear ();
 
   aeFilePath sAbsPath;
-  if (!aeFileSystem::MakeValidPath (szMeshFile, false, &sAbsPath, NULL))
+  if (!aeFileSystem::MakeValidPath (szMeshFile, false, &sAbsPath, nullptr))
     return false;
 
   MESH obj;

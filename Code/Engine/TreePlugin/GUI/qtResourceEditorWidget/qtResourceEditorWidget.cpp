@@ -7,7 +7,7 @@
 
 #include "qtResourceEditorWidget.moc.h"
 
-qtResourceEditorWidget* qtResourceEditorWidget::s_pWidget = NULL;
+qtResourceEditorWidget* qtResourceEditorWidget::s_pWidget = nullptr;
 
 qtResourceEditorWidget::qtResourceEditorWidget (QWidget* parent) : QDockWidget (parent)
 {

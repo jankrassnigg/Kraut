@@ -6,28 +6,28 @@
 
 extern "C"
 {
-  AE_TREEGEN_DLL void aePlugin_Init (void);
-  AE_TREEGEN_DLL void aePlugin_DeInit (void);
+  AE_TREEGEN_DLL void aePlugin_Init(void);
+  AE_TREEGEN_DLL void aePlugin_DeInit(void);
 }
 
 class aeTreePlugin
 {
 public:
-  aeTreePlugin ();
+  aeTreePlugin();
 
-  void Render ();
-  aeUInt32 PickAt (aeUInt32 x, aeUInt32 y, aeVec3* out_pPosition, aeUInt32& out_uiSubID);
-  
-  void RenderLeafCard (aeUInt32 uiRenderSize, bool bExportNow);
-  bool RenderBranchOfType (aeUInt32 uiRenderSize, aeUInt32 uiBranchType);
-  bool ExportLeafCard (aeUInt32 uiRenderSize, const char* szFilePath, bool bDDS);
-  bool ExportLeafCards (const char* szFilePath, bool bDDS);
+  void Render();
+  aeUInt32 PickAt(aeUInt32 x, aeUInt32 y, aeVec3* out_pPosition, aeUInt32& out_uiSubID);
 
-  bool CreateBranchTypeThumbnail (aeUInt32 uiBranch, aeArray<aeUInt8>& out_Thumbnail);
+  void RenderLeafCard(aeUInt32 uiRenderSize, bool bExportNow);
+  bool RenderBranchOfType(aeUInt32 uiRenderSize, aeUInt32 uiBranchType);
+  bool ExportLeafCard(aeUInt32 uiRenderSize, const char* szFilePath, bool bDDS);
+  bool ExportLeafCards(const char* szFilePath, bool bDDS);
 
-  bool LoadTree (const char* szFile);
+  bool CreateBranchTypeThumbnail(aeUInt32 uiBranch, aeArray<aeUInt8>& out_Thumbnail);
 
-  bool CloseTree (void);
+  bool LoadTree(const char* szFile);
+
+  bool CloseTree(void);
 
   aeInt32 m_iMouseMoveX;
   aeInt32 m_iMouseMoveY;
@@ -37,25 +37,14 @@ public:
   bool m_bMiddleMouseDown;
   aeVec3 m_vPickedPosition;
 
-  static void aeEditorPlugin_Events (void* pPassThrough, const void* pEventData);
+  static void aeEditorPlugin_Events(void* pPassThrough, const void* pEventData);
 
-  
-
-  static void SetSelectedBranch (aeInt32 iSelectedBranch, aeUInt32 uiBranchNode);
-  static aeInt32 GetSelectedBranchID (void) { return g_Globals.s_iSelectedBranch; }
-  static aeUInt32 GetSelectedBranchNodeID (void) { return g_Globals.s_uiSelectedBranchNode; }
-
-public:
-  static void CreatePaintingPlane (const aeVec3& vClickPos, const aeVec3& vCameraRight, const aeVec3& vCameraUp, aeInt32 iBranch, aeUInt32 iBranchNode);
-  static const aePlane& GetPaintingPlane (void) { return g_Globals.s_PaintingPlane; }
-  static void RenderPaintingPlane (void);
 
 private:
-  void UpdateCamera (void);
-  void UpdatePickingBuffer (void);
+  void UpdateCamera(void);
+  void UpdatePickingBuffer(void);
 };
 
 extern aeTreePlugin g_Plugin;
 
 #endif
-

@@ -26,7 +26,7 @@ void qtTreeEditWidget::on_check_VisualizeCollisionMesh_clicked ()
 
 void qtTreeEditWidget::on_spin_ColObjScalingX_valueChanged (double val)
 {
-  if (aePhysicsObject::GetSelected () == NULL)
+  if (aePhysicsObject::GetSelected () == nullptr)
     return;
 
   aeVec3 v = aePhysicsObject::GetSelected ()->GetScaling ();
@@ -43,7 +43,7 @@ void qtTreeEditWidget::on_spin_ColObjScalingX_valueChanged (double val)
 
 void qtTreeEditWidget::on_spin_ColObjScalingY_valueChanged (double val)
 {
-  if (aePhysicsObject::GetSelected () == NULL)
+  if (aePhysicsObject::GetSelected () == nullptr)
     return;
 
   aeVec3 v = aePhysicsObject::GetSelected ()->GetScaling ();
@@ -60,7 +60,7 @@ void qtTreeEditWidget::on_spin_ColObjScalingY_valueChanged (double val)
 
 void qtTreeEditWidget::on_spin_ColObjScalingZ_valueChanged (double val)
 {
-  if (aePhysicsObject::GetSelected () == NULL)
+  if (aePhysicsObject::GetSelected () == nullptr)
     return;
 
   aeVec3 v = aePhysicsObject::GetSelected ()->GetScaling ();
@@ -82,7 +82,7 @@ void qtTreeEditWidget::on_button_AddCollisionObject_clicked ()
   aeFilePath sCurFile = s_LastPath;
 
   if (sCurFile.empty ())
-    aeFileSystem::MakeValidPath ("Meshes/", false, &sCurFile, NULL);
+    aeFileSystem::MakeValidPath ("Meshes/", false, &sCurFile, nullptr);
 
   QString result = QFileDialog::getOpenFileName (this, 
     QFileDialog::tr ("Load Mesh"), sCurFile.c_str (),
