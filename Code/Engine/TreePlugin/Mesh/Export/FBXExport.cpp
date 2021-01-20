@@ -4,7 +4,7 @@
 
 #include "PCH.h"
 
-#include <KrautFoundation/FileSystem/FileSystem.h>
+#include <KrautGraphics/FileSystem/FileSystem.h>
 
 #include "../../Basics/Plugin.h"
 #include "../../GUI/ProgressBar.h"
@@ -26,7 +26,7 @@ FbxSurfaceLambert* CreateFBXMaterial(aeTree* pTree, FbxScene* pScene, aeUInt32 u
   const char* szDiffuse = pMaterial->m_sTextureDiffuse.c_str();
   const char* szNormal = pMaterial->m_sTextureNormal.c_str();
 
-  aeFilePath sDiffuse, sNormal;
+  aeString sDiffuse, sNormal;
   aeFileSystem::MakeValidPath(szDiffuse, false, &sDiffuse, nullptr);
   aeFileSystem::MakeValidPath(szNormal, false, &sNormal, nullptr);
 
@@ -104,7 +104,7 @@ bool aeTree::ExportFBX(const char* szFile, bool bExportBranches, bool bExportFro
 
   aeProgressBar pb("Exporting to FBX", iFiles + 1);
 
-  const aeFileName sFileName = aePathFunctions::GetFileName(szFile);
+  const aeString sFileName = aePathFunctions::GetFileName(szFile);
 
   for (int lod = 0; lod < aeLod::ENUM_COUNT; ++lod)
   {
@@ -113,7 +113,7 @@ bool aeTree::ExportFBX(const char* szFile, bool bExportBranches, bool bExportFro
     if (Kraut::LodMode::IsImpostorMode(m_Descriptor.m_LodData[lod].m_Mode))
       continue;
 
-    aeFilePath sNewPath = szFile;
+    aeString sNewPath = szFile;
 
     if (lod != aeLod::None)
     {
@@ -122,7 +122,7 @@ bool aeTree::ExportFBX(const char* szFile, bool bExportBranches, bool bExportFro
       sNewPath = aePathFunctions::ChangeFileName(szFile, szNewFileName);
     }
 
-    aeFilePath sText;
+    aeString sText;
     sText.Format("Exporting to OBJ:\n%s", sNewPath.c_str());
     aeProgressBar::Update(sText.c_str());
 
@@ -240,7 +240,7 @@ bool aeTree::ExportFBX(const char* szFile, bool bExportBranches, bool bExportFro
     }
 
     {
-      const aeFilePath sFileFBX = aePathFunctions::ChangeExistingFileExtension(sNewPath.c_str(), "fbx");
+      const aeString sFileFBX = aePathFunctions::ChangeExistingFileExtension(sNewPath.c_str(), "fbx");
 
       FbxExporter* lExporterFBX = FbxExporter::Create(lSdkManager, "");
       lExporterFBX->Initialize(sFileFBX.c_str(), -1, ios);

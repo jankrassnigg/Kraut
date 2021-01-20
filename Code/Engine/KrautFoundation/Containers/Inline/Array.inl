@@ -25,24 +25,24 @@ namespace AE_NS_FOUNDATION
   }
 
   template<class TYPE>
-  aeArray<TYPE>::aeArray (void) : m_pData (NULL), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
+  aeArray<TYPE>::aeArray (void) : m_pData (nullptr), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
   {
   }
 
   template<class TYPE>
-  aeArray<TYPE>::aeArray (const aeArray<TYPE>& cc) : m_pData (NULL), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
+  aeArray<TYPE>::aeArray (const aeArray<TYPE>& cc) : m_pData (nullptr), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
   {
     operator= (cc);
   }
 
   template<class TYPE>
-  aeArray<TYPE>::aeArray (aeUInt32 uiSize) : m_pData (NULL), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
+  aeArray<TYPE>::aeArray (aeUInt32 uiSize) : m_pData (nullptr), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
   {
     resize (uiSize);
   }
 
   template<class TYPE>
-  aeArray<TYPE>::aeArray (aeUInt32 uiSize, TYPE Init) : m_pData (NULL), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
+  aeArray<TYPE>::aeArray (aeUInt32 uiSize, TYPE Init) : m_pData (nullptr), m_uiSize (0), m_uiCapacity (0), m_fSizeIncrement (1.5f)
   {
     resize (uiSize, Init);
   }
@@ -66,7 +66,7 @@ namespace AE_NS_FOUNDATION
     {
       AE_MEMORY_DEALLOCATE_NODEBUG (m_pData, true);
 
-      m_pData = NULL;
+      m_pData = nullptr;
     
       m_uiCapacity = 0;
     }
@@ -89,7 +89,7 @@ namespace AE_NS_FOUNDATION
       aeMemoryManagement::Destruct<TYPE> (&m_pData[uiNewSize], m_uiSize - uiNewSize);
 
 
-    TYPE* pNewData = NULL;
+    TYPE* pNewData = nullptr;
 
     if ((uiNewSize <= m_uiCapacity) && (uiNewSize + 32 >= m_uiCapacity))
     {
@@ -170,7 +170,7 @@ namespace AE_NS_FOUNDATION
   const TYPE* aeArray<TYPE>::data (void) const
   {
     if (m_uiSize == 0)
-      return (NULL);
+      return (nullptr);
 
     return (m_pData);
   }
@@ -179,7 +179,7 @@ namespace AE_NS_FOUNDATION
   TYPE* aeArray<TYPE>::data (void)
   {
     if (m_uiSize == 0)
-      return (NULL);
+      return (nullptr);
 
     return (m_pData);
   }
@@ -187,7 +187,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   const TYPE& aeArray<TYPE>::operator[](aeUInt32 uiIndex) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::operator[]: Trying to access an element of an array that has not been initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::operator[]: Trying to access an element of an array that has not been initialized.");
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeArray::operator[]: Trying to access an element %d of an array that holds only %d elements.", uiIndex, m_uiSize);
 
     return (m_pData[uiIndex]);
@@ -196,7 +196,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   TYPE& aeArray<TYPE>::operator[](aeUInt32 uiIndex)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::operator[]: Trying to access an element of an array that has not been initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::operator[]: Trying to access an element of an array that has not been initialized.");
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeArray::operator[]: Trying to access an element %d of an array that holds only %d elements.", uiIndex, m_uiSize);
 
     return (m_pData[uiIndex]);
@@ -257,7 +257,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   void aeArray<TYPE>::pop_back (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::pop_back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::pop_back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeArray::pop_back: Array has a size of zero.");
 
     --m_uiSize;
@@ -273,7 +273,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   TYPE& aeArray<TYPE>::front (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::front: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::front: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeArray::front: Array has a size of zero.");
 
     return (m_pData[0]);
@@ -282,7 +282,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   TYPE& aeArray<TYPE>::back (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeArray::back: Array has a size of zero.");
 
     return (m_pData[m_uiSize - 1]);
@@ -291,7 +291,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   const TYPE& aeArray<TYPE>::front (void) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::front: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::front: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeArray::front: Array has a size of zero.");
 
     return (m_pData[0]);
@@ -300,7 +300,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE>
   const TYPE& aeArray<TYPE>::back (void) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeArray::back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeArray::back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeArray::back: Array has a size of zero.");
 
     return (m_pData[m_uiSize - 1]);

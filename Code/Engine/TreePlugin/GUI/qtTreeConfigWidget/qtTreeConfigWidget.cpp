@@ -3,9 +3,9 @@
 #include "../../Basics/Plugin.h"
 #include "../../Tree/Tree.h"
 #include "../qtTreeEditWidget/qtTreeEditWidget.moc.h"
-#include <KrautFoundation/FileSystem/FileIn.h>
-#include <KrautFoundation/FileSystem/FileOut.h>
-#include <KrautFoundation/Time/Time.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileOut.h>
+#include <KrautGraphics/Time/Time.h>
 
 #include <QGraphicsRectItem>
 
@@ -443,11 +443,11 @@ AE_ON_GLOBAL_EVENT(aeTreePlugin_SelectedBranchTypeChanged)
   }
 }
 
-static aeFilePath sPrevPreset = "";
+static aeString sPrevPreset = "";
 
 void qtTreeConfigWidget::on_actionSaveTreeComponent_triggered()
 {
-  aeFilePath sAbsolutePath;
+  aeString sAbsolutePath;
   aeFileSystem::MakeValidPath(sPrevPreset.c_str(), true, &sAbsolutePath, nullptr);
 
   QString result = QFileDialog::getSaveFileName(this,
@@ -471,7 +471,7 @@ void qtTreeConfigWidget::on_actionSaveTreeComponent_triggered()
   aeUInt8 uiVersion = 1;
   File << uiVersion;
 
-  g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iEditedType].Save(File);
+  g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iEditedType].Serialize(File);
 }
 
 static bool LoadBranchType(aeInt32 iBranchType, QWidget* pParent)
@@ -503,7 +503,7 @@ static bool LoadBranchType(aeInt32 iBranchType, QWidget* pParent)
     return false;
   }
 
-  g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iBranchType].Load(File);
+  g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iBranchType].Deserialize(File);
 
   g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iBranchType].m_bUsed = true;
   g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[iBranchType].m_bAllowSubType[0] = false;

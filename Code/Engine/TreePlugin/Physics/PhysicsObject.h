@@ -2,23 +2,25 @@
 #define PHYSICSOBJECT_H
 
 #include "../Basics/Base.h"
+#include "../Other/OBJ/OBJLoader.h"
 #include <KrautEditorBasics/Gizmos/TransformGizmo.h>
 #include <KrautGraphics/glim/glim.h>
-#include "../Other/OBJ/OBJLoader.h"
+
+class QListWidgetItem;
 
 using namespace NS_GLIM;
 using namespace AE_NS_EDITORBASICS;
 
 struct aePhysicsObject
 {
-  aePhysicsObject ();
-  ~aePhysicsObject ();
+  aePhysicsObject();
+  ~aePhysicsObject();
 
-  static void ClearAll (void);
-  static void SetSelected (aePhysicsObject* pSelected);
-  static void DeleteSelected (void);
+  static void ClearAll(void);
+  static void SetSelected(aePhysicsObject* pSelected);
+  static void DeleteSelected(void);
 
-  void CreatePhysicsMesh (void);
+  void CreatePhysicsMesh(void);
 
   NS_OBJLOADER::MESH m_OriginalMesh;
   aeTransformGizmo m_Gizmo;
@@ -30,11 +32,11 @@ struct aePhysicsObject
   btRigidBody* m_pRigidBody;
 #endif
 
-  bool Update (void);
-  void SetScaling (const aeVec3& vScaling);
-  aeVec3 GetScaling (void) const { return m_vScaling; }
+  bool Update(void);
+  void SetScaling(const aeVec3& vScaling);
+  aeVec3 GetScaling(void) const { return m_vScaling; }
 
-  static aePhysicsObject* GetSelected (void) { return s_pSelected; }
+  static aePhysicsObject* GetSelected(void) { return s_pSelected; }
 
 private:
   aeVec3 m_vScaling;
@@ -43,8 +45,7 @@ private:
 
 extern aeDeque<aePhysicsObject*> g_PhysicsObjects;
 
-void UpdateAllPhysicsObjects (void);
+void UpdateAllPhysicsObjects(void);
 
 
 #endif
-

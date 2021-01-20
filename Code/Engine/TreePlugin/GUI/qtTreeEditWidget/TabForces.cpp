@@ -211,9 +211,9 @@ void qtTreeEditWidget::on_ButtonSelectForceMesh_clicked ()
   if (!aeForce::GetSelectedForce ())
     return;
 
-  static aeFilePath s_LastPath;
+  static aeString s_LastPath;
 
-  aeHybridString<128> sPath;
+  aeString sPath;
   if (!SelectFile (s_LastPath, sPath, LineForceMesh, "OBJ Files (*.obj);;All Files (*.*)", "Meshes/"))
     return;
 

@@ -3,9 +3,9 @@
 
 #include "Base.h"
 
-#include <KrautFoundation/Communication/Event.h>
-#include <KrautFoundation/Strings/HybridString.h>
 #include <KrautFoundation/Strings/String.h>
+#include <KrautGraphics/Communication/Event.h>
+#include <KrautGraphics/Strings/HybridString.h>
 
 class QMouseEvent;
 class QWheelEvent;
@@ -52,11 +52,11 @@ namespace AE_NS_EDITORBASICS
     //! The editor will notify all plugins of certain events through this object.
     static aeEvent s_EditorPluginEvent;
 
-    static aeUInt32 RegisterPickableObject (void* pObject, aeUInt32 uiSubID, const char* szType);
+    static aeUInt32 RegisterPickableObject(void* pObject, aeUInt32 uiSubID, const char* szType);
 
-    static void UnregisterPickableObject (aeUInt32 uiObjectID);
+    static void UnregisterPickableObject(aeUInt32 uiObjectID);
 
-    static const aePickableObject& GetPickableObject (aeUInt32 uiObjectID);
+    static const aePickableObject& GetPickableObject(aeUInt32 uiObjectID);
 
     static aeString s_Stylesheet;
 
@@ -64,8 +64,7 @@ namespace AE_NS_EDITORBASICS
 
   private:
   };
-}
+} // namespace AE_NS_EDITORBASICS
 
 
 #endif
-

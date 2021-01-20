@@ -6,9 +6,10 @@
 #include "../GUI/qtTreeEditWidget/qtTreeEditWidget.moc.h"
 #include "../Tree/Tree.h"
 #include "Plugin.h"
-#include <KrautFoundation/Configuration/Startup.h>
-#include <KrautFoundation/Configuration/VariableRegistry.h>
-#include <KrautFoundation/FileSystem/FileSystem.h>
+#include <KrautGraphics/Configuration/CVar.h>
+#include <KrautGraphics/Configuration/Startup.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
+#include <KrautGraphics/FileSystem/FileSystem.h>
 #include <KrautGraphics/Framebuffer/Main.h>
 #include <KrautGraphics/RenderAPI/Main.h>
 #include <KrautGraphics/ShaderManager/Main.h>

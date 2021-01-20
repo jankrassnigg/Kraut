@@ -2,7 +2,7 @@
 
 #include "../Basics/Plugin.h"
 #include "../Tree/Tree.h"
-#include <KrautFoundation/Configuration/VariableRegistry.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
 #include <QMainWindow>
 
 

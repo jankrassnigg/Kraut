@@ -2,7 +2,7 @@
 
 #include "../../Undo/TreeUndo.h"
 #include "qtTreeEditWidget.moc.h"
-#include <KrautFoundation/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
 
 void qtTreeEditWidget::on_SpinBranchSegmentLength_valueChanged(int i)
 {

@@ -23,7 +23,7 @@ namespace AE_NS_GRAPHICS
 			m_TextureFormat = AE_FORMAT_UNDEFINED;
 
 			m_bGenerateMipmaps = false;
-			m_pInitialData = NULL;
+			m_pInitialData = nullptr;
 
 			m_bAllowToReadContents = false;
 		}

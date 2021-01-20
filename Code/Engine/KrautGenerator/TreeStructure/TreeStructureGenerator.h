@@ -3,6 +3,9 @@
 #include <KrautGenerator/KrautGeneratorDLL.h>
 
 #include <KrautFoundation/Math/Vec3.h>
+#include <KrautGenerator/Infrastructure/RandomNumberGenerator.h>
+#include <KrautGenerator/TreeStructure/BranchRandomData.h>
+#include <KrautGenerator/Description/DescriptionEnums.h>
 
 namespace Kraut
 {
@@ -29,8 +32,11 @@ namespace Kraut
     Kraut::Physics* m_pPhysics = nullptr;
 
     void GenerateTreeStructure();
+    void GenerateTreeStructure(aeUInt32 uiRandomSeed);
 
   private:
+    aeUInt32 m_uiRandomSeed = 0;
+    Kraut::Physics* m_pInternalPhysics = nullptr;
     Kraut::RandomNumberGenerator m_RNG;
 
     aeInt32 GrowBranch(const Kraut::BranchStats& branchStats, Kraut::Physics& physics);
@@ -53,4 +59,5 @@ namespace Kraut
 
     static bool SkipNodes_Reverse(aeInt32& uiNode, float& fDistance, const Kraut::BranchStructure& branchStructure, float fSkipDistance, float fMaxDistance);
   };
+
 } // namespace Kraut

@@ -1,14 +1,14 @@
 #include "Base.h"
-#include "RenderAPI.h"
 #include "Plugin.h"
+#include "RenderAPI.h"
 
-#include <KrautFoundation/Communication/GlobalEvent.h>
 #include <KrautFoundation/Containers/Deque.h>
 #include <KrautFoundation/Containers/Stack.h>
+#include <KrautGraphics/Communication/GlobalEvent.h>
 
 namespace AE_NS_EDITORBASICS
 {
-  AE_SINGLETON_CLASS_CODE (aeEditorRenderAPI);
+  AE_SINGLETON_CLASS_CODE(aeEditorRenderAPI);
 
   aeEvent aeEditorPlugin::s_EditorPluginEvent;
   aeString aeEditorPlugin::s_Stylesheet;
@@ -18,28 +18,28 @@ namespace AE_NS_EDITORBASICS
   static aeDeque<aePickableObject> s_PickableObjects;
   static aeStack<aeUInt32> s_FreePickableObjects;
 
-  aeUInt32 aeEditorPlugin::RegisterPickableObject (void* pObject, aeUInt32 uiSubID, const char* szType)
+  aeUInt32 aeEditorPlugin::RegisterPickableObject(void* pObject, aeUInt32 uiSubID, const char* szType)
   {
-    if (s_PickableObjects.empty ())
+    if (s_PickableObjects.empty())
     {
-      s_PickableObjects.push_back (aePickableObject ());
+      s_PickableObjects.push_back(aePickableObject());
       aePickableObject& po = s_PickableObjects[0];
-      po.m_pObject = NULL;
+      po.m_pObject = nullptr;
       po.m_uiSubID = 0;
       po.m_szType = "none";
     }
 
     aeUInt32 uiObjectID;
 
-    if (!s_FreePickableObjects.empty ())
+    if (!s_FreePickableObjects.empty())
     {
-      uiObjectID = s_FreePickableObjects.top ();
-      s_FreePickableObjects.pop ();
+      uiObjectID = s_FreePickableObjects.top();
+      s_FreePickableObjects.pop();
     }
     else
     {
-      uiObjectID = s_PickableObjects.size ();
-      s_PickableObjects.push_back (aePickableObject ());
+      uiObjectID = s_PickableObjects.size();
+      s_PickableObjects.push_back(aePickableObject());
     }
 
     aePickableObject& po = s_PickableObjects[uiObjectID];
@@ -51,17 +51,16 @@ namespace AE_NS_EDITORBASICS
     return uiObjectID;
   }
 
-  void aeEditorPlugin::UnregisterPickableObject (aeUInt32 uiObjectID)
+  void aeEditorPlugin::UnregisterPickableObject(aeUInt32 uiObjectID)
   {
     if (uiObjectID == 0)
       return;
 
-    s_FreePickableObjects.push (uiObjectID);
+    s_FreePickableObjects.push(uiObjectID);
   }
 
-  const aePickableObject& aeEditorPlugin::GetPickableObject (aeUInt32 uiObjectID)
+  const aePickableObject& aeEditorPlugin::GetPickableObject(aeUInt32 uiObjectID)
   {
     return s_PickableObjects[uiObjectID];
   }
-}
-
+} // namespace AE_NS_EDITORBASICS

@@ -1,139 +1,146 @@
 #include "PCH.h"
-#include "Foundation.h"
-#include "qt3DWidget.moc.h"
-#include <KrautEditorBasics/RenderAPI.h>
-#include <KrautEditorBasics/Plugin.h>
-#include <KrautFoundation/ResourceManager/ResourceManager.h>
-#include "LastInclude.h"
 
-#include <QWidget>
+#include "qt3DWidget.moc.h"
+#include <KrautEditorBasics/Plugin.h>
+#include <KrautEditorBasics/RenderAPI.h>
+#include <KrautGraphics/Communication/GlobalEvent.h>
+#include <KrautGraphics/Configuration/CVar.h>
+#include <KrautGraphics/Configuration/Startup.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
+#include <KrautGraphics/Logging/Log.h>
+#include <KrautGraphics/Plugin/PluginManager.h>
+#include <KrautGraphics/ResourceManager/ResourceManager.h>
+#include <KrautGraphics/Time/Time.h>
 #include <QResizeEvent>
 #include <QTimer>
+#include <QWidget>
 #include <windows.h>
 
 using namespace AE_NS_FOUNDATION;
 using namespace AE_NS_EDITORBASICS;
 
 // CVar that holds the name of the RenderAPI to use
-static aeCVarString CVarRenderAPI ("app_RenderAPI", "ezKrautEditorRenderAPI_GL", aeCVarFlags::Restart | aeCVarFlags::Save, "Which RenderAPI-DLL to use.");
+static aeCVarString CVarRenderAPI("app_RenderAPI", "ezKrautEditorRenderAPI_GL", aeCVarFlags::Restart | aeCVarFlags::Save, "Which RenderAPI-DLL to use.");
 
-qt3DWidget::qt3DWidget (QWidget *parent) : QWidget (parent, 0)
+qt3DWidget::qt3DWidget(QWidget* parent)
+  : QWidget(parent, 0)
 {
-  setObjectName ("aeEditor::3DWidget");
+  setObjectName("aeEditor::3DWidget");
 
   m_bInitializedRenderAPI = false;
   m_bRedrawQueued = false;
 
   // store the qt 3D window pointer
   QWidget* pWidget = this;
-  aeVariableRegistry::StoreRaw ("system/qt/3dwidget", &pWidget, sizeof (QWidget*));
+  aeVariableRegistry::StoreRaw("system/qt/3dwidget", &pWidget, sizeof(QWidget*));
 
-  HWND hWnd = (HWND)winId ();
-  aeVariableRegistry::StoreRaw ("system/windows/hwnd", &hWnd, sizeof (HWND));
+  HWND hWnd = (HWND)winId();
+  aeVariableRegistry::StoreRaw("system/windows/hwnd", &hWnd, sizeof(HWND));
 
   // disable lots of Qt stuff to prevent flickering during rendering
-	setAutoFillBackground (false);
-	setAttribute (Qt::WA_PaintOnScreen, true);
-	setAttribute (Qt::WA_NoSystemBackground, true);
-  setBackgroundRole (QPalette::NoRole);
+  setAutoFillBackground(false);
+  setAttribute(Qt::WA_PaintOnScreen, true);
+  setAttribute(Qt::WA_NoSystemBackground, true);
+  setBackgroundRole(QPalette::NoRole);
 
-  setMouseTracking (true);
+  setMouseTracking(true);
 
   // Load the Plugin DLL that contains the RenderAPI code
-  aePluginManager::LoadPlugin (CVarRenderAPI.GetValue (), "");
+  aePluginManager::LoadPlugin(CVarRenderAPI.GetValue(), "");
 }
 
-qt3DWidget::~qt3DWidget ()
+qt3DWidget::~qt3DWidget()
 {
-  aeStartup::ShutdownEngine ();
+  aeStartup::ShutdownEngine();
 
-  aeEditorRenderAPI::GetInstance ()->DestroyContext ();
+  aeEditorRenderAPI::GetInstance()->DestroyContext();
 }
 
 extern aeInt32 g_iBlockRedrawRequests;
 
-void qt3DWidget::RedrawTimeout (void)
+void qt3DWidget::RedrawTimeout(void)
 {
   m_bRedrawQueued = false;
-  update ();
+  update();
 }
 
-void qt3DWidget::paintEvent (QPaintEvent *event)
+void qt3DWidget::paintEvent(QPaintEvent* event)
 {
   if (g_iBlockRedrawRequests > 0)
     return;
 
-  event->accept ();
+  event->accept();
 
   // If necessary initialize the RenderAPI
-  InitializeRenderAPI (this->width (), this->height ());
+  InitializeRenderAPI(this->width(), this->height());
 
   // send lots of rendering events for plugins to hook into them
-  AE_BROADCAST_EVENT (aeFrame_Begin);
+  AE_BROADCAST_EVENT(aeFrame_Begin);
+  aeTime::Update();
 
-  AE_BROADCAST_EVENT (aeGame_Update);
+  AE_BROADCAST_EVENT(aeGame_Update);
 
   //aeEditorPlugin::m_RenderHooks_Default.ExecuteComponents ();
 
-  AE_BROADCAST_EVENT (aeFrame_End);
+  AE_BROADCAST_EVENT(aeFrame_End);
 
-  aeEditorRenderAPI::GetInstance ()->Swap ();
+  aeEditorRenderAPI::GetInstance()->Swap();
 
   //aeResourceManager::FreeUnusedResources ();
 }
 
-void qt3DWidget::resizeEvent ( QResizeEvent * event )
+void qt3DWidget::resizeEvent(QResizeEvent* event)
 {
-  aeLog::Debug ("qt3DWidget::resizeEvent");
+  aeLog::Debug("qt3DWidget::resizeEvent");
 
   event->accept();
 
-  QWidget::resizeEvent (event);
+  QWidget::resizeEvent(event);
 
-  aeEditorRenderAPI::GetInstance ()->ResizeFramebuffer (event->size().width(), event->size().height());
+  aeEditorRenderAPI::GetInstance()->ResizeFramebuffer(event->size().width(), event->size().height());
 }
 
 
-void qt3DWidget::InitializeRenderAPI (aeUInt32 uiResolutionX, aeUInt32 uiResolutionY)
+void qt3DWidget::InitializeRenderAPI(aeUInt32 uiResolutionX, aeUInt32 uiResolutionY)
 {
   if (m_bInitializedRenderAPI)
     return;
 
-  HWND hWnd = (HWND)winId ();
-  if (hWnd == NULL)
+  HWND hWnd = (HWND)winId();
+  if (hWnd == nullptr)
     return;
 
-  HDC hDC = GetDC (hWnd);
-  if (hDC == NULL)
+  HDC hDC = GetDC(hWnd);
+  if (hDC == nullptr)
     return;
 
-  aeLog::Debug ("qt3DWidget::InitializeRenderAPI");
+  aeLog::Debug("qt3DWidget::InitializeRenderAPI");
 
   // store some info that the RenderAPI might need during initialization
-  aeVariableRegistry::StoreRaw ("system/windows/hdc", &hDC, sizeof (HDC));
-  aeVariableRegistry::StoreRaw ("system/windows/hwnd", &hWnd, sizeof (HWND));
+  aeVariableRegistry::StoreRaw("system/windows/hdc", &hDC, sizeof(HDC));
+  aeVariableRegistry::StoreRaw("system/windows/hwnd", &hWnd, sizeof(HWND));
 
   m_bInitializedRenderAPI = true;
 
-  aeEditorRenderAPI::GetInstance ()->CreateContext (uiResolutionX, uiResolutionY);
+  aeEditorRenderAPI::GetInstance()->CreateContext(uiResolutionX, uiResolutionY);
 
   // tell the engine that now all modules may load graphics related stuff
-  aeStartup::StartupEngine ();
+  aeStartup::StartupEngine();
 
-  AE_BROADCAST_EVENT (aeEditor_BeforeFirstFrame);
+  AE_BROADCAST_EVENT(aeEditor_BeforeFirstFrame);
 }
 
-void qt3DWidget::QueueRedraw ()
+void qt3DWidget::QueueRedraw()
 {
   if (m_bRedrawQueued)
     return;
 
   m_bRedrawQueued = true;
 
-  static QTimer* pTimer = new QTimer (this);
+  static QTimer* pTimer = new QTimer(this);
 
   // queue this rendering request and only fire it every once in a while
-  pTimer->singleShot (20, this, SLOT(RedrawTimeout()));
+  pTimer->singleShot(20, this, SLOT(RedrawTimeout()));
 }
 
 void qt3DWidget::mousePressEvent(QMouseEvent* event)
@@ -142,7 +149,7 @@ void qt3DWidget::mousePressEvent(QMouseEvent* event)
   e.m_Type = aeEditorPluginEvent::MousePress;
   e.m_Data.m_MouseEvent = event;
 
-  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent (&e);
+  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent(&e);
 }
 
 void qt3DWidget::mouseReleaseEvent(QMouseEvent* event)
@@ -151,7 +158,7 @@ void qt3DWidget::mouseReleaseEvent(QMouseEvent* event)
   e.m_Type = aeEditorPluginEvent::MouseRelease;
   e.m_Data.m_MouseEvent = event;
 
-  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent (&e);
+  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent(&e);
 }
 
 void qt3DWidget::mouseMoveEvent(QMouseEvent* event)
@@ -160,16 +167,14 @@ void qt3DWidget::mouseMoveEvent(QMouseEvent* event)
   e.m_Type = aeEditorPluginEvent::MouseMove;
   e.m_Data.m_MouseEvent = event;
 
-  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent (&e);
+  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent(&e);
 }
 
-void qt3DWidget::wheelEvent (QWheelEvent* event)
+void qt3DWidget::wheelEvent(QWheelEvent* event)
 {
   aeEditorPluginEvent e;
   e.m_Type = aeEditorPluginEvent::MouseWheel;
   e.m_Data.m_WheelEvent = event;
 
-  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent (&e);
+  aeEditorPlugin::s_EditorPluginEvent.RaiseEvent(&e);
 }
-
-

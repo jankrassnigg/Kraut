@@ -154,7 +154,7 @@ namespace Kraut
     m_bRotateTexCoords = true;
   }
 
-  void SpawnNodeDesc::Save(aeStreamOut& s)
+  void SpawnNodeDesc::Serialize(aeStreamOut& s) const
   {
     aeUInt32 uiVersion = 43;
     s << uiVersion;
@@ -265,10 +265,10 @@ namespace Kraut
 
     // Version 20
     s << m_bEnable[Kraut::BranchGeometryType::Branch];
-    m_BranchContour.Save(s);
+    m_BranchContour.Serialize(s);
 
     // Version 21
-    m_fBranchLengthScale.Save(s);
+    m_fBranchLengthScale.Serialize(s);
 
     // Version 22
     // Removed BranchlessPartREL (start/end)
@@ -281,9 +281,9 @@ namespace Kraut
     s << m_uiNumFronds;
     //s << m_uiFrondWidthCM;  // removed in version 42
     //s << m_uiFrondHeightCM; // removed in version 42
-    m_FrondContour.Save(s);
-    m_FrondWidth.Save(s);
-    m_FrondHeight.Save(s);
+    m_FrondContour.Serialize(s);
+    m_FrondWidth.Serialize(s);
+    m_FrondHeight.Serialize(s);
 
     // Version 25
     s << m_uiFrondDetail;
@@ -298,7 +298,7 @@ namespace Kraut
     s << m_bRestrictGrowthToFrondPlane;
 
     // Version 28
-    m_MaxBranchLengthParentScale.Save(s);
+    m_MaxBranchLengthParentScale.Serialize(s);
 
     // Version 29 (not used in Version 30 anymore)
     // s << m_bVisible;
@@ -316,12 +316,12 @@ namespace Kraut
     s << m_fLeafInterval;
 
     // Version 34
-    m_LeafScale.Save(s);
+    m_LeafScale.Serialize(s);
 
     // Version 35
     s << m_uiFlares;
     s << m_fFlareWidth;
-    m_FlareWidthCurve.Save(s);
+    m_FlareWidthCurve.Serialize(s);
     s << m_fFlareRotation;
 
     // Version 36
@@ -357,7 +357,7 @@ namespace Kraut
     s << m_fFrondHeight;
   }
 
-  void SpawnNodeDesc::Load(aeStreamIn& s)
+  void SpawnNodeDesc::Deserialize(aeStreamIn& s)
   {
     Reset();
 
@@ -559,12 +559,12 @@ namespace Kraut
     if (uiVersion >= 20)
     {
       s >> m_bEnable[Kraut::BranchGeometryType::Branch];
-      m_BranchContour.Load(s, uiVersion < 21);
+      m_BranchContour.Deserialize(s, uiVersion < 21);
     }
 
     if (uiVersion >= 21)
     {
-      m_fBranchLengthScale.Load(s, false);
+      m_fBranchLengthScale.Deserialize(s, false);
     }
 
     // Version 22: Removed some data
@@ -596,9 +596,9 @@ namespace Kraut
         m_fFrondHeight = m_uiFrondHeightCM / 100.0f;
       }
 
-      m_FrondContour.Load(s);
-      m_FrondWidth.Load(s);
-      m_FrondHeight.Load(s);
+      m_FrondContour.Deserialize(s);
+      m_FrondWidth.Deserialize(s);
+      m_FrondHeight.Deserialize(s);
     }
 
     if (uiVersion >= 25)
@@ -620,7 +620,7 @@ namespace Kraut
 
     if (uiVersion >= 28)
     {
-      m_MaxBranchLengthParentScale.Load(s);
+      m_MaxBranchLengthParentScale.Deserialize(s);
     }
     else
     {
@@ -660,14 +660,14 @@ namespace Kraut
 
     if (uiVersion >= 34)
     {
-      m_LeafScale.Load(s);
+      m_LeafScale.Deserialize(s);
     }
 
     if (uiVersion >= 35)
     {
       s >> m_uiFlares;
       s >> m_fFlareWidth;
-      m_FlareWidthCurve.Load(s);
+      m_FlareWidthCurve.Deserialize(s);
       s >> m_fFlareRotation;
     }
 

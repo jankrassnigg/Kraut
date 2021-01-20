@@ -179,9 +179,9 @@ bool aeTreePlugin::ExportLeafCard(aeUInt32 uiRenderSize, const char* szFilePath,
   aeHybridString<256> sText;
 
   {
-    aeFilePath sPathDiffuse;
+    aeString sPathDiffuse;
     sPathDiffuse.Format("%s.tga", szFilePath);
-    aeFilePath sPathNormal;
+    aeString sPathNormal;
     sPathNormal.Format("%s_N.tga", szFilePath);
 
     aeArray<aeUInt8> Image, SubImage;
@@ -276,8 +276,8 @@ bool aeTreePlugin::ExportLeafCards(const char* szFilePath, bool bDDS)
   uiMinRenderSize = aeMath::Clamp<aeInt32>(uiMinRenderSize, 1, uiMaxRenderSize);
 
   aeInt32 iLod = 0;
-  aeFilePath sNoExt = aePathFunctions::ChangeExistingFileExtension(szFilePath, "");
-  aeFilePath sPath = sNoExt;
+  aeString sNoExt = aePathFunctions::ChangeExistingFileExtension(szFilePath, "");
+  aeString sPath = sNoExt;
 
   while (uiMaxRenderSize >= uiMinRenderSize)
   {

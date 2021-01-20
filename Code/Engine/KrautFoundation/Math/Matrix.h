@@ -156,7 +156,7 @@ namespace AE_NS_FOUNDATION
     //! Matrix-vector multiplication, assuming the 4th component of the vector is zero. So, rotation/scaling only. Useful as an optimization.
     const aeVec3 TransformDirection (const aeVec3& v) const;
     //! Matrix-vector multiplication with an additional 4th vector component. The result is stored in inout_w.
-    const aeVec3 TransformWithWComponent (const aeVec3& v, float* AE_RESTRICT inout_w) const;
+    const aeVec3 TransformWithWComponent (const aeVec3& v, float* inout_w) const;
 
     //! Adds v to the 4th column (translation only)
     void operator+= (const aeVec3& v);

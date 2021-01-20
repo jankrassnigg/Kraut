@@ -7,7 +7,7 @@
 #include "RenderData.h"
 #include <KrautFoundation/Containers/HybridArray.h>
 #include <KrautFoundation/Containers/Map.h>
-#include <KrautFoundation/Containers/Set.h>
+#include <KrautGraphics/Containers/Set.h>
 #include <KrautGenerator/Description/LodDesc.h>
 #include <KrautGenerator/Description/SpawnNodeDesc.h>
 #include <KrautGenerator/Description/TreeStructureDesc.h>
@@ -113,7 +113,7 @@ private:
 public:
   void Reset(void);
 
-  aeFilePath m_sTreeFile;
+  aeString m_sTreeFile;
 
   void Shutdown(void);
 

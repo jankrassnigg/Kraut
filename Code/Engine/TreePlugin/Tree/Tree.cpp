@@ -255,17 +255,6 @@ void aeTree::EnsureMeshIsGenerated(aeLod::Enum lod /*, bool bTrunkCap, bool bBra
 void aeTree::Save(aeStreamOut& stream)
 {
   m_Descriptor.Save(stream);
-
-  aeUInt8 uiVersion = 1;
-  stream << uiVersion;
-
-  aeUInt16 uiBranches = m_TreeStructure.m_BranchStructures.size();
-  stream << uiBranches;
-
-  for (aeUInt32 b = 0; b < uiBranches; ++b)
-  {
-    m_TreeStructure.m_BranchStructures[b].Save(stream);
-  }
 }
 
 void aeTree::Load(aeStreamIn& stream)
@@ -273,25 +262,6 @@ void aeTree::Load(aeStreamIn& stream)
   AE_BROADCAST_EVENT(aeEditor_BlockRedraw);
 
   m_Descriptor.Load(stream);
-
-  if (stream.IsEndOfStream())
-  {
-    AE_BROADCAST_EVENT(aeEditor_UnblockRedraw);
-    return;
-  }
-
-  aeUInt8 uiVersion;
-  stream >> uiVersion;
-
-  aeUInt16 uiBranches;
-  stream >> uiBranches;
-  m_TreeStructure.m_BranchStructures.clear();
-  m_TreeStructure.m_BranchStructures.resize(uiBranches);
-
-  for (aeUInt32 b = 0; b < uiBranches; ++b)
-  {
-    m_TreeStructure.m_BranchStructures[b].Load(stream);
-  }
 
   AE_BROADCAST_EVENT(aeEditor_UnblockRedraw);
 }

@@ -341,7 +341,7 @@ namespace Kraut
     if (branchStructureLod.m_NodeIDs.size() < 2)
       return;
 
-    if (!lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Frond].IsAnyFlagSet(1 << branchStructure.m_Type))
+    if ((lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Frond] & (1 << branchStructure.m_Type)) == 0)
       return;
 
     const float fFrondFract = (float)iCurFrondIndex / (float)spawnDesc.m_uiNumFronds;

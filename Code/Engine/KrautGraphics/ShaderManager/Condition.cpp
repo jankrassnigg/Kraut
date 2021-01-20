@@ -41,7 +41,6 @@ namespace AE_NS_GRAPHICS
 
 	const aeString& aeCondition::getShaderVariable (const aeStaticString<32>& sVar) 
 	{
-#ifdef AE_COMPILE_FOR_DEVELOPMENT
     aeMap<aeStaticString<32>, aeShaderBuilderVarValue>::iterator it = s_ShaderVariables.find (sVar);
 
 		if (it == s_ShaderVariables.end ())
@@ -51,9 +50,6 @@ namespace AE_NS_GRAPHICS
 		}
 
 		return (it.value().m_sCurrentValue);
-#endif
-
-		return (s_ShaderVariables[sVar].m_sCurrentValue);
 	}
 
 	bool aeCondition::HaveConditionsChanged (void) 

@@ -418,7 +418,7 @@ namespace AE_NS_GRAPHICS
 #ifdef AE_RENDERAPI_OPENGL
 	void aeShaderManImpl::FindUsedUniforms (aeShaderProgram* pShaderProgram)
 	{
-		if (pShaderProgram == NULL)
+		if (pShaderProgram == nullptr)
 			return;
 
 		pShaderProgram->m_Uniforms.clear ();
@@ -620,7 +620,7 @@ namespace AE_NS_GRAPHICS
 #ifdef AE_RENDERAPI_OPENGL
 		if (g_RenderAPI == AE_RA_OPENGL)
 		{
-			if ((aeShaderManImpl::m_uiCurrentProgramID == 0) || (aeShaderManImpl::m_pCurrentProgram == NULL))
+			if ((aeShaderManImpl::m_uiCurrentProgramID == 0) || (aeShaderManImpl::m_pCurrentProgram == nullptr))
 				return;
 
       std::vector<aeShaderManImpl::aeUniformTuple>::iterator it = aeShaderManImpl::m_pCurrentProgram->m_Uniforms.begin ();

@@ -8,11 +8,11 @@ namespace Kraut
   {
     for (aeUInt32 i = 0; i < Kraut::BranchGeometryType::ENUM_COUNT; ++i)
     {
-      m_AllowTypes[(Kraut::BranchGeometryType::Enum)i].RaiseFlags(0xFFFFFFFF);
+      m_AllowTypes[(Kraut::BranchGeometryType::Enum)i] = 0xFFFFFFFF;
     }
   }
 
-  void LodDesc::Save(aeStreamOut& s)
+  void LodDesc::Serialize(aeStreamOut& s) const
   {
     aeUInt8 uiVersion = 7;
 
@@ -24,18 +24,18 @@ namespace Kraut
     s << m_fVertexRingDetail;
 
     // Version 3
-    s << m_AllowTypes[Kraut::BranchGeometryType::Branch].GetData();
+    s << m_AllowTypes[Kraut::BranchGeometryType::Branch];
 
     // Version 4
     s << m_iMaxFrondDetail;
     s << m_iFrondDetailReduction;
 
     // Version 5
-    s << m_AllowTypes[Kraut::BranchGeometryType::Frond].GetData();
+    s << m_AllowTypes[Kraut::BranchGeometryType::Frond];
     s << m_uiLodDistance;
 
     // Version 6
-    s << m_AllowTypes[Kraut::BranchGeometryType::Leaf].GetData();
+    s << m_AllowTypes[Kraut::BranchGeometryType::Leaf];
 
     // Version 7
     {
@@ -44,7 +44,7 @@ namespace Kraut
     }
   }
 
-  void LodDesc::Load(aeStreamIn& s)
+  void LodDesc::Deserialize(aeStreamIn& s)
   {
     aeUInt8 uiVersion = 1;
 
@@ -59,9 +59,7 @@ namespace Kraut
 
     if (uiVersion >= 3)
     {
-      aeUInt32 l;
-      s >> l;
-      m_AllowTypes[Kraut::BranchGeometryType::Branch].SetFlags(l);
+      s >> m_AllowTypes[Kraut::BranchGeometryType::Branch];
     }
 
     if (uiVersion >= 4)
@@ -72,17 +70,13 @@ namespace Kraut
 
     if (uiVersion >= 5)
     {
-      aeUInt32 l;
-      s >> l;
-      m_AllowTypes[Kraut::BranchGeometryType::Frond].SetFlags(l);
+      s >> m_AllowTypes[Kraut::BranchGeometryType::Frond];
       s >> m_uiLodDistance;
     }
 
     if (uiVersion >= 6)
     {
-      aeUInt32 l;
-      s >> l;
-      m_AllowTypes[Kraut::BranchGeometryType::Leaf].SetFlags(l);
+      s >> m_AllowTypes[Kraut::BranchGeometryType::Leaf];
     }
 
     if (uiVersion >= 7)

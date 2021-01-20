@@ -216,7 +216,7 @@ namespace Kraut
   {
     const aeUInt32 uiNumLodNodes = branchStructureLod.m_NodeIDs.size();
 
-    if (!lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Branch].IsAnyFlagSet(1 << branchStructure.m_Type))
+    if ((lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Branch] & (1 << branchStructure.m_Type)) == 0)
       return;
 
     if (uiNumLodNodes < 2)

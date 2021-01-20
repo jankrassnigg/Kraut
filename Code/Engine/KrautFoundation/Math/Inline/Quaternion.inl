@@ -6,7 +6,7 @@
 
 namespace AE_NS_FOUNDATION
 {
-  AE_INLINE aeQuaternion::aeQuaternion (Initialization Init)
+  inline aeQuaternion::aeQuaternion (Initialization Init)
   {
     switch (Init)
     {
@@ -19,33 +19,33 @@ namespace AE_NS_FOUNDATION
     }
   }
 
-  AE_INLINE aeQuaternion::aeQuaternion (float X, float Y, float Z, float W) : v (X, Y, Z), w (W)
+  inline aeQuaternion::aeQuaternion (float X, float Y, float Z, float W) : v (X, Y, Z), w (W)
   {
   }
 
-  AE_INLINE aeQuaternion::aeQuaternion (const aeVec3& V, float W) : v (V), w (W)
+  inline aeQuaternion::aeQuaternion (const aeVec3& V, float W) : v (V), w (W)
   {
   }
 
-  AE_INLINE void aeQuaternion::SetQuaternion (const aeVec3& V, float W)
+  inline void aeQuaternion::SetQuaternion (const aeVec3& V, float W)
   {
     v = V;
     w = W;
   }
 
-  AE_INLINE void aeQuaternion::SetQuaternion (float X, float Y, float Z, float W)
+  inline void aeQuaternion::SetQuaternion (float X, float Y, float Z, float W)
   {
     v.SetVector (X, Y, Z);
     w = W;
   }
 
-  AE_INLINE void aeQuaternion::SetIdentity (void)
+  inline void aeQuaternion::SetIdentity (void)
   {
     v.SetZero ();
     w = 1.0f;
   }
 
-  AE_INLINE void aeQuaternion::CreateQuaternion (const aeVec3& vRotationAxis, float fAngle)
+  inline void aeQuaternion::CreateQuaternion (const aeVec3& vRotationAxis, float fAngle)
   {
     const float d = fAngle * aeMath_DegToRad * 0.5f;
 
@@ -55,7 +55,7 @@ namespace AE_NS_FOUNDATION
     Normalize ();
   }
 
-  AE_INLINE void aeQuaternion::Normalize (void)
+  inline void aeQuaternion::Normalize (void)
   {
     float n = v.x * v.x + v.y * v.y + v.z * v.z + w * w;
     
@@ -68,7 +68,7 @@ namespace AE_NS_FOUNDATION
     w *= n;
   }
 
-  AE_INLINE const aeQuaternion aeQuaternion::GetNormalized (void) const
+  inline const aeQuaternion aeQuaternion::GetNormalized (void) const
   {
     float n = v.x * v.x + v.y * v.y + v.z * v.z + w * w;
     
@@ -80,7 +80,7 @@ namespace AE_NS_FOUNDATION
     return (aeQuaternion (v.x * n, v.y * n, v.z * n, w * n));
   }
 
-  AE_INLINE const aeVec3 aeQuaternion::GetRotationAxis (void) const
+  inline const aeVec3 aeQuaternion::GetRotationAxis (void) const
   {
     const float d = aeMath::SinRad (aeMath::ACosRad (w));
 
@@ -90,23 +90,23 @@ namespace AE_NS_FOUNDATION
     return (v / d);
   }
 
-  AE_INLINE float aeQuaternion::GetRotationAngle (void) const
+  inline float aeQuaternion::GetRotationAngle (void) const
   {
     return (aeMath::ACosDeg (w) * 2.0f);
   }
 
-  AE_INLINE const aeQuaternion aeQuaternion::operator- (void) const
+  inline const aeQuaternion aeQuaternion::operator- (void) const
   {
     return (aeQuaternion (-v.x, -v.y, -v.z, w));
   }
 
-  AE_INLINE const aeVec3 operator* (const aeQuaternion& q, const aeVec3& v)
+  inline const aeVec3 operator* (const aeQuaternion& q, const aeVec3& v)
   {
     aeQuaternion qt (v.x, v.y, v.z, 0.0f);
     return (((q * qt) * (-q)).v);
   }
 
-  AE_INLINE const aeQuaternion operator* (const aeQuaternion& q1, const aeQuaternion& q2)
+  inline const aeQuaternion operator* (const aeQuaternion& q1, const aeQuaternion& q2)
   {
     aeQuaternion q;
 

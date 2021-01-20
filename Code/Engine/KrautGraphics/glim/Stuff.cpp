@@ -25,7 +25,7 @@ namespace NS_GLIM
 		GLIM_API g_GlimAPI = GLIM_NONE;
 	#endif
 
-	GLIM_CALLBACK GLIM_Interface::s_StateChangeCallback = NULL;
+	GLIM_CALLBACK GLIM_Interface::s_StateChangeCallback = nullptr;
 	bool GLIM_Interface::s_bForceWireframe = false;
 
 	glimException::glimException (const string &err) : runtime_error (err)
@@ -34,7 +34,7 @@ namespace NS_GLIM
 		cerr << err;
 
 #ifdef WIN32
-		MessageBox (NULL, err.c_str (), "GLIM - Error", MB_ICONERROR);
+		MessageBox (nullptr, err.c_str (), "GLIM - Error", MB_ICONERROR);
 #endif
 	}
 

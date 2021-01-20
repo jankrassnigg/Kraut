@@ -7,7 +7,7 @@
 
 #include "../GUI/qtTreeEditWidget/qtTreeEditWidget.moc.h"
 
-#include <KrautFoundation/Configuration/VariableRegistry.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
 
 #include <KrautGraphics/Framebuffer/Main.h>
 #include <KrautGraphics/RenderAPI/Main.h>

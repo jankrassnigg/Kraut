@@ -4,7 +4,8 @@
 #include "../Basics/Base.h"
 #include "../Other/OBJ/OBJLoader.h"
 #include <KrautEditorBasics/Gizmos/TransformGizmo.h>
-#include <KrautFoundation/DynamicTree/DynamicOctree.h>
+#include <KrautGraphics/DynamicTree/DynamicOctree.h>
+#include <KrautGraphics/Utility/Flags.h>
 #include <KrautGraphics/glim/glim.h>
 
 using namespace AE_NS_FOUNDATION;

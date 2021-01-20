@@ -10,7 +10,7 @@ namespace Kraut
   Vertex::Vertex() = default;
   Triangle::Triangle() = default;
 
-  void Triangle::Flip(void)
+  void Triangle::Flip()
   {
     aeMath::Swap(m_uiVertexIDs[1], m_uiVertexIDs[2]);
   }
@@ -80,7 +80,7 @@ namespace Kraut
     return (aeUInt32)m_Triangles.size();
   }
 
-  void Mesh::GenerateVertexNormals(void)
+  void Mesh::GenerateVertexNormals()
   {
     // reset all normals
     const aeUInt32 uiVertices = m_Vertices.size();

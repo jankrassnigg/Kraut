@@ -7,7 +7,7 @@
 
 #include "Declarations.h"
 #include <vector>
-#include <KrautFoundation/Containers/Set.h>
+#include <KrautGraphics/Containers/Set.h>
 
 namespace AE_NS_GRAPHICS
 {

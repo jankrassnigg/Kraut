@@ -2,7 +2,6 @@
 #define AE_FOUNDATION_MATH_MATH_H
 
 #include "Declarations.h"
-#include "RandomNumberGenerator.h"
 #include "../Basics/Checks.h"
 
 namespace AE_NS_FOUNDATION
@@ -82,7 +81,7 @@ namespace AE_NS_FOUNDATION
     static int Pow (int base, int exp);
     //!  Returns f * f
     template<class T>
-    AE_INLINE static T Square (T f) {return (f * f);}
+    inline static T Square (T f) {return (f * f);}
     //!  Returns the square root of f
     static float Sqrt (float f);
     //!  Returns the n-th root of f.

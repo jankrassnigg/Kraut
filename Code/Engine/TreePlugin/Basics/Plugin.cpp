@@ -7,18 +7,18 @@
 #include "Plugin.h"
 #include <KrautEditorBasics/Picking/Picking.h>
 #include <KrautEditorBasics/Plugin.h>
-#include <KrautFoundation/Configuration/VariableRegistry.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
 #include <KrautGraphics/ShaderManager/ShaderManager.h>
 
-#include <KrautFoundation/Configuration/CVar.h>
-#include <KrautFoundation/FileSystem/FileIn.h>
-#include <KrautFoundation/FileSystem/FileOut.h>
+#include <KrautGraphics/Configuration/CVar.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileOut.h>
 
 aeTreePlugin g_Plugin;
 
 aeCVarString CVar_LRU_Tree("Tree_LRU", "", aeCVarFlags::Save, "Which tree file was the least recently used.");
 
-aeDeque<aeFilePath> g_LRU_Trees;
+aeDeque<aeString> g_LRU_Trees;
 
 AE_ON_GLOBAL_EVENT(aeShutdown_main_begin)
 {
@@ -458,7 +458,7 @@ AE_ON_GLOBAL_EVENT(aeTreeEdit_TreeInfluencesChanged)
 //    g_Globals.s_BranchTransform.SetActive(false);
 //}
 
-static bool IsInList(aeDeque<aeFilePath> List, const aeFilePath& sPath)
+static bool IsInList(aeDeque<aeString> List, const aeString& sPath)
 {
   for (aeUInt32 i2 = 0; i2 < List.size(); ++i2)
   {
@@ -473,7 +473,7 @@ AE_ON_GLOBAL_EVENT(aeTreePlugin_TreeLoaded)
 {
   CVar_LRU_Tree = param0.Text;
 
-  aeDeque<aeFilePath> NewLRU;
+  aeDeque<aeString> NewLRU;
   NewLRU.push_back(param0.Text);
 
   for (aeUInt32 i = 0; i < aeMath::Min<aeUInt32>(10, g_LRU_Trees.size()); ++i)
@@ -495,7 +495,7 @@ AE_ON_GLOBAL_EVENT(aeTreePlugin_TreeSaved)
   s_bTreeHasSimpleChanges = false;
 }
 
-extern aeFilePath sPrevFile;
+extern aeString sPrevFile;
 
 bool aeTreePlugin::LoadTree(const char* szFile)
 {

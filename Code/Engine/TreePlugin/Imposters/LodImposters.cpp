@@ -179,10 +179,10 @@ bool aeTree::SaveLodImpostors(const char* szFile, bool bDDS, aeUInt32 uiImpostor
 
   CreateLodImposters(uiImpostorResolution);
 
-  aeFilePath sPath = aePathFunctions::GetFileDirectory(szFile);
-  aeFilePath sName = aePathFunctions::GetFileName(szFile);
-  aeFilePath sDiffuse = aePathFunctions::CombinePaths(sPath, sName.c_str()) + ".tga";
-  aeFilePath sNormal = aePathFunctions::CombinePaths(sPath, sName.c_str()) + "_N.tga";
+  aeString sPath = aePathFunctions::GetFileDirectory(szFile);
+  aeString sName = aePathFunctions::GetFileName(szFile);
+  aeString sDiffuse = aePathFunctions::CombinePaths(sPath, sName.c_str()) + ".tga";
+  aeString sNormal = aePathFunctions::CombinePaths(sPath, sName.c_str()) + "_N.tga";
 
   aeProgressBar::Update(nullptr); // 1
 

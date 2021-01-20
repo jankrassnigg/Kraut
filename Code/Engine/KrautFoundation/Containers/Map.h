@@ -41,7 +41,7 @@ namespace AE_NS_FOUNDATION
     //! Base class for all iterators.
     struct iterator_base
     {
-      iterator_base (void)                    : m_pElement (NULL) {}
+      iterator_base (void)                    : m_pElement (nullptr) {}
       iterator_base (const iterator_base& cc) : m_pElement (cc.m_pElement) {}
       iterator_base (aeNode* pInit)           : m_pElement (pInit) {}
 

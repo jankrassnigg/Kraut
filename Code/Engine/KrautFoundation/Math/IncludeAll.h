@@ -1,5 +1,0 @@
-#include "Math.h"
-#include "Vec3.h"
-#include "Matrix.h"
-#include "Quaternion.h"
-#include "Plane.h"

@@ -8,39 +8,26 @@ namespace AE_NS_FOUNDATION
 
   // *** BasicString.h ***
 
-    class aeBasicString;
+  class aeBasicString;
 
   // *** HybridString.h ***
 
-    template<aeUInt32 SIZE>
-    class aeHybridString;
-
-  // *** LocaleFixer.h ***
-
-    struct aeLocaleFixer;
-
-  // *** PathFunctions.h ***
-
-    typedef aeHybridString<256> aeFilePath;
-    typedef aeHybridString<16> aeFileExtension;
-    typedef aeHybridString<64> aeFileName;
-
-    struct aePathFunctions;
+  template <aeUInt32 SIZE>
+  class aeHybridString;
 
   // *** StaticString.h ***
 
-    template<aeUInt16 SIZE>
-    class aeStaticString;
+  template <aeUInt16 SIZE>
+  class aeStaticString;
 
   // *** String.h ***
 
-    class aeString;
+  class aeString;
 
   // *** StringFunctions.h ***
 
-    struct aeStringFunctions;
+  struct aeStringFunctions;
 
-}
+} // namespace AE_NS_FOUNDATION
 
 #endif
-

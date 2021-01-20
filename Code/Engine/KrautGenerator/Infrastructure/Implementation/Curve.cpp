@@ -50,7 +50,7 @@ namespace Kraut
     }
   }
 
-  void Curve::Save(aeStreamOut& s)
+  void Curve::Serialize(aeStreamOut& s) const
   {
     aeUInt32 count = m_Values.size();
 
@@ -66,7 +66,7 @@ namespace Kraut
       s << m_Values[i];
   }
 
-  void Curve::Load(aeStreamIn& s, bool bOldFormat)
+  void Curve::Deserialize(aeStreamIn& s, bool bOldFormat)
   {
     aeArray<float> Values;
     aeUInt32 count;

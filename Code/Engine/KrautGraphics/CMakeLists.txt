@@ -8,7 +8,7 @@
 #
 
 # Add all the preprocessor definitions that are needed to configure this library
-add_definitions (-DAE_RENDERAPI_OPENGL)
+add_definitions (-DAE_RENDERAPI_OPENGL -DGLEW_STATIC)
 # add_definitions (-DMY_PREPROCESS_DEFINITION_2)
 
 # Add all the libraries that this project needs to link against here

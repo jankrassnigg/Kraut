@@ -9,7 +9,7 @@
 
 namespace AE_NS_GRAPHICS
 {
-	aeGLCamera* aeGLCamera::s_pCurrentCamera = NULL;
+	aeGLCamera* aeGLCamera::s_pCurrentCamera = nullptr;
 
 	aeGLCamera::aeGLCamera (const char* szName)
 	{
@@ -48,12 +48,12 @@ namespace AE_NS_GRAPHICS
 	aeGLCamera::~aeGLCamera ()
 	{
 		if (s_pCurrentCamera == this)
-			s_pCurrentCamera = NULL;
+			s_pCurrentCamera = nullptr;
 	}
 
 	const aeGLCamera* aeGLCamera::getCurrent ()
 	{
-		//AE_CHECK_DEV (s_pCurrentCamera != NULL, "aeGLCamera::getCurrent: The current Camera is NULL, please apply a camera, before you query for the current one.");
+		//AE_CHECK_DEV (s_pCurrentCamera != nullptr, "aeGLCamera::getCurrent: The current Camera is nullptr, please apply a camera, before you query for the current one.");
 
 		return (s_pCurrentCamera);
 	}

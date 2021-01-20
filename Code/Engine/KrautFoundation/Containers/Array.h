@@ -43,9 +43,9 @@ namespace AE_NS_FOUNDATION
     //! Returns the number of elements the array could hold without needing to reallocate.
     aeUInt32 capacity (void) const;
 
-    //! Returns the pointer to the first element or NULL if none exists. Safe way to say &operator[0].
+    //! Returns the pointer to the first element or nullptr if none exists. Safe way to say &operator[0].
     const TYPE* data (void) const;
-    //! Returns the pointer to the first element or NULL if none exists. Safe way to say &operator[0].
+    //! Returns the pointer to the first element or nullptr if none exists. Safe way to say &operator[0].
     TYPE* data (void);
 
     //! Gives read-access to the n-th element.

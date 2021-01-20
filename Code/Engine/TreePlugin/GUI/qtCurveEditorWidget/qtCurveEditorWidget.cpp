@@ -3,9 +3,9 @@
 #include "../../Basics/Plugin.h"
 #include "../qtCurveProperty/qtCurveProperty.moc.h"
 #include "qtCurveEditorWidget.moc.h"
-#include <KrautFoundation/FileSystem/FileIn.h>
-#include <KrautFoundation/FileSystem/FileOut.h>
 #include <KrautGenerator/Infrastructure/Curve.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileOut.h>
 
 qtCurveEditorWidget* qtCurveEditorWidget::s_pWidget = nullptr;
 
@@ -417,14 +417,14 @@ void qtCurveEditorWidget::SetActiveCurveProperty(qtCurveProperty* pCurve)
   m_pCurveView->SetActiveCurve(pCurve);
 }
 
-static aeFilePath sPrevPreset = "";
+static aeString sPrevPreset = "";
 
 void qtCurveEditorWidget::on_actionSavePreset_triggered()
 {
   if (!GetCurve())
     return;
 
-  aeFilePath sAbsolutePath;
+  aeString sAbsolutePath;
   aeFileSystem::MakeValidPath(sPrevPreset.c_str(), true, &sAbsolutePath, nullptr);
 
   QString result = QFileDialog::getSaveFileName(this,
@@ -443,7 +443,7 @@ void qtCurveEditorWidget::on_actionSavePreset_triggered()
     return;
   }
 
-  GetCurve()->Save(File);
+  GetCurve()->Serialize(File);
 }
 
 
@@ -470,7 +470,7 @@ void qtCurveEditorWidget::on_actionLoadPreset_triggered()
     return;
   }
 
-  GetCurve()->Load(File);
+  GetCurve()->Deserialize(File);
 
   m_pCurveView->UpdateGraph(true);
 }

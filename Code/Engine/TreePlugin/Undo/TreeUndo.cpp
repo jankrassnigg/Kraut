@@ -3,7 +3,7 @@
 #include "TreeUndo.h"
 #include "../Tree/Tree.h"
 #include "../GUI/qtTreeEditWidget/qtTreeEditWidget.moc.h"
-#include <KrautFoundation/Logging/Log.h>
+#include <KrautGraphics/Logging/Log.h>
 
 aeInt32 aeUndo::s_iInOperation = 0;
 bool aeUndo::s_bAddedAny = false;

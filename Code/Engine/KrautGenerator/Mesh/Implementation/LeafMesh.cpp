@@ -144,7 +144,7 @@ namespace Kraut
   {
     const Kraut::SpawnNodeDesc& spawnDesc = treeStructureDesc.m_BranchTypes[branchStructure.m_Type];
 
-    if (!lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Leaf].IsAnyFlagSet(1 << branchStructure.m_Type))
+    if ((lodDesc.m_AllowTypes[Kraut::BranchGeometryType::Leaf] & (1 << branchStructure.m_Type)) == 0)
       return;
 
     if (branchStructureLod.m_NodeIDs.size() < 2)

@@ -20,6 +20,7 @@
 SET (LINK_LIBRARIES 
   KrautFoundation
   KrautEditorBasics
+  KrautGraphics
 
   OpenGL32.lib
   glu32.lib

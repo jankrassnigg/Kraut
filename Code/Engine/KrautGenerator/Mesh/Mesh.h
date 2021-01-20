@@ -53,7 +53,7 @@ namespace Kraut
 
     aeUInt32 GetNumTriangles() const;
 
-    void GenerateVertexNormals(void);
+    void GenerateVertexNormals();
 
     aeDeque<Kraut::Vertex> m_Vertices;
     aeDeque<Kraut::Triangle> m_Triangles;
