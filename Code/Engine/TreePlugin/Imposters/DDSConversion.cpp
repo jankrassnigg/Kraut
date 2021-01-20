@@ -1,5 +1,7 @@
 #include "PCH.h"
 
+#include <KrautGraphics/FileSystem/FileSystem.h>
+
 bool ConvertTGAtoDDS(const char* szFile, bool bNormalMap)
 {
   STARTUPINFO si;
@@ -11,21 +13,21 @@ bool ConvertTGAtoDDS(const char* szFile, bool bNormalMap)
 
   char szProgram[2048];
 
-  aeFilePath p = aePathFunctions::ChangeExistingFileExtension(szFile, "dds");
+  aeString p = aePathFunctions::ChangeExistingFileExtension(szFile, "dds");
 
-  aeFilePath sEXE;
+  aeString sEXE;
   if (!aeFileSystem::MakeValidPath("DDS\\nvdxt.exe", false, &sEXE, nullptr))
     return false;
 
-  aeFilePath sOutDir = aePathFunctions::GetFileDirectory(p);
-  aeFilePath sOutFile = aePathFunctions::GetFileNameAndExtension(p);
+  aeString sOutDir = aePathFunctions::GetFileDirectory(p);
+  aeString sOutFile = aePathFunctions::GetFileNameAndExtension(p);
 
   if (bNormalMap)
     aeStringFunctions::Format(szProgram, 2048, "\"%s\" -file \"%s\" -outdir \"%s\" -outfile \"%s\" -quality_production -profile normalmap.dpf", sEXE.c_str(), szFile, sOutDir.c_str(), sOutFile.c_str());
   else
     aeStringFunctions::Format(szProgram, 2048, "\"%s\" -file \"%s\" -outdir \"%s\" -outfile \"%s\" -quality_production -profile diffuse.dpf", sEXE.c_str(), szFile, sOutDir.c_str(), sOutFile.c_str());
 
-  aeFilePath sCWD = aePathFunctions::GetFileDirectory(sEXE);
+  aeString sCWD = aePathFunctions::GetFileDirectory(sEXE);
 
   if (!CreateProcess(nullptr, (LPSTR)szProgram, nullptr, nullptr, false, CREATE_NO_WINDOW, nullptr, sCWD.c_str(), &si, &pi))
     return (false);

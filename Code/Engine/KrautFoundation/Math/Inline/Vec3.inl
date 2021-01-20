@@ -6,44 +6,44 @@
 
 namespace AE_NS_FOUNDATION
 {
-  AE_INLINE aeVec3::aeVec3 (float X, float Y, float Z) : x (X), y (Y), z (Z)
+  inline aeVec3::aeVec3 (float X, float Y, float Z) : x (X), y (Y), z (Z)
   {
   }
 
-  AE_INLINE aeVec3::aeVec3 (float V) : x (V), y (V), z (V)
+  inline aeVec3::aeVec3 (float V) : x (V), y (V), z (V)
   {
   }
 
-  AE_INLINE void aeVec3::SetVector (float xyz)
+  inline void aeVec3::SetVector (float xyz)
   {
     x = xyz;
     y = xyz; 
     z = xyz; 
   }
 
-  AE_INLINE void aeVec3::SetVector (float X, float Y, float Z)
+  inline void aeVec3::SetVector (float X, float Y, float Z)
   {
     x = X;
     y = Y;
     z = Z;
   }
 
-  AE_INLINE void aeVec3::SetZero (void)
+  inline void aeVec3::SetZero (void)
   {
     x = y = z = 0.0f;
   }
 
-  AE_INLINE float aeVec3::GetLength (void) const
+  inline float aeVec3::GetLength (void) const
   {
     return (aeMath::Sqrt (x * x + y * y + z * z));
   }
 
-  AE_INLINE float aeVec3::GetLengthSquared (void) const
+  inline float aeVec3::GetLengthSquared (void) const
   {
     return (x * x + y * y + z * z);
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetNormalized (void) const
+  inline const aeVec3 aeVec3::GetNormalized (void) const
   {
     const float fLen = GetLength ();
 
@@ -51,7 +51,7 @@ namespace AE_NS_FOUNDATION
     return (aeVec3 (x * fLengthInv, y * fLengthInv, z * fLengthInv));
   }
 
-  AE_INLINE void aeVec3::Normalize (void)
+  inline void aeVec3::Normalize (void)
   {
     const float fLen = GetLength ();
 
@@ -63,7 +63,7 @@ namespace AE_NS_FOUNDATION
     z *= fLengthInv;
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetNormalizedSafe (void) const
+  inline const aeVec3 aeVec3::GetNormalizedSafe (void) const
   {
     const float fLen = GetLength ();
 
@@ -76,7 +76,7 @@ namespace AE_NS_FOUNDATION
       return (aeVec3 (0.0f));
   }
 
-  AE_INLINE void aeVec3::NormalizeSafe (void)
+  inline void aeVec3::NormalizeSafe (void)
   {
     const float fLen = GetLength ();
 
@@ -93,7 +93,7 @@ namespace AE_NS_FOUNDATION
       x = y = z = 0.0f;
   }
 
-  AE_INLINE bool aeVec3::IsZeroVector (void) const
+  inline bool aeVec3::IsZeroVector (void) const
   {
     return ((x == 0.0f) && (y == 0.0f) && (z == 0.0f));
   }
@@ -101,13 +101,13 @@ namespace AE_NS_FOUNDATION
   /*! \note Normalization, especially with SSE is not very precise. So this function checks whether the (squared)
     length is between a lower and upper limit.
   */
-  AE_INLINE bool aeVec3::IsNormalized (void) const
+  inline bool aeVec3::IsNormalized (void) const
   {
     const float t = GetLengthSquared ();
     return ((t >= 0.999f) && (t <= 1.001f));
   }
 
-  AE_INLINE bool aeVec3::IsZeroVector (float fEpsilon) const
+  inline bool aeVec3::IsZeroVector (float fEpsilon) const
   {
     return (aeMath::IsFloatEqual (x, 0, fEpsilon) &&
             aeMath::IsFloatEqual (y, 0, fEpsilon) &&
@@ -117,13 +117,13 @@ namespace AE_NS_FOUNDATION
   /*! \note Normalization, especially with SSE is not very precise. So this function checks whether the (squared)
     length is between a lower and upper limit.
   */
-  AE_INLINE bool aeVec3::IsNormalized (float fEpsilon) const
+  inline bool aeVec3::IsNormalized (float fEpsilon) const
   {
     const float t = GetLengthSquared ();
     return aeMath::IsFloatEqual (t, 1.0f, fEpsilon);
   }
 
-  AE_INLINE bool aeVec3::IsNaN (void) const
+  inline bool aeVec3::IsNaN (void) const
   {
     // all comparisons fail, if a float is NaN
 
@@ -137,7 +137,7 @@ namespace AE_NS_FOUNDATION
     return (false);
   }
 
-  AE_INLINE bool aeVec3::IsValid () const
+  inline bool aeVec3::IsValid () const
   {
     if (!aeMath::IsFinite (x))
       return false;
@@ -149,12 +149,12 @@ namespace AE_NS_FOUNDATION
     return true;
   }
 
-  AE_INLINE const aeVec3 aeVec3::operator- (void) const
+  inline const aeVec3 aeVec3::operator- (void) const
   {
     return (aeVec3 (-x, -y, -z));
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator+= (const aeVec3& cc)
+  inline const aeVec3& aeVec3::operator+= (const aeVec3& cc)
   {
     x += cc.x;
     y += cc.y;
@@ -163,7 +163,7 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator-= (const aeVec3& cc)
+  inline const aeVec3& aeVec3::operator-= (const aeVec3& cc)
   {
     x -= cc.x;
     y -= cc.y;
@@ -172,7 +172,7 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator+= (float f)
+  inline const aeVec3& aeVec3::operator+= (float f)
   {
     x += f;
     y += f;
@@ -181,7 +181,7 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator-= (float f)
+  inline const aeVec3& aeVec3::operator-= (float f)
   {
     x -= f;
     y -= f;
@@ -190,7 +190,7 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator*= (float f)
+  inline const aeVec3& aeVec3::operator*= (float f)
   {
     x *= f;
     y *= f;
@@ -199,7 +199,7 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3& aeVec3::operator/= (float f)
+  inline const aeVec3& aeVec3::operator/= (float f)
   {
     const float f_inv = aeMath::Invert (f);
 
@@ -210,40 +210,40 @@ namespace AE_NS_FOUNDATION
     return (*this);
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetAxisX (void)
+  inline const aeVec3 aeVec3::GetAxisX (void)
   {
     return (aeVec3 (1.0f, 0.0f, 0.0f));
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetAxisY (void)
+  inline const aeVec3 aeVec3::GetAxisY (void)
   {
     return (aeVec3 (0.0f, 1.0f, 0.0f));
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetAxisZ (void)
+  inline const aeVec3 aeVec3::GetAxisZ (void)
   {
     return (aeVec3 (0.0f, 0.0f, 1.0f));
   }
 
-  AE_INLINE void aeVec3::CalculateNormal (const aeVec3& v1, const aeVec3& v2, const aeVec3& v3)
+  inline void aeVec3::CalculateNormal (const aeVec3& v1, const aeVec3& v2, const aeVec3& v3)
   {
     *this = (v3 - v2).Cross (v1 - v2);
     Normalize ();
   }
 
-  AE_INLINE void aeVec3::CalculateNormalSafe (const aeVec3& v1, const aeVec3& v2, const aeVec3& v3)
+  inline void aeVec3::CalculateNormalSafe (const aeVec3& v1, const aeVec3& v2, const aeVec3& v3)
   {
     *this = (v3 - v2).Cross (v1 - v2);
     NormalizeSafe ();
   }
 
-  AE_INLINE void aeVec3::MakeOrthogonalTo (const aeVec3& vNormal)
+  inline void aeVec3::MakeOrthogonalTo (const aeVec3& vNormal)
   {
     aeVec3 vOrtho = vNormal.Cross (*this);
     *this = vOrtho.Cross (vNormal);
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetOrthogonalVector () const
+  inline const aeVec3 aeVec3::GetOrthogonalVector () const
   {
     float fDot = aeMath::Abs (this->Dot (aeVec3 (0, 1, 0)));
     if (fDot < 0.999f)
@@ -252,103 +252,103 @@ namespace AE_NS_FOUNDATION
     return this->Cross (aeVec3 (1, 0, 0));
   }
 
-  AE_INLINE const aeVec3 aeVec3::GetReflectedVector (const aeVec3& vNormal) const 
+  inline const aeVec3 aeVec3::GetReflectedVector (const aeVec3& vNormal) const 
   {
     return ((*this) - (2.0f * this->Dot (vNormal) * vNormal));
   }
 
-  AE_INLINE float aeVec3::Dot (const aeVec3& rhs) const
+  inline float aeVec3::Dot (const aeVec3& rhs) const
   {
     return ((x * rhs.x) + (y * rhs.y) + (z * rhs.z));
   }
 
-  AE_INLINE const aeVec3 aeVec3::Cross (const aeVec3& rhs) const
+  inline const aeVec3 aeVec3::Cross (const aeVec3& rhs) const
   {
     return (aeVec3 (y * rhs.z - z * rhs.y,
                     z * rhs.x - x * rhs.z,
                     x * rhs.y - y * rhs.x));
   }
 
-  AE_INLINE float aeVec3::GetAngleBetween (const aeVec3& rhs) const
+  inline float aeVec3::GetAngleBetween (const aeVec3& rhs) const
   {
     return aeMath::ACosDeg (aeMath::Clamp (this->Dot (rhs), -1.0f, 1.0f));
   }
 
-  //AE_INLINE float aeVec3::GetAngleBetweenCCW (const aeVec3& rhs, const aeVec3& vPlaneNormal) const
+  //inline float aeVec3::GetAngleBetweenCCW (const aeVec3& rhs, const aeVec3& vPlaneNormal) const
   //{
   //  float fAngle = this->GetAngleBetween (rhs);
 
 
   //}
 
-  AE_INLINE const aeVec3 aeVec3::CompMin (const aeVec3& rhs) const
+  inline const aeVec3 aeVec3::CompMin (const aeVec3& rhs) const
   {
     return aeVec3 (aeMath::Min (x, rhs.x), aeMath::Min (y, rhs.y), aeMath::Min (z, rhs.z));
   }
 
-  AE_INLINE const aeVec3 aeVec3::CompMax (const aeVec3& rhs) const
+  inline const aeVec3 aeVec3::CompMax (const aeVec3& rhs) const
   {
     return aeVec3 (aeMath::Max (x, rhs.x), aeMath::Max (y, rhs.y), aeMath::Max (z, rhs.z));
   }
 
-  AE_INLINE const aeVec3 aeVec3::CompMult (const aeVec3& rhs) const
+  inline const aeVec3 aeVec3::CompMult (const aeVec3& rhs) const
   {
     return aeVec3 (x * rhs.x, y * rhs.y, z * rhs.z);
   }
 
-  AE_INLINE const aeVec3 aeVec3::CompDiv (const aeVec3& rhs) const
+  inline const aeVec3 aeVec3::CompDiv (const aeVec3& rhs) const
   {
     return aeVec3 (x / rhs.x, y / rhs.y, z / rhs.z);
   }
 
-  AE_INLINE const aeVec3 operator+ (const aeVec3& v1, const aeVec3& v2)
+  inline const aeVec3 operator+ (const aeVec3& v1, const aeVec3& v2)
   {
     return (aeVec3 (v1.x + v2.x, v1.y + v2.y, v1.z + v2.z));
   }
 
-  AE_INLINE const aeVec3 operator- (const aeVec3& v1, const aeVec3& v2)
+  inline const aeVec3 operator- (const aeVec3& v1, const aeVec3& v2)
   {
     return (aeVec3 (v1.x - v2.x, v1.y - v2.y, v1.z - v2.z));
   }
 
-  AE_INLINE const aeVec3 operator* (float f, const aeVec3& v)
+  inline const aeVec3 operator* (float f, const aeVec3& v)
   {
     return (aeVec3 (v.x * f, v.y * f, v.z * f));
   }
 
-  AE_INLINE const aeVec3 operator+ (const aeVec3& v1, float f2) 
+  inline const aeVec3 operator+ (const aeVec3& v1, float f2) 
   { 
     return (operator+ (v1, aeVec3 (f2)));
   }
 
-  AE_INLINE const aeVec3 operator- (const aeVec3& v1, float f2) 
+  inline const aeVec3 operator- (const aeVec3& v1, float f2) 
   { 
     return (operator- (v1, aeVec3 (f2)));
   }
 
-  AE_INLINE const aeVec3 operator* (const aeVec3& v, float f)
+  inline const aeVec3 operator* (const aeVec3& v, float f)
   {
     return (aeVec3 (v.x * f, v.y * f, v.z * f));
   }
 
-  AE_INLINE const aeVec3 operator/ (const aeVec3& v, float f)
+  inline const aeVec3 operator/ (const aeVec3& v, float f)
   {
     // multiplication is much faster than division
     const float f_inv = aeMath::Invert (f);
     return (aeVec3 (v.x * f_inv, v.y * f_inv, v.z * f_inv));
   }
 
-  //AE_INLINE float operator* (const aeVec3& v1, const aeVec3& v2)
+  //inline float operator* (const aeVec3& v1, const aeVec3& v2)
   //{
   //  return v1.Dot (v2);
   //}
 
-  AE_INLINE bool aeVec3::IsIdentical (const aeVec3& rhs) const
+  inline bool aeVec3::IsIdentical (const aeVec3& rhs) const
   {
     return ((x == rhs.x) && (y == rhs.y) && (z == rhs.z));
   }
 
-  AE_INLINE bool aeVec3::IsEqual (const aeVec3& rhs, float fEpsilon) const
+  inline bool aeVec3::IsEqual (const aeVec3& rhs, float fEpsilon) const
   {
     AE_CHECK_DEV (fEpsilon >= 0.0f, "aeVec3::IsEqual: Epsilon may not be negativ.");
 
@@ -357,17 +357,17 @@ namespace AE_NS_FOUNDATION
             aeMath::IsFloatEqual (z, rhs.z, fEpsilon));
   }
 
-  AE_INLINE bool operator== (const aeVec3& v1, const aeVec3& v2)
+  inline bool operator== (const aeVec3& v1, const aeVec3& v2)
   {
     return v1.IsIdentical (v2);
   }
 
-  AE_INLINE bool operator!= (const aeVec3& v1, const aeVec3& v2)
+  inline bool operator!= (const aeVec3& v1, const aeVec3& v2)
   {
     return !v1.IsIdentical (v2);
   }
 
-  AE_INLINE bool operator< (const aeVec3& v1, const aeVec3& v2)
+  inline bool operator< (const aeVec3& v1, const aeVec3& v2)
   {
     if (v1.x < v2.x)
       return (true);

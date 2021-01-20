@@ -19,10 +19,6 @@ namespace Kraut
 
     void Clear();
 
-    // TODO: Remove Save() and Load()
-    void Save(aeStreamOut& s);
-    void Load(aeStreamIn& s);
-
     aeVec3 GetDirectionAtNode(aeUInt32 uiNode) const;
     const aeMatrix GetNodeTransformation(aeUInt32 uiNode);
 

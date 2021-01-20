@@ -1,6 +1,6 @@
 #pragma once
 
-#include <KrautFoundation/Containers/Deque.h>
+#include <KrautFoundation/Containers/Array.h>
 #include <KrautGenerator/Mesh/BranchMesh.h>
 
 namespace Kraut

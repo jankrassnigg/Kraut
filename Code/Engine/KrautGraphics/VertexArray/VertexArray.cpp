@@ -8,8 +8,8 @@ namespace AE_NS_GRAPHICS
 
 	aeVertexArrayResource::aeVertexArrayResource ()
 	{
-		m_MaterialChangeCallback = NULL;
-		m_pMaterialChangePassThrough = NULL;
+		m_MaterialChangeCallback = nullptr;
+		m_pMaterialChangePassThrough = nullptr;
 
 		m_uiNumberOfVertices = 0;
 		m_uiNumberOfTriangles = 0;

@@ -6,7 +6,7 @@ namespace AE_NS_FOUNDATION
 {
   void aeString::ReplaceSubString (aeUInt32 uiPos, aeUInt32 uiLength, const char* szReplaceWith)
   {
-    AE_CHECK_DEV (szReplaceWith != NULL, "aeString::ReplaceSubString: Cannot replace something with a NULL-string.");
+    AE_CHECK_DEV (szReplaceWith != nullptr, "aeString::ReplaceSubString: Cannot replace something with a nullptr-string.");
     AE_CHECK_DEV (uiPos + uiLength <= m_uiLength, "aeString::ReplaceSubString: The given range is invalid. Cannot replace [%d to %d], the String is only %d characters long.", uiPos, uiPos + uiLength, m_uiLength);
 
     const aeUInt32 uiWordLen = aeStringFunctions::GetLength (szReplaceWith);

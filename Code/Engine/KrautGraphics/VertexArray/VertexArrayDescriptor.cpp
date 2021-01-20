@@ -116,7 +116,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		float* pData = NULL;
+		float* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (float*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else
@@ -132,7 +132,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		float* pData = NULL;
+		float* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (float*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else
@@ -150,7 +150,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		float* pData = NULL;
+		float* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (float*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else
@@ -168,7 +168,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		float* pData = NULL;
+		float* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (float*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else
@@ -187,7 +187,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		aeInt8* pData = NULL;
+		aeInt8* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (aeInt8*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else
@@ -206,7 +206,7 @@ namespace AE_NS_GRAPHICS
 
 		const aeUInt32 uiCompSize = m_Attributes[uiArray].m_uiComponentSize;
 
-		aeInt8* pData = NULL;
+		aeInt8* pData = nullptr;
 		if (m_bInterleavedData)
 			pData = (aeInt8*) &(m_VertexData[m_Attributes[uiArray].m_uiDataByteOffset + m_uiVertexSize * uiVertex]);
 		else

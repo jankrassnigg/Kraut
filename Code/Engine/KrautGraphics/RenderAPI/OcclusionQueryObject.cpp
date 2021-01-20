@@ -76,7 +76,7 @@ namespace AE_NS_GRAPHICS
 	void aeOcclusionQueryObject::CreateNewQuery (void)
 	{
 		QueryObj qo;
-		qo.m_pOQO = NULL;
+		qo.m_pOQO = nullptr;
 
 		#ifdef AE_RENDERAPI_OPENGL
 			if (g_RenderAPI == AE_RA_OPENGL)
@@ -118,7 +118,7 @@ namespace AE_NS_GRAPHICS
 
 			s_QueryObjects[iQO].m_pOQO->m_uiOQResult = uiPixels;
 			s_QueryObjects[iQO].m_pOQO->m_bResultReady = true;
-			s_QueryObjects[iQO].m_pOQO = NULL;
+			s_QueryObjects[iQO].m_pOQO = nullptr;
 
 			s_QueryQueue.pop_front ();
 			s_AvailableQueries.push_back (iQO);
@@ -149,11 +149,6 @@ namespace AE_NS_GRAPHICS
 		s_AvailableQueries.pop_front ();
 
 		s_QueryObjects[m_iQueryObject].m_pOQO = this;
-
-/*#ifdef AE_COMPILE_FOR_DEVELOPMENT
-		if (!aeFramebuffer::isDepthBufferAvailable ())
-			aeLog::Error ("aeOcclusionQueryObject::BeginOcclusionQuery: The bound FBO does not provide a depth-buffer.");
-#endif*/
 
 		#ifdef AE_RENDERAPI_OPENGL
 			if (g_RenderAPI == AE_RA_OPENGL)

@@ -1,5 +1,4 @@
 #include "VertexArrayResource.h"
-#include <KrautFoundation/Math/IncludeAll.h>
 #include <KrautFoundation/Containers/Map.h>
 
 namespace AE_NS_GRAPHICS
@@ -66,7 +65,7 @@ namespace AE_NS_GRAPHICS
 
 	void aeVertexArrayResource::FlushMaterialQueue (std::deque<aeDrawcall>& Queue, aeUInt32 uiMaterial)
 	{
-		if ((!s_bIgnoreMaterialChange) && (m_MaterialChangeCallback != NULL))
+		if ((!s_bIgnoreMaterialChange) && (m_MaterialChangeCallback != nullptr))
 			m_MaterialChangeCallback (uiMaterial, m_pMaterialChangePassThrough);
 
     std::deque<aeDrawcall>::iterator qit = Queue.begin ();
@@ -80,7 +79,7 @@ namespace AE_NS_GRAPHICS
 
 	void aeVertexArrayResource::IssueDrawcall (const aeDrawcall& dc)
 	{
-		if (dc.m_pConditionalRender != NULL)
+		if (dc.m_pConditionalRender != nullptr)
 		{
 			if (!dc.m_pConditionalRender->BeginConditionalRender ())
 				return;
@@ -125,7 +124,7 @@ namespace AE_NS_GRAPHICS
 			aeRenderAPI::DrawIndexed (AE_RENDER_TRIANGLES, dc.m_uiFirstTriangle * 3, dc.m_uiTriangleCount * 3, m_BufferPartitions[0].m_uiBytesPerIndex == 2 ? AE_UNSIGNED_SHORT : AE_UNSIGNED_INT);
 		}
 
-		if (dc.m_pConditionalRender != NULL)
+		if (dc.m_pConditionalRender != nullptr)
 		{
 			dc.m_pConditionalRender->EndConditionalRender ();
 		}

@@ -13,7 +13,7 @@ namespace AE_NS_FOUNDATION
     m_uiFirstElement = 0;
     m_uiSize = 0;
     m_uiChunks = 0;
-    m_pChunks = NULL;
+    m_pChunks = nullptr;
   }
 
   template<class TYPE, aeUInt32 CHUNK_SIZE, bool CONSTRUCT, bool NO_DEBUG_ALLOCATOR>
@@ -22,7 +22,7 @@ namespace AE_NS_FOUNDATION
     m_uiFirstElement = 0;
     m_uiSize = 0;
     m_uiChunks = 0;
-    m_pChunks = NULL;
+    m_pChunks = nullptr;
 
     operator= (cc);
 
@@ -35,7 +35,7 @@ namespace AE_NS_FOUNDATION
     m_uiFirstElement = 0;
     m_uiSize = 0;
     m_uiChunks = 0;
-    m_pChunks = NULL;
+    m_pChunks = nullptr;
 
     if (uiInitSize > 0)
     {
@@ -43,7 +43,7 @@ namespace AE_NS_FOUNDATION
 
       AE_CHECK_DEV (m_uiFirstElement > 0, "");
       AE_CHECK_DEV (m_uiChunks > 0, "");
-      AE_CHECK_DEV (m_pChunks != NULL, "");
+      AE_CHECK_DEV (m_pChunks != nullptr, "");
     }
 
     AE_CHECK_DEV (m_uiSize == uiInitSize, "");
@@ -183,7 +183,7 @@ namespace AE_NS_FOUNDATION
       AE_MEMORY_DEALLOCATE_NODEBUG (m_pChunks[ui], NO_DEBUG_ALLOCATOR);
 
     AE_MEMORY_DEALLOCATE_NODEBUG (m_pChunks, NO_DEBUG_ALLOCATOR);
-    m_pChunks = NULL;
+    m_pChunks = nullptr;
 
     m_uiChunks = 0;
     m_uiFirstElement = 0;
@@ -250,7 +250,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 CHUNK_SIZE, bool CONSTRUCT, bool NO_DEBUG_ALLOCATOR>
   const TYPE& aeDeque<TYPE, CHUNK_SIZE, CONSTRUCT, NO_DEBUG_ALLOCATOR>::operator[](aeUInt32 uiIndex) const
   {
-    AE_CHECK_DEV (m_pChunks != NULL, "aeDeque::operator[]: Array is NULL.");
+    AE_CHECK_DEV (m_pChunks != nullptr, "aeDeque::operator[]: Array is nullptr.");
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeDeque::operator[] (const): Element %d is out of range.", uiIndex);
 
     uiIndex += m_uiFirstElement;
@@ -262,7 +262,7 @@ namespace AE_NS_FOUNDATION
     AE_CHECK_DEV (uiOffset < CHUNK_SIZE, "");
 
     // some functions rely on operator[] to allocate the next chunk
-    if (m_pChunks[uiChunk] == NULL)
+    if (m_pChunks[uiChunk] == nullptr)
       m_pChunks[uiChunk] = AE_MEMORY_ALLOCATE_TYPE_NODEBUG (Chunk, 1, NO_DEBUG_ALLOCATOR);
 
     return (m_pChunks[uiChunk]->m_Data[uiOffset]);
@@ -272,7 +272,7 @@ namespace AE_NS_FOUNDATION
   TYPE& aeDeque<TYPE, CHUNK_SIZE, CONSTRUCT, NO_DEBUG_ALLOCATOR>::operator[](aeUInt32 uiIndex)
   {
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeDeque::operator[]: Element %d is out of range.", uiIndex);
-    AE_CHECK_DEV (m_pChunks != NULL, "aeDeque::operator[]: Array is NULL.");
+    AE_CHECK_DEV (m_pChunks != nullptr, "aeDeque::operator[]: Array is nullptr.");
 
     uiIndex += m_uiFirstElement;
 
@@ -283,7 +283,7 @@ namespace AE_NS_FOUNDATION
     AE_CHECK_DEV (uiOffset < CHUNK_SIZE, "");
 
     // some functions rely on operator[] to allocate the next chunk
-    if (m_pChunks[uiChunk] == NULL)
+    if (m_pChunks[uiChunk] == nullptr)
       m_pChunks[uiChunk] = AE_MEMORY_ALLOCATE_TYPE_NODEBUG (Chunk, 1, NO_DEBUG_ALLOCATOR);
 
     return (m_pChunks[uiChunk]->m_Data[uiOffset]);
@@ -326,7 +326,7 @@ namespace AE_NS_FOUNDATION
       for (aeUInt32 ui = uiFirstChunk + uiChunks; ui < uiFirstChunk + uiChunksInUse; ++ui)
       {
         AE_MEMORY_DEALLOCATE_NODEBUG (m_pChunks[ui], NO_DEBUG_ALLOCATOR);
-        m_pChunks[ui] = NULL;
+        m_pChunks[ui] = nullptr;
       }
     }
 

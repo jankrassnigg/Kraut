@@ -30,6 +30,7 @@ BUILD_REQUIRES_QT()
 SET (LINK_LIBRARIES
   KrautFoundation
   KrautEditorBasics
+  KrautGraphics
 )
 
 SET (ADDITIONAL_DEPENDENCIES

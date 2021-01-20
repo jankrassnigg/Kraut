@@ -14,7 +14,7 @@ public:
   void QueueRedraw ();
   virtual void paintEvent (QPaintEvent* pEvent);
   virtual void resizeEvent (QResizeEvent* event);
-  virtual QPaintEngine* paintEngine () const { return NULL; }
+  virtual QPaintEngine* paintEngine () const { return nullptr; }
 
 public slots:
   virtual void RedrawTimeout (void);

@@ -4,7 +4,7 @@
 #include "../qtResourceEditorWidget/MaterialLibrary.h"
 #include "qtTreeEditWidget.moc.h"
 
-#include <KrautFoundation/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
 
 #include <QColorDialog>
 
@@ -20,7 +20,7 @@ void qtTreeEditWidget::on_check_EnableBranchMesh_clicked()
   AE_BROADCAST_EVENT(aeTreeEdit_TreeModified);
 }
 
-static aeFilePath sPrevBranchTexture = "";
+static aeString sPrevBranchTexture = "";
 
 void qtTreeEditWidget::on_tb_SelectBranchTexture_clicked()
 {
@@ -104,7 +104,7 @@ void qtTreeEditWidget::on_slider_FrondRotation_valueChanged()
 }
 
 
-static aeFilePath sPrevFrondTexture = "";
+static aeString sPrevFrondTexture = "";
 
 void qtTreeEditWidget::on_tb_SelectFrondTexture_clicked()
 {
@@ -266,7 +266,7 @@ void qtTreeEditWidget::on_SpinLeafInterval_valueChanged(double d)
   AE_BROADCAST_EVENT(aeTreeEdit_TreeModified);
 }
 
-static aeFilePath sPrevLeafTexture = "";
+static aeString sPrevLeafTexture = "";
 
 void qtTreeEditWidget::on_ButtonSelectLeafTexture_clicked()
 {

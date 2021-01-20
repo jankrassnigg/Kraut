@@ -88,7 +88,7 @@ namespace NS_OBJLOADER
 
 	bool LoadOBJFile (const char *szFile, MESH& Mesh, map<string, MATERIAL>& Materials, const char* szMaterialBasePath, bool bSortByMaterial, bool bIgnoreMaterials)
 	{
-    aeFilePath sText;
+    aeString sText;
     sText.Format ("Loading Mesh:\n%s", szFile);
     aeProgressBar pb (sText.c_str (), 4);
 
@@ -128,7 +128,7 @@ namespace NS_OBJLOADER
 
 		while (fscanf (pFile, "%s", szID) > 0)
 		{
-      aeProgressBar::Update (NULL, 0); // just to ensure updates
+      aeProgressBar::Update (nullptr, 0); // just to ensure updates
 
 			if (strcmp (szID, "v") == 0)	// line declares a vertex
 			{

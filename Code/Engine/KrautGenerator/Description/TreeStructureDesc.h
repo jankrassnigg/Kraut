@@ -2,6 +2,7 @@
 
 #include <KrautGenerator/Description/Influence.h>
 #include <KrautGenerator/Description/SpawnNodeDesc.h>
+#include <KrautFoundation/Containers/Deque.h>
 
 namespace Kraut
 {
@@ -11,6 +12,9 @@ namespace Kraut
     ~TreeStructureDesc();
     TreeStructureDesc(TreeStructureDesc&&) = delete;
     void operator=(TreeStructureDesc&&) = delete;
+
+    void Serialize(aeStreamOut& stream) const;
+    void Deserialize(aeStreamIn& stream);
 
     float GetBoundingBoxSizeIncrease() const;
 

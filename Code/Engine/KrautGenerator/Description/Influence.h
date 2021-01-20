@@ -1,6 +1,5 @@
 #pragma once
 
-#include <KrautFoundation/Utility/Flags.h>
 #include <KrautGenerator/Description/DescriptionEnums.h>
 
 namespace Kraut
@@ -12,7 +11,7 @@ namespace Kraut
     Influence();
     virtual ~Influence();
 
-    aeFlags32 m_AffectedBranchTypes;
+    aeUInt32 m_AffectedBranchTypes = 0;
 
     virtual const aeVec3 ComputeInfluence(const aeVec3& vPosition) const = 0;
   };

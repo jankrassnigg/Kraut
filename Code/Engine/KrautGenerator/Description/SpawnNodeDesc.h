@@ -14,10 +14,10 @@ namespace Kraut
     SpawnNodeDesc();
     ~SpawnNodeDesc();
 
-    void Reset(void);
+    void Reset();
 
-    void Save(aeStreamOut& s);
-    void Load(aeStreamIn& s);
+    void Serialize(aeStreamOut& s) const;
+    void Deserialize(aeStreamIn& s);
 
     // ************** General **************
 
@@ -81,7 +81,7 @@ namespace Kraut
 
     aeInt8 m_iSegmentLengthCM; //!< How long each segment will be (in cm), thus how detailed the branch is
 
-    aeHybridString<128> m_sTexture[Kraut::BranchGeometryType::ENUM_COUNT];
+    aeString m_sTexture[Kraut::BranchGeometryType::ENUM_COUNT];
     aeUInt8 m_uiVariationColor[Kraut::BranchGeometryType::ENUM_COUNT][4]; //!< The target color for frond color variations.
 
     aeUInt8 m_uiTextureTilingX[Kraut::BranchGeometryType::ENUM_COUNT] = {1, 1, 1};

@@ -10,7 +10,7 @@
 
 namespace AE_NS_GRAPHICS
 {
-	aeFramebuffer* aeFramebuffer::s_pCurrentlyBoundFramebuffer = NULL;
+	aeFramebuffer* aeFramebuffer::s_pCurrentlyBoundFramebuffer = nullptr;
 	bool aeFramebuffer::s_bDepthBufferAvailable = false;
 
 	aeFramebuffer::aeFramebuffer ()
@@ -75,7 +75,7 @@ namespace AE_NS_GRAPHICS
 
 	void aeFramebuffer::BindBackbuffer (void)
 	{
-		s_pCurrentlyBoundFramebuffer = NULL;
+		s_pCurrentlyBoundFramebuffer = nullptr;
 		s_bDepthBufferAvailable = false;
 
 #ifdef AE_RENDERAPI_OPENGL
@@ -95,19 +95,6 @@ namespace AE_NS_GRAPHICS
 				return;
 
 			m_bSetupFBO = false;
-
-	#ifdef AE_COMPILE_FOR_DEVELOPMENT
-
-			bool bHasTargets = m_DepthStencilRT.IsValid () || m_bUseDepthStencilRenderBuffer;
-
-			for (aeUInt32 i = 0; i < GC_MAX_RENDERTARGETS; ++i)
-				bHasTargets = bHasTargets || m_ColorRT[i].IsValid () || m_bUseColorRenderBuffer[i];
-
-			AE_CHECK_DEV (bHasTargets, "aeFramebuffer::SetupFramebuffer: The Framebuffer has no depth- and/or color-targets.");
-
-			AE_RENDERAPI_CHECK b ("aeFramebuffer::SetupFramebuffer");
-
-	#endif
 
 			if (m_uiFBO == 0)
 			{

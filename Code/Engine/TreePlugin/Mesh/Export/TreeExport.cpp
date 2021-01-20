@@ -5,6 +5,8 @@
 #include "../../Rendering/AmbientOcclusion.h"
 #include "../../Tree/Tree.h"
 #include <KrautGenerator/Description/DescriptionEnums.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
+#include <KrautGraphics/FileSystem/FileOut.h>
 
 
 void aeTree::ExportToFile(const char* szFile, bool bExportBranches, bool bExportFronds, bool bExportLeaves, bool bTrunkCaps, bool bBranchCaps, bool bLodNone, bool bLod0, bool bLod1, bool bLod2, bool bLod3, bool bLod4, bool bDDS, aeUInt32 uiImpostorResolution)
@@ -16,18 +18,15 @@ void aeTree::ExportToFile(const char* szFile, bool bExportBranches, bool bExport
 
   const bool bExportLod[aeLod::ENUM_COUNT] = {bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4};
 
-  if ((aePathFunctions::HasExtension(szFile, "obj")) && (!g_Tree.ExportOBJ(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps,
-                                                          bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
+  if ((aePathFunctions::HasExtension(szFile, "obj")) && (!g_Tree.ExportOBJ(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps, bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
   {
     QMessageBox::critical(pMainWindow, "Kraut", "The mesh could not be exported to OBJ.");
   }
-  else if ((aePathFunctions::HasExtension(szFile, "fbx")) && (!g_Tree.ExportFBX(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps,
-                                                               bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
+  else if ((aePathFunctions::HasExtension(szFile, "fbx")) && (!g_Tree.ExportFBX(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps, bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
   {
     QMessageBox::critical(pMainWindow, "Kraut", "The mesh could not be exported to FBX.");
   }
-  else if ((aePathFunctions::HasExtension(szFile, "kraut")) && (!g_Tree.ExportKraut(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps,
-                                                                 bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
+  else if ((aePathFunctions::HasExtension(szFile, "kraut")) && (!g_Tree.ExportKraut(szFile, bExportBranches, bExportFronds, bExportLeaves, bTrunkCaps, bBranchCaps, bLodNone, bLod0, bLod1, bLod2, bLod3, bLod4)))
   {
     QMessageBox::critical(pMainWindow, "Kraut", "The mesh could not be exported to Kraut-Format.");
   }

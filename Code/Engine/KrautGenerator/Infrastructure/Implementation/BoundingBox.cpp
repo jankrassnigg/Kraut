@@ -9,18 +9,18 @@ namespace Kraut
     SetInvalid();
   }
 
-  void BoundingBox::SetInvalid(void)
+  void BoundingBox::SetInvalid()
   {
     m_vMin.SetVector(aeMath::Infinity());
     m_vMax.SetVector(-aeMath::Infinity());
   }
 
-  bool BoundingBox::IsInvalid(void) const
+  bool BoundingBox::IsInvalid() const
   {
     return ((m_vMin.x > m_vMax.x) || (m_vMin.y > m_vMax.y) || (m_vMin.z > m_vMax.z));
   }
 
-  aeVec3 BoundingBox::GetSize(void) const
+  aeVec3 BoundingBox::GetSize() const
   {
     return (m_vMax - m_vMin);
   }
@@ -48,7 +48,7 @@ namespace Kraut
       m_vMin.z = v.z;
   }
 
-  aeVec3 BoundingBox::GetCenter(void) const
+  aeVec3 BoundingBox::GetCenter() const
   {
     return m_vMin + (m_vMax - m_vMin) * 0.5f;
   }

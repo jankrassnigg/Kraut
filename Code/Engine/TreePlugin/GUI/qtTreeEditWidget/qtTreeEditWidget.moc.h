@@ -32,10 +32,10 @@ public:
   void UpdateStats();
   void UpdateRecentFileMenu(void);
 
-  static aeFilePath s_sExportLeafCardPath;
+  static aeString s_sExportLeafCardPath;
 
-  static bool SelectFile(aeFilePath& sPrevTexture, aeHybridString<128>& sTargetString, QLineEdit* pLineEdit, const char* szFileTypeFilter, const char* szContentSubFolder);
-  static bool SelectTexture(aeFilePath& sPrevTexture, aeHybridString<128>& sTargetString, QLineEdit* pLineEdit);
+  static bool SelectFile(aeString& sPrevTexture, aeString& sTargetString, QLineEdit* pLineEdit, const char* szFileTypeFilter, const char* szContentSubFolder);
+  static bool SelectTexture(aeString& sPrevTexture, aeString& sTargetString, QLineEdit* pLineEdit);
 
 private:
   void SetupToolbars(void);

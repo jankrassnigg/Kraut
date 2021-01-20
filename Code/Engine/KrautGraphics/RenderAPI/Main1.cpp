@@ -6,11 +6,9 @@
 #include "Main.h"
 #include "RenderAPI_Impl.h"
 
-#ifdef AE_PLATFORM_WINDOWS
-#  include "../Glew/wglew.h"
-#endif
-
-
+//#ifdef AE_PLATFORM_WINDOWS
+#include "../Glew/wglew.h"
+//#endif
 
 namespace AE_NS_GRAPHICS
 {
@@ -404,14 +402,14 @@ namespace AE_NS_GRAPHICS
     if (g_RenderAPI == AE_RA_OPENGL)
     {
 
-#  ifdef AE_PLATFORM_WINDOWS
+      //#  ifdef AE_PLATFORM_WINDOWS
       if (WGLEW_EXT_swap_control)
       {
         wglSwapIntervalEXT(bEnable ? 1 : 0);
         aeRenderAPI_Impl::m_bVSync = bEnable;
       }
       else
-#  endif
+        //#  endif
         aeRenderAPI_Impl::m_bVSync = false;
     }
 #endif
@@ -422,7 +420,6 @@ namespace AE_NS_GRAPHICS
     return (aeRenderAPI_Impl::m_bVSync);
   }
 
-#ifdef AE_COMPILE_FOR_DEVELOPMENT
   AE_RENDERAPI_CHECK::AE_RENDERAPI_CHECK(const char* szBlockName)
   {
     aeLog::BeginLogBlock(szBlockName);
@@ -444,7 +441,6 @@ namespace AE_NS_GRAPHICS
 
     aeLog::EndLogBlock();
   }
-#endif
 
   void aeRenderAPI::ResetStatistics(void)
   {

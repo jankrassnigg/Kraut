@@ -42,7 +42,21 @@ namespace Kraut
 
   void TreeStructureGenerator::GenerateTreeStructure()
   {
-    m_RNG.m_uiSeedValue = m_pTreeStructureDesc->m_uiRandomSeed;
+    GenerateTreeStructure(m_pTreeStructureDesc->m_uiRandomSeed);
+  }
+
+  void TreeStructureGenerator::GenerateTreeStructure(aeUInt32 uiRandomSeed)
+  {
+    m_uiRandomSeed = uiRandomSeed;
+    m_pInternalPhysics = m_pPhysics;
+
+    Physics_EmptyImpl noPhysics;
+    if (m_pInternalPhysics == nullptr)
+    {
+      m_pInternalPhysics = &noPhysics;
+    }
+
+    m_RNG.m_uiSeedValue = m_uiRandomSeed;
 
     if (m_pTreeStructureDesc->m_bGrowProceduralTrunks)
     {
@@ -55,8 +69,8 @@ namespace Kraut
           continue;
 
         Kraut::BranchNodeRandomData NodeRD;
-        NodeRD.m_BranchRD.m_uiSeedValue = m_pTreeStructureDesc->m_uiRandomSeed + trunks;
-        NodeRD.m_SpawnNodesRD = m_pTreeStructureDesc->m_uiRandomSeed + trunks;
+        NodeRD.m_BranchRD.m_uiSeedValue = m_uiRandomSeed + trunks;
+        NodeRD.m_SpawnNodesRD = m_uiRandomSeed + trunks;
         m_RNG.m_uiSeedValue = NodeRD.m_SpawnNodesRD;
 
         // determine how many trunks to spawn (of the current type)
@@ -102,7 +116,7 @@ namespace Kraut
           dTrunk.m_vGrowDirection2 = GetTargetDir(spawnDesc.m_TargetDirection2, aeVec3(0, 1, 0), spawnDesc.m_fMaxTargetDirDeviation, vBranchAngleAxis, dTrunk.m_vStartDirection, spawnDesc.m_bTargetDirRelative);
           dTrunk.m_fGrowDir2UUsageDistance = GetGrowDir2Distance(spawnDesc.m_TargetDir2Uage, dTrunk.m_fBranchLength, spawnDesc.m_fTargetDir2Usage);
 
-          iFirstBranch = GrowBranch(dTrunk, *m_pPhysics);
+          iFirstBranch = GrowBranch(dTrunk, *m_pInternalPhysics);
           if ((spawnDesc.m_BranchTypeMode == Kraut::BranchTypeMode::Umbrella) || (iFirstBranch < 0))
             break;
         }
@@ -151,7 +165,7 @@ namespace Kraut
         //if (m_pTreeStructure->m_Branches[b]->m_bManuallyCreated)
         //{
         //  Kraut::BranchNodeRandomData NodeRD;
-        //  NodeRD.m_BranchRD.m_uiSeedValue = m_pTreeStructureDesc->m_uiRandomSeed;
+        //  NodeRD.m_BranchRD.m_uiSeedValue = m_uiRandomSeed;
 
         //  m_pTreeStructure->m_Branches[b]->m_RandomData = NodeRD.GetBranchRD();
         //}
@@ -254,7 +268,7 @@ namespace Kraut
     bd.m_iParentBranchID = uiParentBranch;
     bd.m_iParentBranchNodeID = uiStartNode;
 
-    const aeInt32 iBranchID = GrowBranch(bd, *m_pPhysics);
+    const aeInt32 iBranchID = GrowBranch(bd, *m_pInternalPhysics);
 
     if (iBranchID >= 0)
       branchStructure.m_Nodes[uiStartNode].m_bHasChildBranches = true;
@@ -428,7 +442,7 @@ namespace Kraut
 
     for (aeUInt32 i = 0; i < m_pTreeStructureDesc->m_Influences.size(); ++i)
     {
-      if (!m_pTreeStructureDesc->m_Influences[i]->m_AffectedBranchTypes.IsAnyFlagSet(1 << uiBranchType))
+      if ((m_pTreeStructureDesc->m_Influences[i]->m_AffectedBranchTypes & (1 << uiBranchType)) == 0)
         continue;
 
       res += m_pTreeStructureDesc->m_Influences[i]->ComputeInfluence(vPosition);

@@ -11,9 +11,6 @@ namespace Kraut
 
   struct KRAUT_DLL BranchNode
   {
-    void Save(aeStreamOut& s);
-    void Load(aeStreamIn& s);
-
     aeVec3 m_vPosition = aeVec3::ZeroVector();
     float m_fThickness = 0.1f;
     bool m_bHasChildBranches = false;

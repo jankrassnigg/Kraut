@@ -44,7 +44,7 @@ bool aeTree::ExportOBJ(const char* szFile, bool bExportBranches, bool bExportFro
 
   aeProgressBar pb("Exporting to OBJ", iFiles + 1);
 
-  const aeFileName sFileName = aePathFunctions::GetFileName(szFile);
+  const aeString sFileName = aePathFunctions::GetFileName(szFile);
 
   for (int lod = 0; lod < aeLod::ENUM_COUNT; ++lod)
   {
@@ -55,7 +55,7 @@ bool aeTree::ExportOBJ(const char* szFile, bool bExportBranches, bool bExportFro
 
     EnsureMeshIsGenerated((aeLod::Enum)lod);
 
-    aeFilePath sNewPath;
+    aeString sNewPath;
 
     if (lod != aeLod::None)
     {
@@ -68,7 +68,7 @@ bool aeTree::ExportOBJ(const char* szFile, bool bExportBranches, bool bExportFro
 
     sNewPath = aePathFunctions::ChangeExistingFileExtension(sNewPath.c_str(), "obj");
 
-    aeFilePath sText;
+    aeString sText;
     sText.Format("Exporting to OBJ:\n%s", sNewPath.c_str());
     aeProgressBar::Update(sText.c_str());
 

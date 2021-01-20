@@ -16,8 +16,6 @@ namespace AE_NS_GRAPHICS
 		aeInt32 m_iValue;
 	};
 
-	AE_CHECK_COMPILETIME (sizeof (aeUniformValue) == 4);
-
 	struct aeUniform
 	{
 		aeUniform () : m_uiLastChange (1) {}

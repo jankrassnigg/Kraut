@@ -15,9 +15,9 @@ namespace AE_NS_FOUNDATION
     const int dir0 = 0;
     const int dir1 = 1;
 
-    if (m_pElement == NULL)
+    if (m_pElement == nullptr)
     {
-      AE_CHECK_DEV (m_pElement != NULL, "aeMap::iterator_base::forward: The iterator is invalid (end).");
+      AE_CHECK_DEV (m_pElement != nullptr, "aeMap::iterator_base::forward: The iterator is invalid (end).");
       return;
     }
 
@@ -49,9 +49,9 @@ namespace AE_NS_FOUNDATION
 
       // if we are at the root node..
       if ((m_pElement->m_pParent == m_pElement->m_pParent->m_pParent) ||
-        (m_pElement->m_pParent == NULL))
+        (m_pElement->m_pParent == nullptr))
       {
-        m_pElement = NULL;
+        m_pElement = nullptr;
         return;
       }
 
@@ -59,7 +59,7 @@ namespace AE_NS_FOUNDATION
       return;
     }
 
-    m_pElement = NULL;
+    m_pElement = nullptr;
     return;
   }
 
@@ -69,9 +69,9 @@ namespace AE_NS_FOUNDATION
     const int dir0 = 1;
     const int dir1 = 0;
 
-    if (m_pElement == NULL)
+    if (m_pElement == nullptr)
     {
-      AE_CHECK_DEV (m_pElement != NULL, "aeMap::iterator_base::backward: The iterator is invalid (end).");
+      AE_CHECK_DEV (m_pElement != nullptr, "aeMap::iterator_base::backward: The iterator is invalid (end).");
       return;
     }
 
@@ -103,9 +103,9 @@ namespace AE_NS_FOUNDATION
 
       // if we are at the root node..
       if ((m_pElement->m_pParent == m_pElement->m_pParent->m_pParent) ||
-        (m_pElement->m_pParent == NULL))
+        (m_pElement->m_pParent == nullptr))
       {
-        m_pElement = NULL;
+        m_pElement = nullptr;
         return;
       }
 
@@ -113,14 +113,14 @@ namespace AE_NS_FOUNDATION
       return;
     }
 
-    m_pElement = NULL;
+    m_pElement = nullptr;
     return;
   }
 
   // ***** aeMap *****
 
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
-  aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::aeNode::aeNode (void) : m_uiLevel (0), m_pParent (NULL)
+  aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::aeNode::aeNode (void) : m_uiLevel (0), m_pParent (nullptr)
   {
   }
 
@@ -212,7 +212,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::end (void)
   {
-    return (iterator (NULL));
+    return (iterator (nullptr));
   }
 
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
@@ -224,7 +224,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::const_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::end (void) const
   {
-    return (const_iterator (NULL));
+    return (const_iterator (nullptr));
   }
 
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
@@ -236,7 +236,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::reverse_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::rend (void)
   {
-    return (reverse_iterator (NULL));
+    return (reverse_iterator (nullptr));
   }
 
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
@@ -248,7 +248,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::const_reverse_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::rend (void) const
   {
-    return (const_reverse_iterator (NULL));
+    return (const_reverse_iterator (nullptr));
   }
 
 
@@ -256,7 +256,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::aeNode* aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::GetLeftMost (void) const
   {
     if (empty ())
-      return (NULL);
+      return (nullptr);
 
     aeNode* pNode = m_pRoot;
 
@@ -270,7 +270,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::aeNode* aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::GetRightMost (void) const
   {
     if (empty ())
-      return (NULL);
+      return (nullptr);
 
     aeNode* pNode = m_pRoot;
 
@@ -328,7 +328,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::lower_bound (const KEY& key)
   {
     aeNode* pNode = m_pRoot;
-    aeNode* pNodeSmaller = NULL;
+    aeNode* pNodeSmaller = nullptr;
 
     while (pNode != &m_NilNode)
     {
@@ -351,7 +351,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::upper_bound (const KEY& key)
   {
     aeNode* pNode = m_pRoot;
-    aeNode* pNodeSmaller = NULL;
+    aeNode* pNodeSmaller = nullptr;
 
     while (pNode != &m_NilNode)
     {
@@ -379,7 +379,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::const_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::lower_bound (const KEY& key) const
   {
     aeNode* pNode = m_pRoot;
-    aeNode* pNodeSmaller = NULL;
+    aeNode* pNodeSmaller = nullptr;
 
     while (pNode != &m_NilNode)
     {
@@ -402,7 +402,7 @@ namespace AE_NS_FOUNDATION
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::const_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::upper_bound (const KEY& key) const
   {
     aeNode* pNode = m_pRoot;
-    aeNode* pNodeSmaller = NULL;
+    aeNode* pNodeSmaller = nullptr;
 
     while (pNode != &m_NilNode)
     {
@@ -438,7 +438,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::insert (const KEY& key, const VALUE& value)
   {
-    aeNode* pInsertedNode = NULL;
+    aeNode* pInsertedNode = nullptr;
 
     m_pRoot = insert (m_pRoot, key, value, pInsertedNode);
     m_pRoot->m_pParent = &m_NilNode;
@@ -488,7 +488,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   void aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::ReleaseNode (aeNode* pNode)
   {
-    AE_CHECK_ALWAYS (pNode != NULL, "aeSet::ReleaseNode: pNode is invalid.");
+    AE_CHECK_ALWAYS (pNode != nullptr, "aeSet::ReleaseNode: pNode is invalid.");
 
     aeMemoryManagement::Destruct<aeNode> (pNode);
 
@@ -724,7 +724,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::erase (const iterator& pos)
   {
-    AE_CHECK_DEV (pos.m_pElement != NULL, "aeMap::erase: The iterator (pos) is invalid.");
+    AE_CHECK_DEV (pos.m_pElement != nullptr, "aeMap::erase: The iterator (pos) is invalid.");
 
     iterator temp (pos);
     ++temp;
@@ -735,7 +735,7 @@ namespace AE_NS_FOUNDATION
   template < class KEY, class VALUE, class COMPARE, bool NO_DEBUG_ALLOCATOR>
   typename aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::reverse_iterator aeMap<KEY, VALUE, COMPARE, NO_DEBUG_ALLOCATOR>::erase (const reverse_iterator& pos)
   {
-    AE_CHECK_DEV (pos.m_pElement != NULL, "aeMap::erase: The reverse_iterator (pos) is invalid.");
+    AE_CHECK_DEV (pos.m_pElement != nullptr, "aeMap::erase: The reverse_iterator (pos) is invalid.");
 
     reverse_iterator temp (pos);
     ++temp;

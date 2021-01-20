@@ -7,6 +7,9 @@
 #include <KrautFoundation/Strings/StringFunctions.h>
 
 #include "qtTreeEditWidget.moc.h"
+#include <KrautGraphics/Configuration/CVar.h>
+#include <KrautGraphics/FileSystem/FileIn.h>
+#include <KrautGraphics/FileSystem/FileSystem.h>
 
 QToolButton* g_pRenderModeButton = nullptr;
 QToolButton* g_pOpenFileButton = nullptr;
@@ -20,7 +23,7 @@ extern bool s_bTreeNeedsUpdate;
 extern bool s_bTreeHasSimpleChanges;
 extern bool s_bStatsNeedUpdate;
 extern aeCVarBool CVar_LeafCardConvertToDDS;
-extern aeDeque<aeFilePath> g_LRU_Trees;
+extern aeDeque<aeString> g_LRU_Trees;
 
 extern aeCVarInt CVar_AmbientLowRed;
 extern aeCVarInt CVar_AmbientLowGreen;
@@ -579,7 +582,7 @@ void qtTreeEditWidget::SetCurrentlyEditedLoD(aeLod::Enum LoD)
   {
     for (aeUInt32 bt = 0; bt < Kraut::BranchType::ENUM_COUNT; ++bt)
     {
-      cbLod[mt][bt]->setChecked(g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_AllowTypes[mt].IsAnyFlagSet(1 << bt));
+      cbLod[mt][bt]->setChecked((g_Tree.m_Descriptor.m_LodData[g_Globals.s_CurLoD].m_AllowTypes[mt] & (1 << bt)) != 0);
       cbLod[mt][bt]->setVisible(g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[bt].m_bUsed && g_Tree.m_Descriptor.m_StructureDesc.m_BranchTypes[bt].m_bEnable[mt]);
     }
   }
@@ -591,9 +594,9 @@ void qtTreeEditWidget::SetCurrentlyEditedLoD(aeLod::Enum LoD)
   g_Globals.s_bUpdatePickingBuffer = true;
 }
 
-bool qtTreeEditWidget::SelectFile(aeFilePath& sPrevFile, aeHybridString<128>& sTargetString, QLineEdit* pLineEdit, const char* szFileTypeFilter, const char* szContentSubFolder)
+bool qtTreeEditWidget::SelectFile(aeString& sPrevFile, aeString& sTargetString, QLineEdit* pLineEdit, const char* szFileTypeFilter, const char* szContentSubFolder)
 {
-  // get the current files's full path
+  // get the current file's full path
   {
     aeFileIn File;
     if (File.Open(sTargetString.c_str()))
@@ -611,7 +614,7 @@ bool qtTreeEditWidget::SelectFile(aeFilePath& sPrevFile, aeHybridString<128>& sT
 
   sPrevFile = result.toLatin1().data();
 
-  aeFilePath sNewFilePath;
+  aeString sNewFilePath;
 
   // get its relative path and check that it is in a data directory
   {
@@ -636,7 +639,7 @@ bool qtTreeEditWidget::SelectFile(aeFilePath& sPrevFile, aeHybridString<128>& sT
   return true;
 }
 
-bool qtTreeEditWidget::SelectTexture(aeFilePath& sPrevTexture, aeHybridString<128>& sTargetString, QLineEdit* pLineEdit)
+bool qtTreeEditWidget::SelectTexture(aeString& sPrevTexture, aeString& sTargetString, QLineEdit* pLineEdit)
 {
   return SelectFile(sPrevTexture, sTargetString, pLineEdit, "DDS-Files (*.dds);;TGA-Files (*.tga);;Texture-Files (*.tga;*.dds);;All Files (*.*)", "Textures/");
 }

@@ -14,7 +14,7 @@ namespace AE_NS_EDITORBASICS
   AE_ENUMERABLE_CLASS_CODE (aeTransformGizmo);
 
   aeTransformGizmo::Mode aeTransformGizmo::s_GizmoMode = aeTransformGizmo::Invisible;
-  aeTransformGizmo* aeTransformGizmo::s_pCurrentlyDragged = NULL;
+  aeTransformGizmo* aeTransformGizmo::s_pCurrentlyDragged = nullptr;
   aeTransformGizmo::GizmoAxis aeTransformGizmo::s_DragAxis = aeTransformGizmo::GizmoAxisX;
   aeVec3 aeTransformGizmo::s_vDragCameraPos;
   aeShaderResourceHandle aeTransformGizmo::s_hGizmoShader;
@@ -36,7 +36,7 @@ namespace AE_NS_EDITORBASICS
     m_UsageFlags = aeTransformGizmo::TransformAll;
     m_PrevUsageFlags = 0;
 
-    m_pObject = NULL;
+    m_pObject = nullptr;
     m_uiObjectID = 0;
   }
 
@@ -198,7 +198,7 @@ namespace AE_NS_EDITORBASICS
 
   bool aeTransformGizmo::BeginDrag (GizmoAxis Axis, aeVec3 vCameraPos, aeInt32 uiScreenPosX, aeInt32 uiScreenPosY)
   {
-    AE_CHECK_DEV (s_pCurrentlyDragged == NULL, "Cannot start draggin a gizmo, if one is already being dragged.");
+    AE_CHECK_DEV (s_pCurrentlyDragged == nullptr, "Cannot start draggin a gizmo, if one is already being dragged.");
 
     aeVec3 vPoint = GetIntersectionPoint (Axis, vCameraPos, uiScreenPosX, uiScreenPosY);
 
@@ -231,12 +231,12 @@ namespace AE_NS_EDITORBASICS
     ed.m_PrevTransform = s_pCurrentlyDragged->m_Transform;
     s_pCurrentlyDragged->m_Events.RaiseEvent (&ed);
 
-    s_pCurrentlyDragged = NULL;
+    s_pCurrentlyDragged = nullptr;
   }
 
   void aeTransformGizmo::DragTo (aeInt32 uiScreenPosX, aeInt32 uiScreenPosY)
   {
-    AE_CHECK_DEV (s_pCurrentlyDragged != NULL, "No gizmo is active for dragging (possibly BeginDrag failed).");
+    AE_CHECK_DEV (s_pCurrentlyDragged != nullptr, "No gizmo is active for dragging (possibly BeginDrag failed).");
 
     if (!s_pCurrentlyDragged->m_bActive)
       return;

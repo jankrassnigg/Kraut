@@ -3,12 +3,12 @@
 
 namespace AE_NS_FOUNDATION
 {
-  AE_INLINE aeMatrix::aeMatrix (const float* const pData, Layout layout)
+  inline aeMatrix::aeMatrix (const float* const pData, Layout layout)
   {
     SetMatrix (pData, layout);
   }
 
-  AE_INLINE aeMatrix::aeMatrix (float c1r1, float c2r1, float c3r1, float c4r1,
+  inline aeMatrix::aeMatrix (float c1r1, float c2r1, float c3r1, float c4r1,
                                 float c1r2, float c2r2, float c3r2, float c4r2,
                                 float c1r3, float c2r3, float c3r3, float c4r3,
                                 float c1r4, float c2r4, float c3r4, float c4r4,
@@ -37,7 +37,7 @@ namespace AE_NS_FOUNDATION
                      0, 0, 0, 0);
   }
 
-  AE_INLINE void aeMatrix::SetMatrix (const float* AE_RESTRICT const pData, Layout layout)
+  inline void aeMatrix::SetMatrix (const float* const pData, Layout layout)
   {
     if (layout == ColumnMajor)
     {
@@ -61,7 +61,7 @@ namespace AE_NS_FOUNDATION
     }
   }
 
-  AE_INLINE void aeMatrix::SetMatrix (float c1r1, float c2r1, float c3r1, float c4r1,
+  inline void aeMatrix::SetMatrix (float c1r1, float c2r1, float c3r1, float c4r1,
                                       float c1r2, float c2r2, float c3r2, float c4r2,
                                       float c1r3, float c2r3, float c3r3, float c4r3,
                                       float c1r4, float c2r4, float c3r4, float c4r4,
@@ -83,7 +83,7 @@ namespace AE_NS_FOUNDATION
     }
   }
 
-  AE_INLINE void aeMatrix::SetZero (void)
+  inline void aeMatrix::SetZero (void)
   {
     SetMatrix (0, 0, 0, 0,
                0, 0, 0, 0,
@@ -91,7 +91,7 @@ namespace AE_NS_FOUNDATION
                0, 0, 0, 0);
   }
 
-  AE_INLINE void aeMatrix::SetIdentity (void)
+  inline void aeMatrix::SetIdentity (void)
   {
     SetMatrix (1, 0, 0, 0,
                0, 1, 0, 0,
@@ -99,7 +99,7 @@ namespace AE_NS_FOUNDATION
                0, 0, 0, 1);
   }
 
-  AE_INLINE void aeMatrix::SetTranslationMatrix (const aeVec3& vTranslation)
+  inline void aeMatrix::SetTranslationMatrix (const aeVec3& vTranslation)
   {
     SetMatrix (1, 0, 0, vTranslation.x,
                0, 1, 0, vTranslation.y,
@@ -107,7 +107,7 @@ namespace AE_NS_FOUNDATION
                0, 0, 0, 1);
   }
 
-  AE_INLINE void aeMatrix::SetScalingMatrix (float x, float y, float z)
+  inline void aeMatrix::SetScalingMatrix (float x, float y, float z)
   {
     SetMatrix (x, 0, 0, 0,
                0, y, 0, 0,
@@ -115,7 +115,7 @@ namespace AE_NS_FOUNDATION
                0, 0, 0, 1);
   }
 
-  AE_INLINE void aeMatrix::SetRotationMatrixX (float fAngle)
+  inline void aeMatrix::SetRotationMatrixX (float fAngle)
   {
     const float fSin = aeMath::SinDeg (fAngle);
     const float fCos = aeMath::CosDeg (fAngle);
@@ -126,7 +126,7 @@ namespace AE_NS_FOUNDATION
                0.0f, 0.0f, 0.0f, 1.0f);
   }
 
-  AE_INLINE void aeMatrix::SetRotationMatrixY (float fAngle)
+  inline void aeMatrix::SetRotationMatrixY (float fAngle)
   {
     const float fSin = aeMath::SinDeg (fAngle);
     const float fCos = aeMath::CosDeg (fAngle);
@@ -138,7 +138,7 @@ namespace AE_NS_FOUNDATION
                0.0f, 0.0f, 0.0f, 1.0f);
   }
 
-  AE_INLINE void aeMatrix::SetRotationMatrixZ (float fAngle)
+  inline void aeMatrix::SetRotationMatrixZ (float fAngle)
   {
     const float fSin = aeMath::SinDeg (fAngle);
     const float fCos = aeMath::CosDeg (fAngle);
@@ -149,7 +149,7 @@ namespace AE_NS_FOUNDATION
                0.0f, 0.0f, 0.0f, 1.0f);
   }
 
-  AE_INLINE void aeMatrix::Transpose (void)
+  inline void aeMatrix::Transpose (void)
   {
     aeMath::Swap (m_fColumn[0][1], m_fColumn[1][0]);
     aeMath::Swap (m_fColumn[0][2], m_fColumn[2][0]);
@@ -159,17 +159,17 @@ namespace AE_NS_FOUNDATION
     aeMath::Swap (m_fColumn[2][3], m_fColumn[3][2]);
   }
 
-  AE_INLINE const aeMatrix aeMatrix::GetTranspose (void) const
+  inline const aeMatrix aeMatrix::GetTranspose (void) const
   {
     return aeMatrix (m_fElements, RowMajor);
   }
 
-  AE_INLINE void aeMatrix::Invert (void)
+  inline void aeMatrix::Invert (void)
   {
     *this = GetInverse (); 
   }
 
-  AE_INLINE void aeMatrix::GetRow (aeUInt32 iRow, float& v1, float& v2, float& v3, float& v4) const
+  inline void aeMatrix::GetRow (aeUInt32 iRow, float& v1, float& v2, float& v3, float& v4) const
   {
     AE_CHECK_DEV (iRow <= 3, "Invalid Row Index %d", iRow);
 
@@ -179,7 +179,7 @@ namespace AE_NS_FOUNDATION
     v4 = m_fColumn[3][iRow];
   }
 
-  AE_INLINE void aeMatrix::SetRow (aeUInt32 iRow, float v1, float v2, float v3, float v4)
+  inline void aeMatrix::SetRow (aeUInt32 iRow, float v1, float v2, float v3, float v4)
   {
     AE_CHECK_DEV (iRow <= 3, "Invalid Row Index %d", iRow);
 
@@ -189,7 +189,7 @@ namespace AE_NS_FOUNDATION
     m_fColumn[3][iRow] = v4;
   }
 
-  AE_INLINE void aeMatrix::GetColumn (aeUInt32 iColumn, float& v1, float& v2, float& v3, float& v4) const
+  inline void aeMatrix::GetColumn (aeUInt32 iColumn, float& v1, float& v2, float& v3, float& v4) const
   {
     AE_CHECK_DEV (iColumn <= 3, "Invalid Column Index %d", iColumn);
 
@@ -199,7 +199,7 @@ namespace AE_NS_FOUNDATION
     v4 = m_fColumn[iColumn][3];
   }
 
-  AE_INLINE void aeMatrix::SetColumn (aeUInt32 iColumn, float v1, float v2, float v3, float v4)
+  inline void aeMatrix::SetColumn (aeUInt32 iColumn, float v1, float v2, float v3, float v4)
   {
     AE_CHECK_DEV (iColumn <= 3, "Invalid Column Index %d", iColumn);
 
@@ -209,21 +209,21 @@ namespace AE_NS_FOUNDATION
     m_fColumn[iColumn][3] = v4;
   }
 
-  AE_INLINE void aeMatrix::GetAsOpenGL3x3Matrix (float* pDst) const
+  inline void aeMatrix::GetAsOpenGL3x3Matrix (float* pDst) const
   {
     pDst[0] = m_fColumn[0][0];		pDst[1] = m_fColumn[0][1];		pDst[2] = m_fColumn[0][2];
     pDst[3] = m_fColumn[1][0];		pDst[4] = m_fColumn[1][1];		pDst[5] = m_fColumn[1][2];
     pDst[6] = m_fColumn[2][0];		pDst[7] = m_fColumn[2][1];		pDst[8] = m_fColumn[2][2];
   }
 
-  AE_INLINE void aeMatrix::GetAsOpenGL3x3Matrix (double* pDst) const
+  inline void aeMatrix::GetAsOpenGL3x3Matrix (double* pDst) const
   {
     pDst[0] = m_fColumn[0][0];		pDst[1] = m_fColumn[0][1];		pDst[2] = m_fColumn[0][2];
     pDst[3] = m_fColumn[1][0];		pDst[4] = m_fColumn[1][1];		pDst[5] = m_fColumn[1][2];
     pDst[6] = m_fColumn[2][0];		pDst[7] = m_fColumn[2][1];		pDst[8] = m_fColumn[2][2];
   }
 
-  AE_INLINE void aeMatrix::GetAsOpenGL4x4Matrix (float* pDst) const
+  inline void aeMatrix::GetAsOpenGL4x4Matrix (float* pDst) const
   {
     pDst[0] = m_fColumn[0][0];		pDst[1] = m_fColumn[0][1];		pDst[2] = m_fColumn[0][2];		pDst[3] = m_fColumn[0][3];
     pDst[4] = m_fColumn[1][0];		pDst[5] = m_fColumn[1][1];		pDst[6] = m_fColumn[1][2];		pDst[7] = m_fColumn[1][3];
@@ -231,7 +231,7 @@ namespace AE_NS_FOUNDATION
     pDst[12]= m_fColumn[3][0];		pDst[13]= m_fColumn[3][1];		pDst[14]= m_fColumn[3][2];		pDst[15]= m_fColumn[3][3];
   }
 
-  AE_INLINE void aeMatrix::GetAsOpenGL4x4Matrix (double* pDst) const
+  inline void aeMatrix::GetAsOpenGL4x4Matrix (double* pDst) const
   {
     pDst[0] = m_fColumn[0][0];		pDst[1] = m_fColumn[0][1];		pDst[2] = m_fColumn[0][2];		pDst[3] = m_fColumn[0][3];
     pDst[4] = m_fColumn[1][0];		pDst[5] = m_fColumn[1][1];		pDst[6] = m_fColumn[1][2];		pDst[7] = m_fColumn[1][3];
@@ -239,7 +239,7 @@ namespace AE_NS_FOUNDATION
     pDst[12]= m_fColumn[3][0];		pDst[13]= m_fColumn[3][1];		pDst[14]= m_fColumn[3][2];		pDst[15]= m_fColumn[3][3];
   }
 
-  AE_INLINE const aeVec3 aeMatrix::TransformPosition (const aeVec3& v) const
+  inline const aeVec3 aeMatrix::TransformPosition (const aeVec3& v) const
   {
     aeVec3 r;
     r.x = m_fColumn[0][0] * v.x + m_fColumn[1][0] * v.y + m_fColumn[2][0] * v.z + m_fColumn[3][0];
@@ -248,7 +248,7 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeVec3 aeMatrix::TransformDirection (const aeVec3& v) const
+  inline const aeVec3 aeMatrix::TransformDirection (const aeVec3& v) const
   {
     aeVec3 r;
     r.x = m_fColumn[0][0] * v.x + m_fColumn[1][0] * v.y + m_fColumn[2][0] * v.z;
@@ -257,7 +257,7 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeVec3 aeMatrix::TransformWithWComponent (const aeVec3& v, float* AE_RESTRICT inout_w) const
+  inline const aeVec3 aeMatrix::TransformWithWComponent (const aeVec3& v, float* inout_w) const
   {
     const float w = *inout_w;
 
@@ -270,46 +270,46 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeVec3 aeMatrix::GetTranslationVector (void) const
+  inline const aeVec3 aeMatrix::GetTranslationVector (void) const
   {
     return aeVec3 (m_fColumn[3][0], m_fColumn[3][1], m_fColumn[3][2]);
   }
 
-  AE_INLINE void aeMatrix::SetTranslationVector (const aeVec3& v)
+  inline void aeMatrix::SetTranslationVector (const aeVec3& v)
   {
     m_fColumn[3][0] = v.x;
     m_fColumn[3][1] = v.y;
     m_fColumn[3][2] = v.z;
   }
 
-  AE_INLINE void aeMatrix::operator+= (const aeVec3& v)
+  inline void aeMatrix::operator+= (const aeVec3& v)
   {
     m_fColumn[3][0] += v.x;
     m_fColumn[3][1] += v.y;
     m_fColumn[3][2] += v.z;
   }
 
-  AE_INLINE void aeMatrix::operator-= (const aeVec3& v)
+  inline void aeMatrix::operator-= (const aeVec3& v)
   {
     m_fColumn[3][0] -= v.x;
     m_fColumn[3][1] -= v.y;
     m_fColumn[3][2] -= v.z;
   }
 
-  AE_INLINE void aeMatrix::operator*= (float f)
+  inline void aeMatrix::operator*= (float f)
   {
     for (aeInt32 i = 0; i < 16; ++i)
       m_fElements[i] *= f;
   }
 
-  AE_INLINE void aeMatrix::operator/= (float f)
+  inline void aeMatrix::operator/= (float f)
   {
     const float fInv = aeMath::Invert (f);
 
     operator*= (fInv);
   }
 
-  AE_INLINE const aeMatrix operator* (const aeMatrix& m1, const aeMatrix& m2)
+  inline const aeMatrix operator* (const aeMatrix& m1, const aeMatrix& m2)
   {
     aeMatrix r;
     for (aeInt32 i = 0; i < 4; ++i)
@@ -322,12 +322,12 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeVec3 operator* (const aeMatrix& m, const aeVec3& v)
+  inline const aeVec3 operator* (const aeMatrix& m, const aeVec3& v)
   {
     return m.TransformPosition (v);
   }
 
-  AE_INLINE const aeMatrix operator+ (const aeMatrix& m, const aeVec3& v)
+  inline const aeMatrix operator+ (const aeMatrix& m, const aeVec3& v)
   {
     aeMatrix r = m;
 
@@ -338,7 +338,7 @@ namespace AE_NS_FOUNDATION
     return (m);
   }
 
-  AE_INLINE const aeMatrix operator- (const aeMatrix& m, const aeVec3& v)
+  inline const aeMatrix operator- (const aeMatrix& m, const aeVec3& v)
   {
     aeMatrix r = m;
 
@@ -353,7 +353,7 @@ namespace AE_NS_FOUNDATION
 
   // *** Stuff needed for matrix inversion ***
 
-  AE_INLINE float GetDeterminantOf3x3SubMatrix (const aeMatrix& m, aeInt32 i, aeInt32 j)
+  inline float GetDeterminantOf3x3SubMatrix (const aeMatrix& m, aeInt32 i, aeInt32 j)
   {
     const aeInt32 si0 = 0 + ((i <= 0) ? 1 : 0);
     const aeInt32 si1 = 1 + ((i <= 1) ? 1 : 0);
@@ -373,7 +373,7 @@ namespace AE_NS_FOUNDATION
     return (fDet2);
   }
 
-  AE_INLINE float GetDeterminantOf4x4Matrix (const aeMatrix& m)
+  inline float GetDeterminantOf4x4Matrix (const aeMatrix& m)
   {
     float det = 0.0;
 
@@ -388,12 +388,12 @@ namespace AE_NS_FOUNDATION
 
   // *** free functions ***
 
-  AE_INLINE const aeMatrix operator* (float f, const aeMatrix& m1)
+  inline const aeMatrix operator* (float f, const aeMatrix& m1)
   {
     return operator* (m1, f);
   }
 
-  AE_INLINE const aeMatrix operator* (const aeMatrix& m1, float f)
+  inline const aeMatrix operator* (const aeMatrix& m1, float f)
   {
     aeMatrix r;
 
@@ -403,12 +403,12 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeMatrix operator/ (const aeMatrix& m1, float f)
+  inline const aeMatrix operator/ (const aeMatrix& m1, float f)
   {
     return operator* (m1, aeMath::Invert (f));
   }
 
-  AE_INLINE const aeMatrix operator+ (const aeMatrix& m1, const aeMatrix& m2)
+  inline const aeMatrix operator+ (const aeMatrix& m1, const aeMatrix& m2)
   {
     aeMatrix r;
 
@@ -418,7 +418,7 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE const aeMatrix operator- (const aeMatrix& m1, const aeMatrix& m2)
+  inline const aeMatrix operator- (const aeMatrix& m1, const aeMatrix& m2)
   {
     aeMatrix r;
 
@@ -428,7 +428,7 @@ namespace AE_NS_FOUNDATION
     return (r);
   }
 
-  AE_INLINE bool aeMatrix::IsIdentical (const aeMatrix& rhs) const
+  inline bool aeMatrix::IsIdentical (const aeMatrix& rhs) const
   {
     for (aeUInt32 i = 0; i < 16; ++i)
     {
@@ -439,7 +439,7 @@ namespace AE_NS_FOUNDATION
     return true;
   }
 
-  AE_INLINE bool aeMatrix::IsEqual (const aeMatrix& rhs, float fEpsilon) const
+  inline bool aeMatrix::IsEqual (const aeMatrix& rhs, float fEpsilon) const
   {
     AE_CHECK_DEV (fEpsilon >= 0.0f, "aeMatrix::IsEqual: Epsilon may not be negativ.");
 
@@ -452,17 +452,17 @@ namespace AE_NS_FOUNDATION
     return true;
   }
 
-  AE_INLINE bool operator== (const aeMatrix& lhs, const aeMatrix& rhs)
+  inline bool operator== (const aeMatrix& lhs, const aeMatrix& rhs)
   {
     return lhs.IsIdentical (rhs);
   }
 
-  AE_INLINE bool operator!= (const aeMatrix& lhs, const aeMatrix& rhs)
+  inline bool operator!= (const aeMatrix& lhs, const aeMatrix& rhs)
   {
     return !lhs.IsIdentical (rhs);
   }
 
-  AE_INLINE bool aeMatrix::IsZeroMatrix (float fEpsilon) const
+  inline bool aeMatrix::IsZeroMatrix (float fEpsilon) const
   {
     for (aeUInt32 i = 0; i < 16; ++i)
     {
@@ -473,7 +473,7 @@ namespace AE_NS_FOUNDATION
     return true;
   }
 
-  AE_INLINE bool aeMatrix::IsIdentityMatrix (float fEpsilon) const
+  inline bool aeMatrix::IsIdentityMatrix (float fEpsilon) const
   {
     if (!aeMath::IsFloatEqual (m_fColumn[0][0], 1.0f, fEpsilon)) return false;
     if (!aeMath::IsFloatEqual (m_fColumn[0][1], 0.0f, fEpsilon)) return false;
@@ -498,7 +498,7 @@ namespace AE_NS_FOUNDATION
     return true;
   }
 
-  AE_INLINE bool aeMatrix::IsValid () const
+  inline bool aeMatrix::IsValid () const
   {
     for (aeUInt32 i = 0; i < 16; ++i)
     {

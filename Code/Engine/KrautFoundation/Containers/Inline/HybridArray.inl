@@ -80,7 +80,7 @@ namespace AE_NS_FOUNDATION
       aeMemoryManagement::Destruct<TYPE> (&m_pData[uiNewSize], m_uiSize - uiNewSize);
 
 
-    TYPE* pNewData = NULL;
+    TYPE* pNewData = nullptr;
 
     if ((uiNewSize <= m_uiCapacity) && (uiNewSize + 32 >= m_uiCapacity))
     {
@@ -203,7 +203,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   void aeHybridArray<TYPE, SIZE>::pop_back (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::pop_back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::pop_back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeHybridArray::pop_back: Array has a size of zero.");
 
     --m_uiSize;
@@ -233,7 +233,7 @@ namespace AE_NS_FOUNDATION
   const TYPE* aeHybridArray<TYPE, SIZE>::data (void) const
   {
     if (m_uiSize == 0)
-      return (NULL);
+      return (nullptr);
 
     return (m_pData);
   }
@@ -242,7 +242,7 @@ namespace AE_NS_FOUNDATION
   TYPE* aeHybridArray<TYPE, SIZE>::data (void)
   {
     if (m_uiSize == 0)
-      return (NULL);
+      return (nullptr);
 
     return (m_pData);
   }
@@ -250,7 +250,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   const TYPE& aeHybridArray<TYPE, SIZE>::operator[](aeUInt32 uiIndex) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::operator[]: Trying to access an element of an array that has not been initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::operator[]: Trying to access an element of an array that has not been initialized.");
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeHybridArray::operator[]: Trying to access an element %d of an array that holds only %d elements.", uiIndex, m_uiSize);
 
     return (m_pData[uiIndex]);
@@ -259,7 +259,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   TYPE& aeHybridArray<TYPE, SIZE>::operator[](aeUInt32 uiIndex)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::operator[]: Trying to access an element of an array that has not been initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::operator[]: Trying to access an element of an array that has not been initialized.");
     AE_CHECK_DEV (uiIndex < m_uiSize, "aeHybridArray::operator[]: Trying to access an element %d of an array that holds only %d elements.", uiIndex, m_uiSize);
 
     return (m_pData[uiIndex]);
@@ -285,7 +285,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   TYPE& aeHybridArray<TYPE, SIZE>::front (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::front: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::front: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeHybridArray::front: Array has a size of zero.");
 
     return (m_pData[0]);
@@ -294,7 +294,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   TYPE& aeHybridArray<TYPE, SIZE>::back (void)
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeHybridArray::back: Array has a size of zero.");
 
     return (m_pData[m_uiSize - 1]);
@@ -303,7 +303,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   const TYPE& aeHybridArray<TYPE, SIZE>::front (void) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::front: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::front: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeHybridArray::front: Array has a size of zero.");
 
     return (m_pData[0]);
@@ -312,7 +312,7 @@ namespace AE_NS_FOUNDATION
   template<class TYPE, aeUInt32 SIZE>
   const TYPE& aeHybridArray<TYPE, SIZE>::back (void) const
   {
-    AE_CHECK_DEV (m_pData != NULL, "aeHybridArray::back: Array is not initialized.");
+    AE_CHECK_DEV (m_pData != nullptr, "aeHybridArray::back: Array is not initialized.");
     AE_CHECK_DEV (m_uiSize > 0, "aeHybridArray::back: Array has a size of zero.");
 
     return (m_pData[m_uiSize - 1]);

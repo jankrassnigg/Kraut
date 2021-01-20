@@ -1,7 +1,6 @@
 #pragma once
 
 #include <KrautFoundation/Math/Vec3.h>
-#include <KrautFoundation/Utility/Flags.h>
 #include <KrautGenerator/Description/DescriptionEnums.h>
 
 namespace Kraut

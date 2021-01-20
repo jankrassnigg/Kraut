@@ -5,6 +5,7 @@
 #include "../Rendering/AmbientOcclusion.h"
 #include "../Tree/Tree.h"
 #include "../Undo/TreeUndo.h"
+#include <KrautGenerator/Serialization/SerializeTree.h>
 
 static void ResetLodDesc(Kraut::LodDesc& desc, aeLod::Enum lod)
 {
@@ -124,9 +125,24 @@ void aeTreeDescriptor::Reset(void)
 
 void aeTreeDescriptor::Save(aeStreamOut& s)
 {
-  aeUInt32 uiVersion = 17;
-
+  aeUInt32 uiVersion = 18;
   s << uiVersion;
+
+  // version 18: add standard serialization
+  {
+    Kraut::Serializer ts;
+    ts.m_pTreeStructure = &m_StructureDesc;
+
+    AE_CHECK_DEV(aeLod::ENUM_COUNT == 6, "Unexpected number of LODs");
+    for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT - 1; ++i)
+    {
+      // skip LOD 'None'
+      ts.m_LODs[i] = &m_LodData[i + 1];
+    }
+
+    ts.Serialize(s);
+  }
+
   s << m_StructureDesc.m_uiRandomSeed;
   s << m_StructureDesc.m_bLeafCardMode;
 
@@ -136,7 +152,9 @@ void aeTreeDescriptor::Save(aeStreamOut& s)
   ClampLodValues(aeLod::None);
 
   for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT; ++i)
-    m_LodData[i].Save(s);
+  {
+    m_LodData[i].Serialize(s);
+  }
 
   // Version 8:
   aeUInt8 uiCount = Kraut::BranchType::ENUM_COUNT;
@@ -144,7 +162,7 @@ void aeTreeDescriptor::Save(aeStreamOut& s)
 
   for (aeUInt32 i = 0; i < Kraut::BranchType::ENUM_COUNT; ++i)
   {
-    m_StructureDesc.m_BranchTypes[i].Save(s);
+    m_StructureDesc.m_BranchTypes[i].Serialize(s);
   }
 
   // Version 7
@@ -205,6 +223,22 @@ void aeTreeDescriptor::Load(aeStreamIn& s)
 
   aeUInt32 uiVersion = 1;
   s >> uiVersion;
+
+  if (uiVersion >= 18)
+  {
+    Kraut::Deserializer ts;
+    ts.m_pTreeStructure = &m_StructureDesc;
+
+    AE_CHECK_DEV(aeLod::ENUM_COUNT == 6, "Unexpected number of LODs");
+    for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT - 1; ++i)
+    {
+      // skip LOD 'None'
+      ts.m_LODs[i] = &m_LodData[i + 1];
+    }
+
+    ts.Deserialize(s);
+  }
+
   s >> m_StructureDesc.m_uiRandomSeed;
 
   if (uiVersion >= 3)
@@ -221,7 +255,7 @@ void aeTreeDescriptor::Load(aeStreamIn& s)
     for (aeUInt32 i = 0; i < aeLod::ENUM_COUNT; ++i)
     {
       ResetLodDesc(m_LodData[i], (aeLod::Enum)i);
-      m_LodData[i].Load(s);
+      m_LodData[i].Deserialize(s);
     }
 
     ClampLodValues(aeLod::None);
@@ -241,11 +275,11 @@ void aeTreeDescriptor::Load(aeStreamIn& s)
   for (aeUInt32 i = 0; i < uiCount; ++i)
   {
     if (i < Kraut::BranchType::ENUM_COUNT)
-      m_StructureDesc.m_BranchTypes[i].Load(s);
+      m_StructureDesc.m_BranchTypes[i].Deserialize(s);
     else
     {
       Kraut::SpawnNodeDesc dummy;
-      dummy.Load(s);
+      dummy.Deserialize(s);
     }
 
     if ((uiVersion < 6) && (i == 0)) // Version 6 added 2 trunk types
@@ -337,7 +371,9 @@ static void PushLodSettingsDown(aeUInt32 uiStartLod, Kraut::LodDesc* m_LodData)
     m_LodData[i].m_fVertexRingDetail = aeMath::Max(m_LodData[i].m_fVertexRingDetail, m_LodData[i - 1].m_fVertexRingDetail);
 
     for (aeUInt32 mt = 0; mt < Kraut::BranchGeometryType::ENUM_COUNT; ++mt)
-      m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].SetFlags(m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].GetData() & m_LodData[i - 1].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].GetData());
+    {
+      m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt] = (m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt] & m_LodData[i - 1].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt]);
+    }
 
     m_LodData[i].m_iMaxFrondDetail = aeMath::Min(m_LodData[i].m_iMaxFrondDetail, m_LodData[i - 1].m_iMaxFrondDetail);
     m_LodData[i].m_iFrondDetailReduction = aeMath::Max(m_LodData[i].m_iFrondDetailReduction, m_LodData[i - 1].m_iFrondDetailReduction);
@@ -358,7 +394,9 @@ static void PushLodSettingsUp(aeUInt32 uiStartLod, Kraut::LodDesc* m_LodData)
     m_LodData[i].m_fVertexRingDetail = aeMath::Min(m_LodData[i].m_fVertexRingDetail, m_LodData[i + 1].m_fVertexRingDetail);
 
     for (aeUInt32 mt = 0; mt < Kraut::BranchGeometryType::ENUM_COUNT; ++mt)
-      m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].SetFlags(m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].GetData() | m_LodData[i + 1].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt].GetData());
+    {
+      m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt] = (m_LodData[i].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt] | m_LodData[i + 1].m_AllowTypes[(Kraut::BranchGeometryType::Enum)mt]);
+    }
 
     m_LodData[i].m_iMaxFrondDetail = aeMath::Max(m_LodData[i].m_iMaxFrondDetail, m_LodData[i + 1].m_iMaxFrondDetail);
     m_LodData[i].m_iFrondDetailReduction = aeMath::Min(m_LodData[i].m_iFrondDetailReduction, m_LodData[i + 1].m_iFrondDetailReduction);

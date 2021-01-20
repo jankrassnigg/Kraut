@@ -22,8 +22,8 @@ namespace Kraut
 
     void PasteCurve(const Curve& OtherCurve);
 
-    void Save(aeStreamOut& s);
-    void Load(aeStreamIn& s, bool bOldFormat = false);
+    void Serialize(aeStreamOut& s) const;
+    void Deserialize(aeStreamIn& s, bool bOldFormat = false);
   };
 
 } // namespace Kraut

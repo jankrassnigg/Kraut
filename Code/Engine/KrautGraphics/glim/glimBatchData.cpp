@@ -7,7 +7,7 @@
 #include "glimBatchData.h"
 #include "glimInterface.h"
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 namespace NS_GLIM
 {
@@ -248,7 +248,7 @@ namespace NS_GLIM
 	{
 		// make sure no VAO is bound, such that GLIM does not accidently change it's state
 
-		// if the pointer is != NULL, the extension should be available
+		// if the pointer is != nullptr, the extension should be available
 		if (glBindVertexArray)
 		{
 			glBindVertexArray (0);
@@ -268,7 +268,7 @@ namespace NS_GLIM
 
 		// make sure no VAO is bound, such that GLIM does not accidently change it's state
 
-		// if the pointer is != NULL, the extension should be available
+		// if the pointer is != nullptr, the extension should be available
 		if (glBindVertexArray)
 		{
 			glBindVertexArray (0);
@@ -344,7 +344,7 @@ namespace NS_GLIM
 
 		// make sure no VAO is bound, such that GLIM does not accidently change it's state
 
-		// if the pointer is != NULL, the extension should be available
+		// if the pointer is != nullptr, the extension should be available
 		if (glBindVertexArray)
 		{
 			glBindVertexArray (0);
@@ -372,7 +372,7 @@ namespace NS_GLIM
 
 		
 		glBindBuffer (GL_ARRAY_BUFFER, m_uiVertexBufferID);
-		glBufferData (GL_ARRAY_BUFFER, uiVertices * uiVertexDataSize, NULL, GL_STATIC_DRAW);
+		glBufferData (GL_ARRAY_BUFFER, uiVertices * uiVertexDataSize, nullptr, GL_STATIC_DRAW);
 
 		// first upload the position data
 		unsigned int uiOffset = uiVertices * sizeof (float) * 3;

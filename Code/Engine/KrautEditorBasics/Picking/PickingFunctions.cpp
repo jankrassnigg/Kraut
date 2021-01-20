@@ -1,6 +1,6 @@
 #include "Picking.h"
 #include <KrautGraphics/RenderAPI/Main.h>
-#include <KrautFoundation/Configuration/VariableRegistry.h>
+#include <KrautGraphics/Configuration/VariableRegistry.h>
 
 
 
