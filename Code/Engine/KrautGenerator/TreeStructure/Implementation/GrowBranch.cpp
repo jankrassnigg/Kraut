@@ -135,22 +135,21 @@ namespace Kraut
 
 
       vCurGrowDirection = mSegmentRotation * vCurGrowDirection;
-      vCurGrowDirection.Normalize();
+      vCurGrowDirection.NormalizeSafe();
+
+      AE_CHECK_DEV(!vCurGrowDirection.IsZeroVector(), "Grow direction is degenerate.");
 
       const aeVec3 vInfluence = ComputeAverageInfluence(vCurNodePos, branchStructure.m_Type);
 
       vCurGrowTargetDir += vInfluence;
-      vCurGrowTargetDir.Normalize();
+      vCurGrowTargetDir.NormalizeSafe();
+
+      AE_CHECK_DEV(!vCurGrowTargetDir.IsZeroVector(), "Grow target direction is degenerate.");
 
       vTargetDir1 += vInfluence;
-      vTargetDir1.Normalize();
+      vTargetDir1.NormalizeSafe();
       vTargetDir2 += vInfluence;
-      vTargetDir2.Normalize();
-
-      //vCurGrowDirection += vInfluence;
-      vCurGrowDirection.Normalize();
-
-      AE_CHECK_DEV(vCurGrowDirection.IsValid(), "Grow Direction is degenerate.");
+      vTargetDir2.NormalizeSafe();
 
       const float fSegmentLength = BranchTypeDesc.m_iSegmentLengthCM / 100.0f; // Segment Length in Meters
 
@@ -186,7 +185,7 @@ namespace Kraut
           }
         }
 
-        vCurGrowDirection.Normalize();
+        vCurGrowDirection.NormalizeSafe();
       }
 
       AE_CHECK_DEV(vCurGrowDirection.IsValid(), "Grow Direction is degenerate.");

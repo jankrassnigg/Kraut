@@ -460,11 +460,16 @@ namespace Kraut
 
     for (aeUInt32 v = uiFirstVertex0; v < mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices.size(); ++v)
     {
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vNormal.Normalize();
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vBiTangent.Normalize();
+      auto& vtx = mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v];
 
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vTangent =
-        mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vBiTangent.Cross(mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vNormal);
+      AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "");
+
+      vtx.m_vNormal.NormalizeSafe();
+      vtx.m_vBiTangent.NormalizeSafe();
+
+      AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "");
+
+      vtx.m_vTangent = vtx.m_vBiTangent.Cross(vtx.m_vNormal);
     }
   }
 
@@ -489,5 +494,4 @@ namespace Kraut
       vUp = qRot * vUp;
     }
   }
-
 } // namespace Kraut

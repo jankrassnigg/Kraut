@@ -268,8 +268,6 @@ namespace Kraut
       {
         aeVec3 vPos1 = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[uiNumLodNodes - 1]].m_vPosition;
         aeVec3 vPos0 = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[uiNumLodNodes - 2]].m_vPosition;
-        aeVec3 vDir = vPos1 - vPos0;
-        vDir.Normalize();
 
         Kraut::Triangle t;
         Kraut::Vertex vtx[3];

@@ -85,7 +85,9 @@ namespace Kraut
     // reset all normals
     const aeUInt32 uiVertices = m_Vertices.size();
     for (aeUInt32 v = 0; v < uiVertices; ++v)
+    {
       m_Vertices[v].m_vNormal.SetZero();
+    }
 
     // now go through all triangles, compute their normals, add them to the vertex normals
     const aeUInt32 uiTriangles = m_Triangles.size();
@@ -96,21 +98,33 @@ namespace Kraut
       aeVec3 pos[3];
 
       for (aeUInt32 v = 0; v < 3; ++v)
+      {
         pos[v] = m_Vertices[tri.m_uiVertexIDs[v]].m_vPosition;
+      }
 
       aePlane p(pos);
 
       for (aeUInt32 v = 0; v < 3; ++v)
-        m_Vertices[m_Vertices[tri.m_uiVertexIDs[v]].m_iSharedVertex].m_vNormal += p.m_vNormal;
+      {
+        const aeUInt32 vtxIdx = tri.m_uiVertexIDs[v];
+        const aeUInt32 sharedIdx = m_Vertices[vtxIdx].m_iSharedVertex;
+
+        m_Vertices[sharedIdx].m_vNormal += p.m_vNormal;
+      }
     }
 
     // re-normalize all normals
     // compute bi-tangents
     for (aeUInt32 v = 0; v < uiVertices; ++v)
     {
-      m_Vertices[v].m_vNormal.Normalize();
-      m_Vertices[v].m_vBiTangent = m_Vertices[v].m_vNormal.Cross(m_Vertices[v].m_vTangent).GetNormalized();
-      m_Vertices[v].m_vTangent = m_Vertices[v].m_vBiTangent.Cross(m_Vertices[v].m_vNormal).GetNormalized();
+      auto& vtx = m_Vertices[v];
+
+      if (!vtx.m_vNormal.IsZeroVector())
+      {
+        vtx.m_vNormal.Normalize();
+        vtx.m_vBiTangent = vtx.m_vNormal.Cross(vtx.m_vTangent).GetNormalized();
+        vtx.m_vTangent = vtx.m_vBiTangent.Cross(vtx.m_vNormal).GetNormalized();
+      }
     }
 
     // now gather all the smooth normals for the triangles
@@ -120,9 +134,13 @@ namespace Kraut
 
       for (aeUInt32 v = 0; v < 3; ++v)
       {
-        m_Vertices[tri.m_uiVertexIDs[v]].m_vNormal = m_Vertices[m_Vertices[tri.m_uiVertexIDs[v]].m_iSharedVertex].m_vNormal;
-        m_Vertices[tri.m_uiVertexIDs[v]].m_vTangent = m_Vertices[m_Vertices[tri.m_uiVertexIDs[v]].m_iSharedVertex].m_vTangent;
-        m_Vertices[tri.m_uiVertexIDs[v]].m_vBiTangent = m_Vertices[m_Vertices[tri.m_uiVertexIDs[v]].m_iSharedVertex].m_vBiTangent;
+        const aeUInt32 idx = tri.m_uiVertexIDs[v];
+        const auto& sharedvtx = m_Vertices[m_Vertices[idx].m_iSharedVertex];
+        auto& vtx = m_Vertices[idx];
+
+        vtx.m_vNormal = sharedvtx.m_vNormal;
+        vtx.m_vTangent = sharedvtx.m_vTangent;
+        vtx.m_vBiTangent = sharedvtx.m_vBiTangent;
       }
     }
   }

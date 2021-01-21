@@ -356,7 +356,7 @@ namespace Kraut
       vtx[1].m_vPosition += vtx[1].m_vNormal * fFrondHeight1 * fContour1;
       vtx[2].m_vPosition += vtx[2].m_vNormal * fFrondHeight0 * fContour1;
 
-      vNormal;
+
       vNormal.CalculateNormalSafe(vtx[0].m_vPosition, vtx[1].m_vPosition, vtx[2].m_vPosition);
 
       if ((uiSlice == 0) || (uiSlice == uiMaxSlices - 1))

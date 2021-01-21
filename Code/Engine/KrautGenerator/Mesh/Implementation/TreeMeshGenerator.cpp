@@ -4,6 +4,7 @@
 #include <KrautGenerator/Description/TreeStructureDesc.h>
 #include <KrautGenerator/Lod/TreeStructureLod.h>
 #include <KrautGenerator/Lod/TreeStructureLodGenerator.h>
+#include <KrautGenerator/Mesh/BranchMesh.h>
 #include <KrautGenerator/Mesh/TreeMesh.h>
 #include <KrautGenerator/Mesh/TreeMeshGenerator.h>
 #include <KrautGenerator/TreeStructure/TreeStructure.h>
