@@ -17,6 +17,7 @@ namespace Kraut
 
   aeUInt32 Mesh::AddVertex(const Kraut::Vertex& vtx)
   {
+    AE_CHECK_DEV(vtx.m_uiBranchNodeIdx != 0xFFFFFFFF, "Kraut::Mesh::AddVertex: Invalid branch node ID");
     AE_CHECK_DEV(vtx.m_vPosition.IsValid(), "Kraut::Mesh::AddVertex: Position is degenerate.");
     AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "Kraut::Mesh::AddVertex: Normal is degenerate.");
     AE_CHECK_DEV(vtx.m_vTangent.IsValid(), "Kraut::Mesh::AddVertex: Tangent is degenerate: %.8f | %.8f | %.8f", vtx.m_vTangent.x, vtx.m_vTangent.y, vtx.m_vTangent.z);
@@ -46,6 +47,13 @@ namespace Kraut
 
   aeUInt32 Mesh::AddVertex(const Kraut::Vertex& vtx, aeUInt32 x, aeUInt32 uiWidth, aeUInt32 y, aeUInt32 uiFirstVertex)
   {
+    AE_CHECK_DEV(vtx.m_uiBranchNodeIdx != 0xFFFFFFFF, "Kraut::Mesh::AddVertex: Invalid branch node ID");
+    AE_CHECK_DEV(vtx.m_vPosition.IsValid(), "Kraut::Mesh::AddVertex: Position is degenerate.");
+    AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "Kraut::Mesh::AddVertex: Normal is degenerate.");
+    AE_CHECK_DEV(vtx.m_vTangent.IsValid(), "Kraut::Mesh::AddVertex: Tangent is degenerate: %.8f | %.8f | %.8f", vtx.m_vTangent.x, vtx.m_vTangent.y, vtx.m_vTangent.z);
+    AE_CHECK_DEV(vtx.m_vBiTangent.IsValid(), "Kraut::Mesh::AddVertex: BiTangent is degenerate.");
+    AE_CHECK_DEV(vtx.m_vTexCoord.IsValid(), "Kraut::Mesh::AddVertex: TexCoord is degenerate.");
+
     const aeUInt32 uiSupposedIndex = uiFirstVertex + (y * uiWidth) + x;
 
     if (m_Vertices.size() <= uiSupposedIndex)

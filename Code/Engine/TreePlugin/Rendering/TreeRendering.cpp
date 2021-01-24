@@ -16,6 +16,8 @@ void EnsureColorRendering(void);
 
 void aeTree::RenderBranchMesh(aeLod::Enum lod, aeUInt32 uiBranch)
 {
+  // TODO: store the branch type (trunk / branch / twig) in the BranchMesh structure
+
   const aeUInt32 type = m_TreeStructure.m_BranchStructures[uiBranch].m_Type;
 
   if (!m_Descriptor.m_StructureDesc.m_BranchTypes[type].m_bVisible)

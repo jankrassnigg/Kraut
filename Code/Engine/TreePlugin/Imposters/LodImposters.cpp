@@ -294,6 +294,7 @@ static void AddQuad(Kraut::Mesh& SubMesh, GLIM_BATCH& gb, const aeVec3 vPos, flo
   aeUInt32 uiVertices[4];
 
   Kraut::Vertex vtx;
+  vtx.m_uiBranchNodeIdx = 0;
   vtx.m_vNormal.SetVector(aeMath::CosDeg(fRotation - 90), 0, -aeMath::SinDeg(fRotation - 90));
   vtx.m_vTangent.SetVector(aeMath::CosDeg(fRotation), 0, -aeMath::SinDeg(fRotation));
   vtx.m_vTangent = -vtx.m_vTangent;
@@ -346,6 +347,7 @@ static void AddQuad(Kraut::Mesh& SubMesh, GLIM_BATCH& gb, const aeVec3 vPos, flo
 static void AddBillboard(Kraut::Mesh& SubMesh, GLIM_BATCH& gb, const aeVec3 vPos, float fHalfWidth, float fHeight, float fTexCoordU, float fTexWidth)
 {
   Kraut::Vertex vtx;
+  vtx.m_uiBranchNodeIdx = 0;
 
   const aeVec3 vUp(0, fHeight, 0);
   aeVec3 v;

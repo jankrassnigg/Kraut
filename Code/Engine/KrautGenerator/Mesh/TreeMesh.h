@@ -19,6 +19,8 @@ namespace Kraut
     aeUInt32 GetNumTriangles() const;
     aeUInt32 GetNumTriangles(Kraut::BranchGeometryType::Enum geometryType) const;
 
+    // the index of each BranchMesh correlates 1:1 to TreeStructure::m_BranchStructures and can be used
+    // to look up things like the branch type and material from the TreeStructure
     aeArray<Kraut::BranchMesh> m_BranchMeshes;
   };
 } // namespace Kraut

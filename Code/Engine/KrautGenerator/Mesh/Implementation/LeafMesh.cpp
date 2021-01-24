@@ -28,6 +28,7 @@ namespace Kraut
     t.m_uiPickingSubID = 0;
 
     Kraut::Vertex mv;
+    mv.m_uiBranchNodeIdx = uiNodeID;
     mv.m_uiColorVariation = (aeUInt8)m_RNG.Rand(255);
     mv.m_vNormal = vDir;
     mv.m_vTangent = vRight;
@@ -94,6 +95,7 @@ namespace Kraut
     t.m_uiPickingSubID = 0;
 
     Kraut::Vertex mv;
+    mv.m_uiBranchNodeIdx = uiNodeID;
     mv.m_vPosition = vPos;
     mv.m_uiColorVariation = (aeUInt8)m_RNG.Rand(255);
 
