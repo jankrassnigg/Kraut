@@ -88,8 +88,8 @@ namespace Kraut
         aeInt32& iID2 = vertexRing0.m_VertexIDs[uiNextVertex0];
 
         vtx[0].m_uiBranchNodeIdx = uiBranchNodeID0;
-        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID0;
-        vtx[2].m_uiBranchNodeIdx = uiBranchNodeID1;
+        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID1;
+        vtx[2].m_uiBranchNodeIdx = uiBranchNodeID0;
 
         vtx[0].m_vPosition = vertexRing0.m_Vertices[uiCurVertex0];
         vtx[1].m_vPosition = vertexRing1.m_Vertices[uiCurVertex1];
@@ -157,7 +157,7 @@ namespace Kraut
         aeInt32& iID2 = vertexRing1.m_VertexIDs[uiNextVertex1];
 
         vtx[0].m_uiBranchNodeIdx = uiBranchNodeID0;
-        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID0;
+        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID1;
         vtx[2].m_uiBranchNodeIdx = uiBranchNodeID1;
 
         vtx[0].m_vPosition = vertexRing0.m_Vertices[uiCurVertex0];
@@ -333,7 +333,7 @@ namespace Kraut
 
         const float fNextTexCoordV = branchStructureLod.m_TipNodes[n].m_fTexCoordV;
 
-        GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], pPrevNode->m_fTexCoordV, branchStructureLod.m_TipNodes[n].m_fTexCoordV, fFlareRotation, fFlareRotation, n == branchStructureLod.m_TipNodes.size() - 1, uiBranchNodeID, uiBranchNodeID);
+        GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], pPrevNode->m_fTexCoordV, branchStructureLod.m_TipNodes[n].m_fTexCoordV, fFlareRotation, fFlareRotation, n == branchStructureLod.m_TipNodes.size() - 1, uiBranchNodeID + n, uiBranchNodeID + n + 1);
 
         aeMath::Swap(iPrevRing, iCurRing);
 
