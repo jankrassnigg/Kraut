@@ -323,11 +323,12 @@ namespace Kraut
 
       const float fFlareRotation = spawnDesc.m_bRotateTexCoords ? (spawnDesc.m_fFlareRotation) / 360.0f : 0.0f;
 
+      const aeUInt32 uiTipRingVertices = vertexRing[iPrevRing].m_Vertices.size();
       const aeUInt32 uiBranchNodeID = branchStructure.m_Nodes.size() - 1;
 
       for (aeUInt32 n = 0; n < branchStructureLod.m_TipNodes.size(); ++n)
       {
-        TreeStructureLodGenerator::GenerateLodTipVertexRing(branchStructureLod, vertexRing[iCurRing], treeStructureDesc, branchStructure, n, vNormalAnchor, branchStructure.m_uiLastRingVertices);
+        TreeStructureLodGenerator::GenerateLodTipVertexRing(branchStructureLod, vertexRing[iCurRing], treeStructureDesc, branchStructure, n, vNormalAnchor, uiTipRingVertices);
 
         AlignVertexRing(vertexRing[iCurRing], branchStructureLod.m_TipNodes[n].m_vPosition, vRotationalDir);
 

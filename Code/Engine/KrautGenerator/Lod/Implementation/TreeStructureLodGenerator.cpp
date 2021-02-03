@@ -247,7 +247,9 @@ namespace Kraut
     const aeVec3 vPos = branchStructure.m_Nodes.back().m_vPosition;
     const float fThickness = branchStructure.m_Nodes.back().m_fThickness;
 
-    const aeVec3 vDir = (vPos - branchStructure.m_Nodes[branchStructure.m_Nodes.size() - 2].m_vPosition).GetNormalized() * fSegmentLength;
+    const aeUInt32 uiSecondLastNodeIdx = branchStructureLod.m_NodeIDs[branchStructureLod.m_NodeIDs.size() - 2];
+
+    const aeVec3 vDir = (vPos - branchStructure.m_Nodes[uiSecondLastNodeIdx].m_vPosition).GetNormalized() * fSegmentLength;
 
     if ((!vDir.IsValid()) || (vDir.IsZeroVector(0.00001f)))
       return;
@@ -321,7 +323,7 @@ namespace Kraut
 
     for (aeUInt32 n = 0; n < branchStructureLod.m_TipNodes.size(); ++n)
     {
-      GenerateLodTipVertexRing(branchStructureLod, VertexRing, treeStructureDesc, branchStructure, n, vNormalAnchor, branchStructure.m_uiLastRingVertices);
+      GenerateLodTipVertexRing(branchStructureLod, VertexRing, treeStructureDesc, branchStructure, n, vNormalAnchor, 24);
 
       const float fDist = (vLastPos - branchStructureLod.m_TipNodes[n].m_vPosition).GetLength();
 
