@@ -18,8 +18,12 @@ namespace Kraut
     aeVec3 m_vTangent = aeVec3::ZeroVector();
     aeVec3 m_vBiTangent = aeVec3::ZeroVector();
 
-    aeInt32 m_iSharedVertex = -1;
+    aeInt32 m_iSharedVertex = -1; // for internal use
     aeUInt8 m_uiColorVariation = 0;
+
+    // index of the BranchStructure::m_Nodes of the corresponding branch data, to which this vertex belongs
+    // this can be used for mapping wind or skeletal animation information from the branch structure to the mesh
+    aeUInt32 m_uiBranchNodeIdx = 0xFFFFFFFF;
   };
 
   struct KRAUT_DLL Triangle
@@ -30,7 +34,7 @@ namespace Kraut
 
     aeUInt32 m_uiVertexIDs[3] = {0, 0, 0};
 
-    aeUInt32 m_uiPickingSubID = 0;
+    aeUInt32 m_uiPickingSubID = 0; // TODO: remove
   };
 
   struct KRAUT_DLL VertexRing

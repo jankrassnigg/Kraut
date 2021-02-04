@@ -11,7 +11,7 @@
 
 namespace Kraut
 {
-  static void AddFrondQuads(aeUInt32 uiSlices, aeUInt32 uiNode, const aeArray<aeVec3>& positions, const aeArray<float>& posAlongBranch, const aeArray<aeVec3>& upVectors, const aeArray<aeVec3>& OrthoVectors, const aeArray<float>& NodeWidth, const aeArray<float>& NodeHeight, const Kraut::Curve& Contour, Kraut::Mesh& out_Tris, float fSide, aeUInt32 uiFirstVertex, Kraut::SpawnNodeDesc::FrondContourMode FrondMode, const Kraut::BranchStructure& branchStructure, const Kraut::BranchStructureLod& branchStructureLod, const Kraut::SpawnNodeDesc& spawnDesc, float fFrondFract, float fTextureRepeatDivider, float fBranchLength, aeInt32 iCurFrondIndex)
+  static void AddFrondQuads(aeUInt32 uiSlices, aeUInt32 uiNode, const aeArray<aeVec3>& positions, const aeArray<float>& posAlongBranch, const aeArray<aeVec3>& upVectors, const aeArray<aeVec3>& OrthoVectors, const aeArray<float>& NodeWidth, const aeArray<float>& NodeHeight, const Kraut::Curve& Contour, Kraut::Mesh& out_Tris, float fSide, aeUInt32 uiFirstVertex, Kraut::SpawnNodeDesc::FrondContourMode FrondMode, const Kraut::BranchStructure& branchStructure, const Kraut::BranchStructureLod& branchStructureLod, const Kraut::SpawnNodeDesc& spawnDesc, float fFrondFract, float fTextureRepeatDivider, float fBranchLength, aeInt32 iCurFrondIndex, const aeArray<aeUInt32>& branchNodeIDs)
   {
     const float fColorVariation = branchStructure.m_fFrondColorVariation;
 
@@ -125,10 +125,10 @@ namespace Kraut
       fContour1 -= fContourCenter;
 
 
-      aeVec3 vCurPos00 = vOffset0 + vStartPos0 + fSide * OrthoVectors[uiNode] * NodeWidth[uiNode] * fPos0 + upVectors[uiNode] * fContour0 * NodeHeight[uiNode];
-      aeVec3 vCurPos01 = vOffset0 + vStartPos0 + fSide * OrthoVectors[uiNode] * NodeWidth[uiNode] * fPos1 + upVectors[uiNode] * fContour1 * NodeHeight[uiNode];
-      aeVec3 vCurPos10 = vOffset1 + vStartPos1 + fSide * OrthoVectors[uiNode + 1] * NodeWidth[uiNode + 1] * fPos0 + upVectors[uiNode + 1] * fContour0 * NodeHeight[uiNode + 1];
-      aeVec3 vCurPos11 = vOffset1 + vStartPos1 + fSide * OrthoVectors[uiNode + 1] * NodeWidth[uiNode + 1] * fPos1 + upVectors[uiNode + 1] * fContour1 * NodeHeight[uiNode + 1];
+      const aeVec3 vCurPos00 = vOffset0 + vStartPos0 + fSide * OrthoVectors[uiNode] * NodeWidth[uiNode] * fPos0 + upVectors[uiNode] * fContour0 * NodeHeight[uiNode];
+      const aeVec3 vCurPos01 = vOffset0 + vStartPos0 + fSide * OrthoVectors[uiNode] * NodeWidth[uiNode] * fPos1 + upVectors[uiNode] * fContour1 * NodeHeight[uiNode];
+      const aeVec3 vCurPos10 = vOffset1 + vStartPos1 + fSide * OrthoVectors[uiNode + 1] * NodeWidth[uiNode + 1] * fPos0 + upVectors[uiNode + 1] * fContour0 * NodeHeight[uiNode + 1];
+      const aeVec3 vCurPos11 = vOffset1 + vStartPos1 + fSide * OrthoVectors[uiNode + 1] * NodeWidth[uiNode + 1] * fPos1 + upVectors[uiNode + 1] * fContour1 * NodeHeight[uiNode + 1];
 
       const aeVec3 vBiTangent0 = (vCurPos10 - vCurPos00).GetNormalized();
       const aeVec3 vBiTangent1 = (vCurPos11 - vCurPos01).GetNormalized();
@@ -138,6 +138,10 @@ namespace Kraut
 
       if (bAddPoly0)
       {
+        vtx[0].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[1].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[2].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+
         vtx[0].m_vPosition = vCurPos00;
         vtx[1].m_vPosition = vCurPos01;
         vtx[2].m_vPosition = vCurPos10;
@@ -179,6 +183,10 @@ namespace Kraut
 
       if (bAddPoly1)
       {
+        vtx[0].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[1].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+        vtx[2].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+
         vtx[0].m_vPosition = vCurPos01;
         vtx[1].m_vPosition = vCurPos11;
         vtx[2].m_vPosition = vCurPos10;
@@ -220,7 +228,7 @@ namespace Kraut
     }
   }
 
-  static void AddSingleFrond(aeUInt32 uiNode, const aeArray<aeVec3>& Positions, const aeArray<float>& PosAlongBranch, const aeArray<aeVec3>& UpVectors, const aeArray<aeVec3>& OrthoVectors, const aeArray<float>& NodeWidth, Kraut::Mesh& out_Tris, aeUInt32 uiFirstVertex, const Kraut::BranchStructure& branchStructure, float fTextureRepeatDivider, aeUInt32 uiTilingX, aeInt32 iCurFrondIndex)
+  static void AddSingleFrond(aeUInt32 uiNode, const aeArray<aeVec3>& Positions, const aeArray<float>& PosAlongBranch, const aeArray<aeVec3>& UpVectors, const aeArray<aeVec3>& OrthoVectors, const aeArray<float>& NodeWidth, Kraut::Mesh& out_Tris, aeUInt32 uiFirstVertex, const Kraut::BranchStructure& branchStructure, float fTextureRepeatDivider, aeUInt32 uiTilingX, aeInt32 iCurFrondIndex, const aeArray<aeUInt32>& branchNodeIDs)
   {
     const float fColorVariation = branchStructure.m_fFrondColorVariation;
 
@@ -248,7 +256,9 @@ namespace Kraut
     Kraut::Vertex vtx[3];
 
     for (int i = 0; i < 3; ++i)
+    {
       vtx[i].m_uiColorVariation = (aeUInt8)(fColorVariation * 255);
+    }
 
     t.m_uiPickingSubID = uiNode;
 
@@ -265,6 +275,10 @@ namespace Kraut
       const aeVec3 vBiTangent1 = (vCurPos11 - vCurPos01).GetNormalized();
 
       {
+        vtx[0].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[1].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[2].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+
         vtx[0].m_vPosition = vCurPos00;
         vtx[1].m_vPosition = vCurPos01;
         vtx[2].m_vPosition = vCurPos10;
@@ -299,6 +313,10 @@ namespace Kraut
       }
 
       {
+        vtx[0].m_uiBranchNodeIdx = branchNodeIDs[uiNode];
+        vtx[1].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+        vtx[2].m_uiBranchNodeIdx = branchNodeIDs[uiNode + 1];
+
         vtx[0].m_vPosition = vCurPos01;
         vtx[1].m_vPosition = vCurPos11;
         vtx[2].m_vPosition = vCurPos10;
@@ -369,6 +387,7 @@ namespace Kraut
     aeArray<float> NodeWidth(uiNodeCount);
     aeArray<float> NodeHeight(uiNodeCount);
     aeArray<float> PosAlongBranch(uiNodeCount);
+    aeArray<aeUInt32> BranchNodeIDs(uiNodeCount);
     float fBranchLength = 0.0f;
 
     // pre-compute all the node up vectors
@@ -411,7 +430,10 @@ namespace Kraut
       {
         const float fPosAlongBranch = (float)i / (float)(uiNodeCount - 1);
 
-        Positions[i] = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[i]].m_vPosition;
+        const aeUInt32 uiNodeID = branchStructureLod.m_NodeIDs[i];
+
+        BranchNodeIDs[i] = uiNodeID;
+        Positions[i] = branchStructure.m_Nodes[uiNodeID].m_vPosition;
         NodeWidth[i] = aeMath::Max(0.01f, spawnDesc.m_fFrondWidth * spawnDesc.m_FrondWidth.GetValueAt(fPosAlongBranch));
         NodeHeight[i] = spawnDesc.m_fFrondHeight * spawnDesc.m_FrondHeight.GetValueAt(fPosAlongBranch);
       }
@@ -446,25 +468,36 @@ namespace Kraut
     if (iFrondDetail > 0)
     {
       for (aeUInt32 i = 0; i < uiNodeCount - 1; ++i)
-        AddFrondQuads(iFrondDetail, i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, NodeHeight, spawnDesc.m_FrondContour, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], 1.0f, uiFirstVertex0, spawnDesc.m_FrondContourMode, branchStructure, branchStructureLod, spawnDesc, fFrondFract, fTextureRepeatDivider, fBranchLength, iCurFrondIndex);
+      {
+        AddFrondQuads(iFrondDetail, i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, NodeHeight, spawnDesc.m_FrondContour, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], 1.0f, uiFirstVertex0, spawnDesc.m_FrondContourMode, branchStructure, branchStructureLod, spawnDesc, fFrondFract, fTextureRepeatDivider, fBranchLength, iCurFrondIndex, BranchNodeIDs);
+      }
 
       aeUInt32 uiFirstVertex1 = mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices.size();
       for (aeUInt32 i = 0; i < uiNodeCount - 1; ++i)
-        AddFrondQuads(iFrondDetail, i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, NodeHeight, spawnDesc.m_FrondContour, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], -1.0f, uiFirstVertex1, spawnDesc.m_FrondContourMode, branchStructure, branchStructureLod, spawnDesc, fFrondFract, fTextureRepeatDivider, fBranchLength, iCurFrondIndex);
+      {
+        AddFrondQuads(iFrondDetail, i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, NodeHeight, spawnDesc.m_FrondContour, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], -1.0f, uiFirstVertex1, spawnDesc.m_FrondContourMode, branchStructure, branchStructureLod, spawnDesc, fFrondFract, fTextureRepeatDivider, fBranchLength, iCurFrondIndex, BranchNodeIDs);
+      }
     }
     else
     {
       for (aeUInt32 i = 0; i < uiNodeCount - 1; ++i)
-        AddSingleFrond(i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], uiFirstVertex0, branchStructure, fTextureRepeatDivider, spawnDesc.m_uiTextureTilingX[Kraut::BranchGeometryType::Frond], iCurFrondIndex);
+      {
+        AddSingleFrond(i, Positions, PosAlongBranch, UpVectors, OrthoVectors, NodeWidth, mesh.m_Mesh[Kraut::BranchGeometryType::Frond], uiFirstVertex0, branchStructure, fTextureRepeatDivider, spawnDesc.m_uiTextureTilingX[Kraut::BranchGeometryType::Frond], iCurFrondIndex, BranchNodeIDs);
+      }
     }
 
     for (aeUInt32 v = uiFirstVertex0; v < mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices.size(); ++v)
     {
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vNormal.Normalize();
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vBiTangent.Normalize();
+      auto& vtx = mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v];
 
-      mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vTangent =
-        mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vBiTangent.Cross(mesh.m_Mesh[Kraut::BranchGeometryType::Frond].m_Vertices[v].m_vNormal);
+      AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "");
+
+      vtx.m_vNormal.NormalizeSafe();
+      vtx.m_vBiTangent.NormalizeSafe();
+
+      AE_CHECK_DEV(vtx.m_vNormal.IsValid(), "");
+
+      vtx.m_vTangent = vtx.m_vBiTangent.Cross(vtx.m_vNormal);
     }
   }
 
@@ -489,5 +522,4 @@ namespace Kraut
       vUp = qRot * vUp;
     }
   }
-
 } // namespace Kraut

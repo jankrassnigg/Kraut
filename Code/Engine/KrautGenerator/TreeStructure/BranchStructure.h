@@ -47,7 +47,6 @@ namespace Kraut
     float m_fBranchLength = 0.0f;
     float m_fThickness = 0.0f;
     float m_fLastDiameter = 0.0f; ///< Set by GenerateTexCoordV(), needed to compute the V coords for the LOD branch tips
-    aeUInt32 m_uiLastRingVertices = 0;
     float m_fFrondColorVariation = 0.0f;   ///< factor from 0 to 1, how much to use the texture color or the variation color
     aeUInt8 m_uiFrondTextureVariation = 0; ///< if a texture contains more than one frond texture (atlas), this value describes which one to use
 

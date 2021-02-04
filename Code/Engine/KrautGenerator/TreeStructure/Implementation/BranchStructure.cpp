@@ -24,7 +24,6 @@ namespace Kraut
     m_fBranchLength = 0.0f;
     m_fThickness = 0.0f;
     m_fLastDiameter = 0.0f;
-    m_uiLastRingVertices = 0;
     m_fFrondColorVariation = 0.0f;
     m_uiFrondTextureVariation = 0;
     m_vLeafUpDirection.SetZero();
@@ -111,7 +110,6 @@ namespace Kraut
   void BranchStructure::GenerateTexCoordV(const Kraut::TreeStructureDesc& treeStructureDesc)
   {
     AE_CHECK_DEV(m_Nodes.size() > 2, "Branch should have been culled.");
-    AE_CHECK_DEV(m_uiLastRingVertices == 0, "This has been done before.");
 
     const float fVertexRingDetail = 0.05f;
 
@@ -142,7 +140,6 @@ namespace Kraut
     }
 
     m_fLastDiameter = fLastLength;
-    m_uiLastRingVertices = vertexRing.m_Vertices.size();
   }
 
 } // namespace Kraut

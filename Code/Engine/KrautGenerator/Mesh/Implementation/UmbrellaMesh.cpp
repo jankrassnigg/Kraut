@@ -117,13 +117,15 @@ namespace Kraut
     return mTrans * mRotation * mTransI;
   }
 
-  static void GetBranchSkeleton(const Kraut::BranchStructure& branchStructure, const Kraut::BranchStructureLod& branchStructureLod, aeArray<aeVec3>& out_Positions)
+  static void GetBranchSkeleton(const Kraut::BranchStructure& branchStructure, const Kraut::BranchStructureLod& branchStructureLod, aeArray<aeVec3>& out_Positions, aeArray<aeUInt32>& out_NodeIDs)
   {
     out_Positions.resize(branchStructureLod.m_NodeIDs.size());
+    out_NodeIDs.resize(branchStructureLod.m_NodeIDs.size());
 
     for (aeUInt32 i = 0; i < branchStructureLod.m_NodeIDs.size(); ++i)
     {
-      out_Positions[i] = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[i]].m_vPosition;
+      out_NodeIDs[i] = branchStructureLod.m_NodeIDs[i];
+      out_Positions[i] = branchStructure.m_Nodes[out_NodeIDs[i]].m_vPosition;
     }
   }
 
@@ -156,7 +158,7 @@ namespace Kraut
     }
   }
 
-  void TreeMeshGenerator::AddUmbrellaTriangles(Kraut::BranchMesh& mesh0, const Kraut::TreeStructureDesc& treeStructureDesc, const Kraut::BranchStructure& branchStructure, const aeArray<aeVec3>& Positions1, const aeArray<aeVec3>& Positions2, const aeArray<aeVec3>& Normals1, const aeArray<aeVec3>& Normals2, aeUInt32 uiFirstVertex, aeUInt32 uiSlice, aeUInt32 uiMaxSlices, float fTexCoordBase, float fTexCoordFraction, const aeVec3& vTexCoordDir0, const aeVec3& vTexCoordDir1)
+  void TreeMeshGenerator::AddUmbrellaTriangles(Kraut::BranchMesh& mesh0, const Kraut::TreeStructureDesc& treeStructureDesc, const Kraut::BranchStructure& branchStructure, const aeArray<aeVec3>& Positions1, const aeArray<aeVec3>& Positions2, const aeArray<aeVec3>& Normals1, const aeArray<aeVec3>& Normals2, aeUInt32 uiFirstVertex, aeUInt32 uiSlice, aeUInt32 uiMaxSlices, float fTexCoordBase, float fTexCoordFraction, const aeVec3& vTexCoordDir0, const aeVec3& vTexCoordDir1, const aeArray<aeUInt32>& nodeIDs)
   {
     const Kraut::SpawnNodeDesc& spawnDesc = treeStructureDesc.m_BranchTypes[branchStructure.m_Type];
 
@@ -250,6 +252,9 @@ namespace Kraut
       vTexCoord[2].z = 1;
       vTexCoord[3].z = 1;
 
+      vtx[0].m_uiBranchNodeIdx = nodeIDs[i + 0];
+      vtx[1].m_uiBranchNodeIdx = nodeIDs[i + 1];
+      vtx[2].m_uiBranchNodeIdx = nodeIDs[i + 1];
 
       vtx[0].m_vPosition = Positions1[i + 0];
       vtx[1].m_vPosition = Positions1[i + 1];
@@ -315,6 +320,10 @@ namespace Kraut
 
       mesh.m_Triangles.push_back(t);
 
+      vtx[0].m_uiBranchNodeIdx = nodeIDs[i + 0];
+      vtx[1].m_uiBranchNodeIdx = nodeIDs[i + 1];
+      vtx[2].m_uiBranchNodeIdx = nodeIDs[i + 0];
+
       vtx[0].m_vPosition = Positions1[i + 0];
       vtx[1].m_vPosition = Positions2[i + 1];
       vtx[2].m_vPosition = Positions2[i + 0];
@@ -356,7 +365,7 @@ namespace Kraut
       vtx[1].m_vPosition += vtx[1].m_vNormal * fFrondHeight1 * fContour1;
       vtx[2].m_vPosition += vtx[2].m_vNormal * fFrondHeight0 * fContour1;
 
-      vNormal;
+
       vNormal.CalculateNormalSafe(vtx[0].m_vPosition, vtx[1].m_vPosition, vtx[2].m_vPosition);
 
       if ((uiSlice == 0) || (uiSlice == uiMaxSlices - 1))
@@ -409,7 +418,8 @@ namespace Kraut
     const aeMatrix mInvRot = GetRotationMatrix(treeStructure, branchStructure, -fRotationStep);
 
     aeArray<aeVec3> Positions1, Positions2;
-    GetBranchSkeleton(branchStructure, branchLod, Positions1);
+    aeArray<aeUInt32> NodeIDs;
+    GetBranchSkeleton(branchStructure, branchLod, Positions1, NodeIDs);
 
     Positions1[0] += (Positions1[1] - Positions1[0]).GetNormalized() * 0.01f;
 
@@ -432,7 +442,7 @@ namespace Kraut
       Normals2 = Normals1;
       RotateBranchSkeleton(Positions2, Normals2, mRot);
 
-      AddUmbrellaTriangles(mesh, treeStructureDesc, branchStructure, Positions1, Positions2, Normals1, Normals2, uiFirstVertex, i, uiMaxSlices, fTexCoordBase, fTexCoordFraction, vTexCoordDir0, vTexCoordDir1);
+      AddUmbrellaTriangles(mesh, treeStructureDesc, branchStructure, Positions1, Positions2, Normals1, Normals2, uiFirstVertex, i, uiMaxSlices, fTexCoordBase, fTexCoordFraction, vTexCoordDir0, vTexCoordDir1, NodeIDs);
 
       Positions1 = Positions2;
       Normals1 = Normals2;

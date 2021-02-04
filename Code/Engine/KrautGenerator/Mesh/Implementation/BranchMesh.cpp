@@ -19,6 +19,11 @@ namespace Kraut
     Kraut::Triangle tri;
     Kraut::Vertex vtx[3];
 
+    AE_CHECK_DEV(false, "Not implemented.");
+    //vtx[0].m_uiBranchNodeIdx = ...;
+    //vtx[1].m_uiBranchNodeIdx = ...;
+    //vtx[2].m_uiBranchNodeIdx = ...;
+
     tri.m_uiPickingSubID = 0;
 
     vtx[0].m_vNormal = p.m_vNormal;
@@ -40,7 +45,7 @@ namespace Kraut
   }
 
 
-  void TreeMeshGenerator::GenerateSegmentTriangles(Kraut::BranchMesh& mesh, const Kraut::BranchStructure& branchStructure, Kraut::VertexRing& vertexRing0, Kraut::VertexRing& vertexRing1, float fTexCoordV0, float fTexCoordV1, float fTexCoordUOffset1, float fTexCoordUOffset2, bool bIsLastSegment, aeUInt32 uiPickingSubID)
+  void TreeMeshGenerator::GenerateSegmentTriangles(Kraut::BranchMesh& mesh, const Kraut::BranchStructure& branchStructure, Kraut::VertexRing& vertexRing0, Kraut::VertexRing& vertexRing1, float fTexCoordV0, float fTexCoordV1, float fTexCoordUOffset1, float fTexCoordUOffset2, bool bIsLastSegment, aeUInt32 uiBranchNodeID0, aeUInt32 uiBranchNodeID1)
   {
     const aeUInt32 uiVertices0 = vertexRing0.m_Vertices.size();
     const aeUInt32 uiVertices1 = vertexRing1.m_Vertices.size();
@@ -62,7 +67,7 @@ namespace Kraut
 
     Kraut::Triangle tri;
     Kraut::Vertex vtx[3];
-    tri.m_uiPickingSubID = uiPickingSubID;
+    tri.m_uiPickingSubID = uiBranchNodeID0;
 
     float fPrevTexCoordU0 = fTexCoordUOffset1;
     float fPrevTexCoordU1 = fTexCoordUOffset2;
@@ -81,6 +86,10 @@ namespace Kraut
         aeInt32& iID0 = vertexRing0.m_VertexIDs[uiCurVertex0];
         aeInt32& iID1 = vertexRing1.m_VertexIDs[uiCurVertex1];
         aeInt32& iID2 = vertexRing0.m_VertexIDs[uiNextVertex0];
+
+        vtx[0].m_uiBranchNodeIdx = uiBranchNodeID0;
+        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID1;
+        vtx[2].m_uiBranchNodeIdx = uiBranchNodeID0;
 
         vtx[0].m_vPosition = vertexRing0.m_Vertices[uiCurVertex0];
         vtx[1].m_vPosition = vertexRing1.m_Vertices[uiCurVertex1];
@@ -146,6 +155,10 @@ namespace Kraut
         aeInt32& iID0 = vertexRing0.m_VertexIDs[uiCurVertex0];
         aeInt32& iID1 = vertexRing1.m_VertexIDs[uiCurVertex1];
         aeInt32& iID2 = vertexRing1.m_VertexIDs[uiNextVertex1];
+
+        vtx[0].m_uiBranchNodeIdx = uiBranchNodeID0;
+        vtx[1].m_uiBranchNodeIdx = uiBranchNodeID1;
+        vtx[2].m_uiBranchNodeIdx = uiBranchNodeID1;
 
         vtx[0].m_vPosition = vertexRing0.m_Vertices[uiCurVertex0];
         vtx[1].m_vPosition = vertexRing1.m_Vertices[uiCurVertex1];
@@ -251,7 +264,7 @@ namespace Kraut
 
       AlignVertexRing(vertexRing[iCurRing], curBranchNode.m_vPosition, vRotationalDir);
 
-      GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], prevBranchNode.m_fTexCoordV, curBranchNode.m_fTexCoordV, fFlareRotation0, fFlareRotation1, false, uiPrevNodeID);
+      GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], prevBranchNode.m_fTexCoordV, curBranchNode.m_fTexCoordV, fFlareRotation0, fFlareRotation1, false, uiPrevNodeID, uiCurNodeID);
 
       aeMath::Swap(iPrevRing, iCurRing);
     }
@@ -266,16 +279,18 @@ namespace Kraut
     {
       if (lodDesc.m_BranchSpikeTipMode == BranchSpikeTipMode::SingleTriangle)
       {
-        aeVec3 vPos1 = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[uiNumLodNodes - 1]].m_vPosition;
-        aeVec3 vPos0 = branchStructure.m_Nodes[branchStructureLod.m_NodeIDs[uiNumLodNodes - 2]].m_vPosition;
-        aeVec3 vDir = vPos1 - vPos0;
-        vDir.Normalize();
+        const aeUInt32 uiNodeID = branchStructureLod.m_NodeIDs[uiNumLodNodes - 1];
+
+        const aeVec3 vPos = branchStructure.m_Nodes[uiNodeID].m_vPosition;
 
         Kraut::Triangle t;
         Kraut::Vertex vtx[3];
 
         t.m_uiPickingSubID = branchStructure.m_Nodes.size() - 1;
 
+        vtx[0].m_uiBranchNodeIdx = uiNodeID;
+        vtx[1].m_uiBranchNodeIdx = uiNodeID;
+        vtx[2].m_uiBranchNodeIdx = uiNodeID;
         vtx[0].m_vPosition = vertexRing[iPrevRing].m_Vertices[0];
         vtx[1].m_vPosition = vertexRing[iPrevRing].m_Vertices[2];
         vtx[2].m_vPosition = vertexRing[iPrevRing].m_Vertices[1];
@@ -283,9 +298,9 @@ namespace Kraut
         vtx[1].m_vTexCoord.y = 0;
         vtx[2].m_vTexCoord.x = 0.5f;
         vtx[2].m_vTexCoord.y = 1;
-        vtx[0].m_vNormal = (vertexRing[iPrevRing].m_Vertices[0] - vPos1).GetNormalized();
-        vtx[1].m_vNormal = (vertexRing[iPrevRing].m_Vertices[2] - vPos1).GetNormalized();
-        vtx[2].m_vNormal = (vertexRing[iPrevRing].m_Vertices[1] - vPos1).GetNormalized();
+        vtx[0].m_vNormal = (vertexRing[iPrevRing].m_Vertices[0] - vPos).GetNormalized();
+        vtx[1].m_vNormal = (vertexRing[iPrevRing].m_Vertices[2] - vPos).GetNormalized();
+        vtx[2].m_vNormal = (vertexRing[iPrevRing].m_Vertices[1] - vPos).GetNormalized();
 
         vtx[0].m_iSharedVertex = vertexRing[iPrevRing].m_VertexIDs[0];
         vtx[1].m_iSharedVertex = vertexRing[iPrevRing].m_VertexIDs[2];
@@ -308,15 +323,18 @@ namespace Kraut
 
       const float fFlareRotation = spawnDesc.m_bRotateTexCoords ? (spawnDesc.m_fFlareRotation) / 360.0f : 0.0f;
 
+      const aeUInt32 uiTipRingVertices = vertexRing[iPrevRing].m_Vertices.size();
+      const aeUInt32 uiBranchNodeID = branchStructure.m_Nodes.size() - 1;
+
       for (aeUInt32 n = 0; n < branchStructureLod.m_TipNodes.size(); ++n)
       {
-        TreeStructureLodGenerator::GenerateLodTipVertexRing(branchStructureLod, vertexRing[iCurRing], treeStructureDesc, branchStructure, n, vNormalAnchor, branchStructure.m_uiLastRingVertices);
+        TreeStructureLodGenerator::GenerateLodTipVertexRing(branchStructureLod, vertexRing[iCurRing], treeStructureDesc, branchStructure, n, vNormalAnchor, uiTipRingVertices);
 
         AlignVertexRing(vertexRing[iCurRing], branchStructureLod.m_TipNodes[n].m_vPosition, vRotationalDir);
 
         const float fNextTexCoordV = branchStructureLod.m_TipNodes[n].m_fTexCoordV;
 
-        GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], pPrevNode->m_fTexCoordV, branchStructureLod.m_TipNodes[n].m_fTexCoordV, fFlareRotation, fFlareRotation, n == branchStructureLod.m_TipNodes.size() - 1, branchStructure.m_Nodes.size() - 1);
+        GenerateSegmentTriangles(mesh, branchStructure, vertexRing[iPrevRing], vertexRing[iCurRing], pPrevNode->m_fTexCoordV, branchStructureLod.m_TipNodes[n].m_fTexCoordV, fFlareRotation, fFlareRotation, n == branchStructureLod.m_TipNodes.size() - 1, uiBranchNodeID + n, uiBranchNodeID + n + 1);
 
         aeMath::Swap(iPrevRing, iCurRing);
 
