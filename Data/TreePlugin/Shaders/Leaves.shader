@@ -79,9 +79,17 @@ UNIFORM (FLOAT4, "unif_SelectedSubID");
 TARGET (0, FLOAT4, "rt_Color");
 TARGET (1, FLOAT4, "rt_Normal");
 
+$if (EXPORT_LEAFCARD)
+	TARGET (2, FLOAT4, "rt_Roughness");
+$endif
+
 TEXTURE (TYPE_2D, "tex_Diffuse");
 TEXTURE (TYPE_2D, "tex_Normal");
 TEXTURE (TYPE_2D, "tex_Noise");
+
+$if (EXPORT_LEAFCARD)
+	TEXTURE (TYPE_2D, "tex_Roughness");
+$endif
 
 UNIFORM (FLOAT3, "unif_AmbientLow");
 UNIFORM (FLOAT3, "unif_AmbientHigh");
@@ -216,6 +224,10 @@ SHADER_BEGIN
   out_Color.rgb = var_AmbientOcc * vTexDiffuse.rgb * vLight.rgb;
   out_Color.a = 1;//vTexDiffuse.a;
 
+  $if (EXPORT_LEAFCARD)
+	rt_Roughness.rgba = texture2DProj (tex_Roughness_FS, var_TexCoords).rgba;
+  $endif
+  
   $if (OUTPUT_DIFFUSE_ONLY)
     out_Color.rgb = var_AmbientOcc * vTexDiffuse.rgb;
   $endif

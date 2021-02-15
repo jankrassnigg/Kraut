@@ -13,6 +13,7 @@ public:
 
   aeString m_sTextureDiffuse;
   aeString m_sTextureNormal;
+  aeString m_sTextureRoughness;
   aeMaterialType::Enum m_Usage;
   aeUInt8 m_uiTilingX;
   aeUInt8 m_uiTilingY;

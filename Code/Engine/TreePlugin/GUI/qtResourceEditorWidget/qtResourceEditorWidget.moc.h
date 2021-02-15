@@ -25,6 +25,7 @@ public slots:
   virtual void on_ButtonMaterialDelete_clicked ();
   virtual void on_ComboMaterials_currentIndexChanged (int index);
   virtual void on_ButtonSelectTextureNormal_clicked ();
+  virtual void on_ButtonSelectTextureRoughness_clicked ();
   virtual void on_RadioMaterialUndef_clicked ();
   virtual void on_RadioMaterialBark_clicked ();
   virtual void on_RadioMaterialFrond_clicked ();

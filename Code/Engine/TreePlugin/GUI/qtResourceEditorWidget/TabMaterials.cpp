@@ -61,6 +61,7 @@ void qtResourceEditorWidget::SetSelectedMaterial(const char* szMaterial)
 
     LineMaterialDiffuse->setText("");
     LineMaterialNormal->setText("");
+    LineMaterialRoughness->setText("");
   }
   else
   {
@@ -70,6 +71,7 @@ void qtResourceEditorWidget::SetSelectedMaterial(const char* szMaterial)
 
     LineMaterialDiffuse->setText(pMaterial->m_sTextureDiffuse.c_str());
     LineMaterialNormal->setText(pMaterial->m_sTextureNormal.c_str());
+    LineMaterialRoughness->setText(pMaterial->m_sTextureRoughness.c_str());
 
     RadioMaterialUndef->setChecked(pMaterial->m_Usage == aeMaterialType::Unknown);
     RadioMaterialBark->setChecked(pMaterial->m_Usage == aeMaterialType::Bark);
@@ -107,6 +109,9 @@ void qtResourceEditorWidget::SetSelectedMaterial(const char* szMaterial)
         break;
       case 1:
         sPreviewImage = pMaterial->m_sTextureNormal;
+        break;
+      case 2:
+        sPreviewImage = pMaterial->m_sTextureRoughness;
         break;
     }
 
@@ -208,6 +213,19 @@ void qtResourceEditorWidget::on_ButtonSelectTextureNormal_clicked()
   static aeString sPrevTexture = "";
 
   if (!qtTreeEditWidget::SelectTexture(sPrevTexture, pMaterial->m_sTextureNormal, LineMaterialNormal))
+    return;
+}
+
+void qtResourceEditorWidget::on_ButtonSelectTextureRoughness_clicked()
+{
+  aeTreeMaterial* pMaterial = aeTreeMaterialLibrary::GetMaterial(m_sSelectedTreeMaterial.c_str());
+
+  if (!pMaterial)
+    return;
+
+  static aeString sPrevTexture = "";
+
+  if (!qtTreeEditWidget::SelectTexture(sPrevTexture, pMaterial->m_sTextureRoughness, LineMaterialRoughness))
     return;
 }
 
@@ -319,6 +337,13 @@ bool qtResourceEditorWidget::eventFilter(QObject* object, QEvent* event)
   if (object == LineMaterialNormal && event->type() == QEvent::MouseButtonPress)
   {
     m_iPreviewTexture = 1;
+    SetSelectedMaterial(m_sSelectedTreeMaterial.c_str());
+    return false;
+  }
+
+  if (object == LineMaterialRoughness && event->type() == QEvent::MouseButtonPress)
+  {
+    m_iPreviewTexture = 2;
     SetSelectedMaterial(m_sSelectedTreeMaterial.c_str());
     return false;
   }

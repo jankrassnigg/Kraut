@@ -16,8 +16,10 @@ const aeUInt32 g_uiLeafCardRenderTargetSize = 2048;
 aeFramebuffer g_LeafCardFB;
 aeFramebuffer g_LeafCardClearColorFB;
 aeFramebuffer g_LeafCardClearNormalFB;
+aeFramebuffer g_LeafCardClearRoughnessFB;
 aeTextureResourceHandle g_hLeafCardDiffuseRT;
 aeTextureResourceHandle g_hLeafCardNormalRT;
+aeTextureResourceHandle g_hLeafCardRoughnessRT;
 aeTextureResourceHandle g_hLeafCardDepthRT;
 
 bool ConvertTGAtoDDS(const char* szFile, bool bNormalMap);
@@ -32,8 +34,10 @@ AE_ON_GLOBAL_EVENT_ONCE(aeStartup_ShutdownEngine_Begin)
   g_LeafCardFB.Shutdown();
   g_LeafCardClearColorFB.Shutdown();
   g_LeafCardClearNormalFB.Shutdown();
+  g_LeafCardClearRoughnessFB.Shutdown();
   g_hLeafCardDiffuseRT.Invalidate();
   g_hLeafCardNormalRT.Invalidate();
+  g_hLeafCardRoughnessRT.Invalidate();
   g_hLeafCardDepthRT.Invalidate();
 }
 
@@ -51,6 +55,7 @@ static void SetupLeafCardFBs()
 
   aeTextureResource::CreateResource(g_hLeafCardDiffuseRT, &trd);
   aeTextureResource::CreateResource(g_hLeafCardNormalRT, &trd);
+  aeTextureResource::CreateResource(g_hLeafCardRoughnessRT, &trd);
 
   trd.m_bAllowToReadContents = false;
   trd.m_TextureFormat = AE_FORMAT_DEPTH24_STENCIL8;
@@ -60,9 +65,11 @@ static void SetupLeafCardFBs()
   g_LeafCardFB.setDepthAttachment(g_hLeafCardDepthRT);
   g_LeafCardFB.setColorAttachment(0, g_hLeafCardDiffuseRT);
   g_LeafCardFB.setColorAttachment(1, g_hLeafCardNormalRT);
+  g_LeafCardFB.setColorAttachment(2, g_hLeafCardRoughnessRT);
 
   g_LeafCardClearColorFB.setColorAttachment(0, g_hLeafCardDiffuseRT);
   g_LeafCardClearNormalFB.setColorAttachment(0, g_hLeafCardNormalRT);
+  g_LeafCardClearRoughnessFB.setColorAttachment(0, g_hLeafCardRoughnessRT);
 }
 
 void aeTreePlugin::RenderLeafCard(aeUInt32 uiRenderSize, bool bExportNow)
@@ -162,13 +169,16 @@ static void PrepareRenderTargets(void)
   g_LeafCardClearNormalFB.BindFramebuffer();
   g_LeafCardClearNormalFB.ClearCurrentBuffers(true, false, 0.5f, 0.5f, 1.0f, 0.0f);
 
+  g_LeafCardClearRoughnessFB.BindFramebuffer();
+  g_LeafCardClearRoughnessFB.ClearCurrentBuffers(true, false, 0.0f, 0.0f, 0.0f, 0.0f);
+
   g_LeafCardFB.BindFramebuffer();
   aeRenderAPI::Clear(false, true);
 }
 
 bool aeTreePlugin::ExportLeafCard(aeUInt32 uiRenderSize, const char* szFilePath, bool bDDS)
 {
-  aeProgressBar pb("Exporting LeafCard", bDDS ? 4 : 2);
+  aeProgressBar pb("Exporting LeafCard", bDDS ? 6 : 3);
 
   PrepareRenderTargets();
 
@@ -183,6 +193,8 @@ bool aeTreePlugin::ExportLeafCard(aeUInt32 uiRenderSize, const char* szFilePath,
     sPathDiffuse.Format("%s.tga", szFilePath);
     aeString sPathNormal;
     sPathNormal.Format("%s_N.tga", szFilePath);
+    aeString sPathRoughness;
+    sPathRoughness.Format("%s_R.tga", szFilePath);
 
     aeArray<aeUInt8> Image, SubImage;
     Image.resize(g_uiLeafCardRenderTargetSize * g_uiLeafCardRenderTargetSize * 4);
@@ -238,10 +250,42 @@ bool aeTreePlugin::ExportLeafCard(aeUInt32 uiRenderSize, const char* szFilePath,
 
       if (bDDS)
       {
-        sText.Format("Converting to DDS:\n'%s'", sPathDiffuse.c_str());
+        sText.Format("Converting to DDS:\n'%s'", sPathNormal.c_str());
         aeProgressBar::Update(sText.c_str()); // 4
 
         if (!ConvertTGAtoDDS(sPathNormal.c_str(), true))
+          return false;
+        if (aeProgressBar::WasProgressBarCanceled())
+          return true;
+      }
+    }
+
+    {
+      sText.Format("Writing TGA:\n'%s'", sPathRoughness.c_str());
+      aeProgressBar::Update(sText.c_str()); // 1
+
+      g_hLeafCardRoughnessRT.GetResource()->ReadbackTexture(&Image[0]);
+      GetSubImage(Image, g_uiLeafCardRenderTargetSize, g_uiLeafCardRenderTargetSize, SubImage, uiRenderSize, uiRenderSize);
+
+      FillAvgImageColor(SubImage);
+
+      for (aeInt32 d = g_Tree.m_Descriptor.m_uiLeafCardTexelDilation * 2; d > 0; --d)
+        DilateColors(SubImage, uiRenderSize, uiRenderSize, d);
+
+      //ClearAlpha(SubImage, g_Tree.m_Descriptor.m_uiLeafCardTexelDilation * 2);
+
+      if (!ExportTGA(sPathRoughness.c_str(), uiRenderSize, uiRenderSize, 4, &SubImage[0], true))
+        return false;
+
+      if (aeProgressBar::WasProgressBarCanceled())
+        return true;
+
+      if (bDDS)
+      {
+        sText.Format("Converting to DDS:\n'%s'", sPathRoughness.c_str());
+        aeProgressBar::Update(sText.c_str()); // 2
+
+        if (!ConvertTGAtoDDS(sPathRoughness.c_str(), false))
           return false;
         if (aeProgressBar::WasProgressBarCanceled())
           return true;

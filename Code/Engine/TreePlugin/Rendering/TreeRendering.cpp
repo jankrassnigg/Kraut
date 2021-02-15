@@ -54,15 +54,30 @@ void aeTree::RenderBranchMesh(aeLod::Enum lod, aeUInt32 uiBranch)
       aeShaderManager::BindTexture("tex_Diffuse", hTexture, aeBranchGeometryType::TextureSampler[mt]);
 
       aeTreeMaterial* pMaterial = aeTreeMaterialLibrary::GetOrAddMaterial(m_Descriptor.m_StructureDesc.m_BranchTypes[type].m_sTexture[mt].c_str());
-      aeHybridString<128> sTextureNormal = pMaterial->m_sTextureNormal;
 
-      aeTextureResourceHandle hTextureN;
-      if (!sTextureNormal.empty())
-        hTextureN = aeTextureResource::LoadResource(sTextureNormal.c_str());
-      else
-        hTextureN = aeTextureResource::LoadResource("Textures/NoNormals.tga");
+      {
+        aeHybridString<128> sTextureNormal = pMaterial->m_sTextureNormal;
 
-      aeShaderManager::BindTexture("tex_Normal", hTextureN, aeBranchGeometryType::TextureSampler[mt]);
+        aeTextureResourceHandle hTextureN;
+        if (!sTextureNormal.empty())
+          hTextureN = aeTextureResource::LoadResource(sTextureNormal.c_str());
+        else
+          hTextureN = aeTextureResource::LoadResource("Textures/NoNormals.tga");
+
+        aeShaderManager::BindTexture("tex_Normal", hTextureN, aeBranchGeometryType::TextureSampler[mt]);
+      }
+
+      {
+        aeHybridString<128> sTextureRoughness = pMaterial->m_sTextureRoughness;
+
+        aeTextureResourceHandle hTextureR;
+        if (!sTextureRoughness.empty())
+          hTextureR = aeTextureResource::LoadResource(sTextureRoughness.c_str());
+        else
+          hTextureR = aeTextureResource::LoadResource("Textures/NoRoughness.tga");
+
+        aeShaderManager::BindTexture("tex_Roughness", hTextureR, aeBranchGeometryType::TextureSampler[mt]);
+      }
 
       if ((mt == Kraut::BranchGeometryType::Leaf) && (!m_Descriptor.m_StructureDesc.m_BranchTypes[type].m_bBillboardLeaves))
         aeShaderManager::setShader(hShaders[Kraut::BranchGeometryType::Frond]);

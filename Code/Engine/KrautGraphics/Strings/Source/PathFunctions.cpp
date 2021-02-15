@@ -297,7 +297,7 @@ namespace AE_NS_FOUNDATION
 
   aeString aePathFunctions::CombinePaths(const aeBasicString& sDirectory1, const char* szFileOrDir2)
   {
-    aeString sResult = sDirectory1;
+    aeString sResult = aePathFunctions::MakeCleanPath(sDirectory1);
 
     // remove all path separators from the end of the first path
     while ((!sResult.empty()) && (IsPathSeparator(sResult[sResult.length() - 1])))
@@ -314,6 +314,14 @@ namespace AE_NS_FOUNDATION
     // if the first path is empty, return the second
     if (sResult.empty())
       return (szFileOrDir2);
+
+    if (aePathFunctions::IsAbsolutePath(sResult.c_str()))
+    {
+      if (aeStringFunctions::StartsWith(szFileOrDir2, sResult.c_str()))
+      {
+        return szFileOrDir2;
+      }
+    }
 
     sResult += '/';
     sResult += szFileOrDir2;

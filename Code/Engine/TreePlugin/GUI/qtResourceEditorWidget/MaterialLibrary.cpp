@@ -97,7 +97,7 @@ void aeTreeMaterialLibrary::Save(void)
     return;
   }
 
-  const aeUInt8 uiVersion = 1;
+  const aeUInt8 uiVersion = 2;
   File << uiVersion;
 
   const aeUInt32 uiMaterials = s_Materials.size();
@@ -109,6 +109,7 @@ void aeTreeMaterialLibrary::Save(void)
 
     File << m.m_sTextureDiffuse;
     File << m.m_sTextureNormal;
+    File << m.m_sTextureRoughness;
     File << m.m_uiTilingX;
     File << m.m_uiTilingY;
     const aeUInt8 uiUsage = m.m_Usage;
@@ -130,20 +131,22 @@ void aeTreeMaterialLibrary::Load(void)
 
   for (aeUInt32 i = 0; i < uiMaterials; ++i)
   {
-    aeString sDiffuse, sNormal;
-
     aeTreeMaterial m;
 
-    File >> sDiffuse;
-    m.m_sTextureDiffuse = sDiffuse;
-    File >> sNormal;
-    m.m_sTextureNormal = sNormal;
+    File >> m.m_sTextureDiffuse;
+    File >> m.m_sTextureNormal;
+
+    if (uiVersion >= 2)
+    {
+      File >> m.m_sTextureRoughness;
+    }
+
     File >> m.m_uiTilingX;
     File >> m.m_uiTilingY;
     aeUInt8 uiUsage;
     File >> uiUsage;
     m.m_Usage = (aeMaterialType::Enum)uiUsage;
 
-    s_Materials[sDiffuse] = m;
+    s_Materials[m.m_sTextureDiffuse] = m;
   }
 }

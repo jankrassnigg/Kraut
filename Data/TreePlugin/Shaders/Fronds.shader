@@ -83,9 +83,17 @@ $endif
 TARGET (0, FLOAT4, "rt_Color");
 TARGET (1, FLOAT4, "rt_Normal");
 
+$if (EXPORT_LEAFCARD)
+	TARGET (2, FLOAT4, "rt_Roughness");
+$endif
+
 TEXTURE (TYPE_2D, "tex_Diffuse");
 TEXTURE (TYPE_2D, "tex_Normal");
 TEXTURE (TYPE_2D, "tex_Noise");
+
+$if (EXPORT_LEAFCARD)
+	TEXTURE (TYPE_2D, "tex_Roughness");
+$endif
 
 SHADER_BEGIN
 {
@@ -226,6 +234,10 @@ SHADER_BEGIN
   out_Color.rgb = fAmbientOcclusion * vTexDiffuse.rgb * vLight.rgb;
   out_Color.a = 1;//vTexDiffuse.a;
 
+  $if (EXPORT_LEAFCARD)
+	rt_Roughness.rgba = texture2DProj (tex_Roughness_FS, var_TexCoords).rgba;
+  $endif
+  
   $if (OUTPUT_DIFFUSE_ONLY)
     out_Color.rgb = fAmbientOcclusion * vTexDiffuse.rgb;
   $endif

@@ -601,7 +601,7 @@ bool qtTreeEditWidget::SelectFile(aeString& sPrevFile, aeString& sTargetString, 
     aeFileIn File;
     if (File.Open(sTargetString.c_str()))
       sPrevFile = File.GetFilePath().c_str();
-    else
+    else if (!sPrevFile.empty())
       aeFileSystem::MakeValidPath(szContentSubFolder, false, &sPrevFile, nullptr);
   }
 
